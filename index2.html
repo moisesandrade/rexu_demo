@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REXU · Design System & UI Kit Maestro v3.0 — Mandante + Contratista · FLAMA.MEDIA</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Archivo, Manrope, Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0B0B0C',
+            paper: '#FFFFFF',
+            hueso: '#F5F5F2',
+            navy: '#0A1A38',
+            rexuRed: '#E1232B',
+            rexuGreen: '#1FB866',
+            rexuAmber: '#E8A317',
+            rexuGrey: '#9A9A95',
+            lineNight: '#1F1F24',
+            lineLight: '#E2E2DC'
+          },
+          fontFamily: {
+            display: ['Archivo', 'sans-serif'],
+            sans: ['Manrope', 'sans-serif'],
+            mono: ['Space Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Manrope', sans-serif; background-color: #F5F5F2; color: #0B0B0C; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.03); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 99px; }
+    .badge-pill {
+      border-radius: 9999px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tab-active { border-bottom: 2px solid #E1232B; color: #0B0B0C; font-weight: 700; }
+    .tab-inactive { border-bottom: 2px solid transparent; color: #9A9A95; }
+    .tab-inactive:hover { color: #0B0B0C; }
+    .drag-over { border-color: #E1232B !important; background-color: rgba(225,35,43,0.04); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-hueso text-ink">
+
+  <!-- ==================== HEADER CORPORATIVO ==================== -->
+  <header class="bg-navy text-paper border-b border-lineNight relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden="true">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#ffffff" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+      </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-8 py-10 relative z-10">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-3">
+          <span class="font-display font-black text-3xl text-paper tracking-tight">rexu<span class="text-rexuRed">.</span></span>
+          <span class="h-5 w-[1px] bg-white/20"></span>
+          <span class="font-mono text-xs text-white/50">Entregable 02 · Design System & UI Kit Maestro</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="badge-pill bg-rexuGreen/20 text-rexuGreen px-3 py-1 flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Perfiles Mandante + Contratista 100%
+          </span>
+          <span class="badge-pill bg-white/10 text-white/60 px-3 py-1">v3.0 · FLAMA.MEDIA</span>
+        </div>
+      </div>
+
+      <div class="max-w-3xl space-y-2">
+        <p class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// ESPECIFICACIÓN COMPLETA DE COMPONENTES E INTERACCIÓN</p>
+        <h1 class="font-display font-black text-4xl sm:text-5xl text-paper tracking-tight">
+          UI Kit Maestro & <span class="text-rexuRed">Design System.</span>
+        </h1>
+        <p class="text-sm text-white/60 leading-relaxed font-sans">
+          Catálogo interactivo con toda la atomización del sistema: botones en todos sus estados (hover, active, focus, loading, disabled), alertas semáforo, globos de aviso (toasts), popups modales, selectores de período, acordeones, drawers de expediente, ingesta drag & drop y matrices históricas.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== NAVEGACIÓN STICKY ==================== -->
+  <nav id="main-nav" class="bg-paper border-b border-lineLight sticky top-0 z-40 px-8 shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center gap-1 overflow-x-auto custom-scrollbar py-0">
+      <a href="#sec-tokens"   data-sec="sec-tokens"   class="nav-link">01. Tokens</a>
+      <a href="#sec-sidebars" data-sec="sec-sidebars" class="nav-link">02. Sidebars</a>
+      <a href="#sec-buttons"  data-sec="sec-buttons"  class="nav-link">03. Botones</a>
+      <a href="#sec-icons"    data-sec="sec-icons"    class="nav-link">04. Iconos</a>
+      <a href="#sec-bars"     data-sec="sec-bars"     class="nav-link">05. TopBars</a>
+      <a href="#sec-table"    data-sec="sec-table"    class="nav-link">06. Tablas</a>
+      <a href="#sec-cards"    data-sec="sec-cards"    class="nav-link">07. Cards</a>
+      <a href="#sec-forms"    data-sec="sec-forms"    class="nav-link">08. Formularios</a>
+      <a href="#sec-upload"   data-sec="sec-upload"   class="nav-link">09. Carga Docs</a>
+      <a href="#sec-toasts"   data-sec="sec-toasts"   class="nav-link">10. Toasts</a>
+      <a href="#sec-alerts"   data-sec="sec-alerts"   class="nav-link">11. Alertas</a>
+      <a href="#sec-modals"   data-sec="sec-modals"   class="nav-link">12. Modales</a>
+      <a href="#sec-drawers"  data-sec="sec-drawers"  class="nav-link">13. Drawer</a>
+      <a href="#sec-metrics"  data-sec="sec-metrics"  class="nav-link">14. Métricas</a>
+      <a href="#sec-nomina"   data-sec="sec-nomina"   class="nav-link">15. Nómina</a>
+      <a href="#sec-calendar" data-sec="sec-calendar" class="nav-link">16. Calendario</a>
+    </div>
+  </nav>
+  <style>
+    .nav-link {
+      display: inline-block;
+      padding: 10px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9A9A95;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      text-decoration: none;
+    }
+    .nav-link:hover { color: #0B0B0C; }
+    .nav-link.active { color: #E1232B; border-bottom-color: #E1232B; }
+  </style>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="max-w-7xl mx-auto p-8 space-y-16 flex-1">
+
+    <!-- ── 01. TOKENS & TIPOGRAFÍA ── -->
+    <section id="sec-tokens" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 01 · FUNDACIONES DE MARCA</span>
+        <h2 class="font-display font-black text-2xl text-ink">Tokens Cromáticos & Jerarquía Tipográfica</h2>
+      </div>
+
+      <!-- Paleta Cromática -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-ink"></div>
+          <div><p class="font-bold text-xs text-ink">ink</p><p class="font-mono text-[10px] text-rexuGrey">#0B0B0C</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-rexuRed"></div>
+          <div><p class="font-bold text-xs text-ink">rexuRed</p><p class="font-mono text-[10px] text-rexuGrey">#E1232B</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-rexuGreen"></div>
+          <div><p class="font-bold text-xs text-ink">rexuGreen</p><p class="font-mono text-[10px] text-rexuGrey">#1FB866</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-rexuAmber"></div>
+          <div><p class="font-bold text-xs text-ink">rexuAmber</p><p class="font-mono text-[10px] text-rexuGrey">#E8A317</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-navy"></div>
+          <div><p class="font-bold text-xs text-ink">navy</p><p class="font-mono text-[10px] text-rexuGrey">#0A1A38</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-hueso border border-lineLight"></div>
+          <div><p class="font-bold text-xs text-ink">hueso</p><p class="font-mono text-[10px] text-rexuGrey">#F5F5F2</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-lineLight"></div>
+          <div><p class="font-bold text-xs text-ink">lineLight</p><p class="font-mono text-[10px] text-rexuGrey">#E2E2DC</p></div>
+        </div>
+        <div class="bg-paper p-3 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <div class="h-12 rounded-lg bg-rexuGrey"></div>
+          <div><p class="font-bold text-xs text-ink">rexuGrey</p><p class="font-mono text-[10px] text-rexuGrey">#9A9A95</p></div>
+        </div>
+      </div>
+
+      <!-- Familias Tipográficas -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">ARCHIVO 800/900 (DISPLAY)</span>
+          <div class="font-display font-black text-3xl text-ink">Inteligencia que protege.</div>
+          <p class="text-xs text-rexuGrey">Wordmark, títulos H1/H2 y métricas numéricas principales.</p>
+        </div>
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">MANROPE 400-700 (CUERPO & UI)</span>
+          <div class="font-bold text-sm text-ink">Plataforma de fiscalización y trazabilidad documental.</div>
+          <p class="text-xs text-rexuGrey">Tablas, modales, formularios, descripciones operativas y toasts.</p>
+        </div>
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm space-y-2">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">SPACE MONO 400/700 (DATOS & LABELS)</span>
+          <div class="font-mono text-xs font-bold text-rexuRed uppercase tracking-wider">// LEY 20.123 / LEY 21.595</div>
+          <p class="font-mono text-xs text-ink">RUT: 76.432.890-K · $42.800.000 CLP</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 02. SIDEBARS ── -->
+    <section id="sec-sidebars" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 02 · NAVEGACIÓN LATERAL</span>
+        <h2 class="font-display font-black text-2xl text-ink">Sidebar: Mandante vs Contratista</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- SIDEBAR MANDANTE -->
+        <div>
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block mb-3">Sidebar · Perfil Mandante (Supervisión)</span>
+          <div class="bg-ink rounded-2xl overflow-hidden w-64 shadow-xl" style="min-height:460px;">
+            <!-- Logo -->
+            <div class="px-5 py-5 border-b border-white/10">
+              <div class="flex items-center justify-between">
+                <span class="font-display font-black text-xl text-white tracking-tight">rexu<span class="text-rexuRed">.</span></span>
+                <span class="font-mono text-[9px] border border-white/20 text-white/50 px-2 py-1 rounded-full">COPEC S.A.</span>
+              </div>
+            </div>
+            <!-- Nav -->
+            <nav class="px-3 py-4 space-y-0.5">
+              <p class="font-mono text-[9px] font-bold uppercase tracking-widest text-white/30 px-3 pb-1.5">Módulos</p>
+              <!-- Activo -->
+              <a href="#" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white text-sm font-semibold">
+                <span class="absolute left-0 top-2 bottom-2 w-0.5 bg-rexuRed rounded-r"></span>
+                <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i> Dashboard
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="cloud-upload" class="w-4 h-4 shrink-0"></i> Carga de Archivos
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="users-round" class="w-4 h-4 shrink-0"></i>
+                Contratistas
+                <span class="ml-auto font-mono text-[9px] bg-rexuRed text-white px-1.5 py-0.5 rounded-full font-bold">365</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 shrink-0"></i> Nómina Maestra
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="eye" class="w-4 h-4 shrink-0"></i> Observaciones
+              </a>
+              <p class="font-mono text-[9px] font-bold uppercase tracking-widest text-white/30 px-3 pt-4 pb-1.5">Configuración</p>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="building-2" class="w-4 h-4 shrink-0"></i> Empresa
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="users" class="w-4 h-4 shrink-0"></i> Usuarios
+              </a>
+            </nav>
+            <!-- Footer usuario -->
+            <div class="absolute bottom-0 left-0 w-64 px-5 py-4 border-t border-white/10 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-rexuRed font-mono text-xs font-bold text-white flex items-center justify-center shrink-0">FC</div>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-bold text-white truncate leading-tight">Francisco Curtis</p>
+                <p class="font-mono text-[9px] uppercase tracking-widest text-white/50">COPEC S.A.</p>
+              </div>
+              <button class="text-white/40 hover:text-white transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR CONTRATISTA -->
+        <div>
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block mb-3">Sidebar · Perfil Contratista (Operativo)</span>
+          <div class="bg-ink rounded-2xl overflow-hidden w-64 shadow-xl relative" style="min-height:460px;">
+            <div class="px-5 py-5 border-b border-white/10">
+              <div class="flex items-center justify-between">
+                <span class="font-display font-black text-xl text-white tracking-tight">rexu<span class="text-rexuRed">.</span></span>
+                <span class="font-mono text-[9px] border border-white/20 text-white/50 px-2 py-1 rounded-full truncate max-w-[100px]">MKT Promo S.A.</span>
+              </div>
+            </div>
+            <nav class="px-3 py-4 space-y-0.5">
+              <p class="font-mono text-[9px] font-bold uppercase tracking-widest text-white/30 px-3 pb-1.5">Módulos</p>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i> Dashboard
+              </a>
+              <!-- Carga activo -->
+              <a href="#" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white text-sm font-semibold">
+                <span class="absolute left-0 top-2 bottom-2 w-0.5 bg-rexuRed rounded-r"></span>
+                <i data-lucide="cloud-upload" class="w-4 h-4 shrink-0"></i> Carga de Archivos
+                <span class="ml-auto font-mono text-[9px] bg-rexuAmber text-white px-1.5 py-0.5 rounded-full font-bold">3</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 shrink-0"></i> Nómina Maestra
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="eye" class="w-4 h-4 shrink-0"></i> Observaciones
+              </a>
+              <p class="font-mono text-[9px] font-bold uppercase tracking-widest text-white/30 px-3 pt-4 pb-1.5">Configuración</p>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="building-2" class="w-4 h-4 shrink-0"></i> Mi Empresa
+              </a>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 hover:bg-white/6 hover:text-white text-sm font-semibold transition-colors">
+                <i data-lucide="users" class="w-4 h-4 shrink-0"></i> Usuarios
+              </a>
+            </nav>
+            <div class="absolute bottom-0 left-0 w-64 px-5 py-4 border-t border-white/10 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-navy font-mono text-xs font-bold text-white flex items-center justify-center shrink-0">RA</div>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-bold text-white truncate leading-tight">Roberto Arias</p>
+                <p class="font-mono text-[9px] uppercase tracking-widest text-white/50">Contratista</p>
+              </div>
+              <button class="text-white/40 hover:text-white transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Diferencias clave -->
+      <div class="bg-paper border border-lineLight rounded-xl p-5">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-3">Diferencias funcionales entre perfiles</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="space-y-2">
+            <p class="font-bold text-ink flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rexuRed inline-block"></span> Mandante</p>
+            <ul class="space-y-1 text-rexuGrey pl-4">
+              <li>— Badge empresa en modo readonly (COPEC S.A.)</li>
+              <li>— Contador de contratistas críticos en badge rojo</li>
+              <li>— Acceso a vista "Contratistas" (solo lectura)</li>
+              <li>— Sin selector de contratista activo en header</li>
+            </ul>
+          </div>
+          <div class="space-y-2">
+            <p class="font-bold text-ink flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-navy inline-block"></span> Contratista</p>
+            <ul class="space-y-1 text-rexuGrey pl-4">
+              <li>— Badge empresa editable (propia razón social)</li>
+              <li>— Contador de documentos pendientes en badge ámbar</li>
+              <li>— Sin acceso a "Contratistas" (no aplica)</li>
+              <li>— Selector de contratista activo en header (mandante asignado)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 03. MATRIZ DE BOTONES Y ESTADOS ── -->
+    <section id="sec-buttons" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 03 · ACCIONES INTERACTIVAS</span>
+        <h2 class="font-display font-black text-2xl text-ink">Matriz Completa de Estados de Botones</h2>
+      </div>
+
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+                <th class="py-3 px-4">Variante</th>
+                <th class="py-3 px-4">Default</th>
+                <th class="py-3 px-4">Hover (Mouse Over)</th>
+                <th class="py-3 px-4">Active / Pressed</th>
+                <th class="py-3 px-4">Focus (Teclado)</th>
+                <th class="py-3 px-4">Loading (Proceso OCR)</th>
+                <th class="py-3 px-4">Disabled</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-lineLight">
+              <!-- Primary Red -->
+              <tr class="hover:bg-hueso/30">
+                <td class="py-3 px-4 font-mono font-bold text-ink">Primary Red</td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg flex items-center gap-1.5"><i data-lucide="log-in" class="w-3.5 h-3.5"></i> Acceder</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-red-700 text-white font-mono text-xs font-bold rounded-lg shadow flex items-center gap-1.5"><i data-lucide="log-in" class="w-3.5 h-3.5"></i> Acceder</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-red-800 text-white font-mono text-xs font-bold rounded-lg scale-95 flex items-center gap-1.5"><i data-lucide="log-in" class="w-3.5 h-3.5"></i> Acceder</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg ring-2 ring-ink ring-offset-2 flex items-center gap-1.5"><i data-lucide="log-in" class="w-3.5 h-3.5"></i> Acceder</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg opacity-90 flex items-center gap-1.5 cursor-wait"><i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Procesando</button></td>
+                <td class="py-3 px-4"><button disabled class="px-3 py-2 bg-rexuRed/40 text-white/70 font-mono text-xs font-bold rounded-lg cursor-not-allowed flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 opacity-50"></i> Bloqueado</button></td>
+              </tr>
+              <!-- Secondary Ink -->
+              <tr class="hover:bg-hueso/30">
+                <td class="py-3 px-4 font-mono font-bold text-ink">Secondary Ink</td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-ink text-paper font-mono text-xs font-bold rounded-lg flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-black text-paper font-mono text-xs font-bold rounded-lg shadow flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-black text-paper font-mono text-xs font-bold rounded-lg scale-95 flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-ink text-paper font-mono text-xs font-bold rounded-lg ring-2 ring-rexuRed ring-offset-2 flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-ink text-paper font-mono text-xs font-bold rounded-lg opacity-90 flex items-center gap-1.5 cursor-wait"><i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Generando</button></td>
+                <td class="py-3 px-4"><button disabled class="px-3 py-2 bg-ink/40 text-paper/70 font-mono text-xs font-bold rounded-lg cursor-not-allowed flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 opacity-50"></i> Bloqueado</button></td>
+              </tr>
+              <!-- Botón Acción Nómina (SC-03) -->
+              <tr class="hover:bg-hueso/30">
+                <td class="py-3 px-4 font-mono font-bold text-ink">Nómina (SC-03)</td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-lg flex items-center gap-1.5"><i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Contrato</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-lineLight border border-ink text-ink font-mono text-xs font-bold rounded-lg flex items-center gap-1.5"><i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Contrato</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-lineLight/80 border border-ink text-ink font-mono text-xs font-bold rounded-lg scale-95 flex items-center gap-1.5"><i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Contrato</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-lg ring-2 ring-ink ring-offset-2 flex items-center gap-1.5"><i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Contrato</button></td>
+                <td class="py-3 px-4"><button class="px-3 py-2 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-lg flex items-center gap-1.5 cursor-wait"><i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Subiendo</button></td>
+                <td class="py-3 px-4"><button disabled class="px-3 py-2 bg-hueso/50 border border-lineLight/40 text-rexuGrey/50 font-mono text-xs font-bold rounded-lg cursor-not-allowed flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 opacity-40"></i> Bloqueado</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 03. MATRIZ DE ICONOS VECTORIALES ── -->
+    <section id="sec-icons" class="space-y-8">
+      <div class="border-b border-lineLight pb-3 flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 04 · ICONOGRAFÍA OFICIAL</span>
+          <h2 class="font-display font-black text-2xl text-ink">Inventario Completo de Iconos — Lucide</h2>
+          <p class="text-xs text-rexuGrey mt-1">43 iconos únicos empleados en los 13 HTML fuente de ambos perfiles. Tres estados por icono: inactivo · hover · activo/color semántico.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="badge-pill bg-ink text-paper px-3 py-1">LUCIDE 100% · CERO EMOJIS</span>
+          <span class="badge-pill bg-rexuGreen/20 text-rexuGreen px-3 py-1">43 iconos</span>
+        </div>
+      </div>
+
+      <!-- Leyenda de estados -->
+      <div class="flex items-center gap-6 bg-paper border border-lineLight rounded-lg px-4 py-3 text-xs font-mono">
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-lineLight inline-block"></span> Inactivo / sidebar</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-ink inline-block"></span> Hover / topbar</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rexuRed inline-block"></span> Activo / énfasis</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rexuGreen inline-block"></span> Éxito / OK</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rexuAmber inline-block"></span> Advertencia</div>
+      </div>
+
+      <!-- ── GRUPO 1: NAVEGACIÓN SIDEBAR ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">01 · Navegación Sidebar — empleados en ambos perfiles</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">layout-dashboard</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Dashboard</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">cloud-upload</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Carga Archivos</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">users-round</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="users-round" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="users-round" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="users-round" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Contratistas</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">file-spreadsheet</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Nómina Maestra</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">eye</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="eye" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="eye" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="eye" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Observaciones / Ver</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">building-2</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="building-2" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="building-2" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="building-2" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Empresa</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">users</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="users" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="users" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="users" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Usuarios</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">log-out</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="log-out" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="log-out" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="log-out" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Cerrar sesión</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── GRUPO 2: HEADER / TOPBAR ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">02 · Header & TopBar — controles globales</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">bell</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="bell" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="bell" class="w-4 h-4 text-ink"></i>
+              <div class="relative inline-flex"><i data-lucide="bell" class="w-4 h-4 text-ink"></i><span class="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-rexuRed"></span></div>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Notificaciones</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">search</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="search" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="search" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="search" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Buscador global</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">calendar-days</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="calendar-days" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="calendar-days" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="calendar-days" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Selector período</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">chevron-down</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Selectores / dropdowns</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">chevron-right</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="chevron-right" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Expandir / breadcrumb</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">chevron-up</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="chevron-up" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="chevron-up" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="chevron-up" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Colapsar acordeón</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">x</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="x" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="x" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="x" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Cerrar drawer / modal</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── GRUPO 3: ACCIONES DE TABLA / BOTONES ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">03 · Acciones de tabla y botones — Mandante + Contratista</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">plus</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="plus" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="plus" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="plus" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Agregar / Nuevo</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">download</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="download" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="download" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="download" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Exportar / Descargar</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">upload</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="upload" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="upload" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="upload" class="w-4 h-4 text-rexuAmber"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Subir documento</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">upload-cloud</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="upload-cloud" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="upload-cloud" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="upload-cloud" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Zona drag & drop</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">trash-2</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="trash-2" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="trash-2" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="trash-2" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Eliminar</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">refresh-cw</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Reintentar / Sincronizar</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">log-in</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="log-in" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="log-in" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="log-in" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Acceder (Login)</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">play</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="play" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="play" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="play" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Disparar / Ejecutar</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">minus</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="minus" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="minus" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="minus" class="w-4 h-4 text-rexuGrey"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">No aplica / Vacío</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── GRUPO 4: ESTADOS Y FEEDBACK ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">04 · Estados y feedback semáforo</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">check</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="check" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="check" class="w-4 h-4 text-rexuGreen"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Validado / checkbox on</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">check-circle</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="check-circle" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="check-circle" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="check-circle" class="w-4 h-4 text-rexuGreen"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Éxito / OK</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">check-circle-2</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-rexuGreen"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Toast éxito / doc OK</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">alert-circle</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="alert-circle" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="alert-circle" class="w-4 h-4 text-rexuAmber"></i>
+              <i data-lucide="alert-circle" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Error / campo inválido</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">alert-triangle</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-rexuAmber"></i>
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Alerta / Crítico</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">x-circle</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="x-circle" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="x-circle" class="w-4 h-4 text-rexuAmber"></i>
+              <i data-lucide="x-circle" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Rechazo / Error crítico</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">loader-2</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="loader-2" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="loader-2" class="w-4 h-4 text-rexuAmber animate-spin"></i>
+              <i data-lucide="loader-2" class="w-4 h-4 text-rexuRed animate-spin"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Loading / OCR / Button</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">wifi-off</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="wifi-off" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="wifi-off" class="w-4 h-4 text-rexuAmber"></i>
+              <i data-lucide="wifi-off" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Sin conexión / Banner</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── GRUPO 5: DOCUMENTOS / ARCHIVOS ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">05 · Documentos y archivos — Contratista (Carga / Nómina)</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">file-text</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="file-text" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="file-text" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="file-text" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Expediente / Contrato</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">file-plus</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="file-plus" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="file-plus" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="file-plus" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Agregar doc / SC-03</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">file-signature</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="file-signature" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="file-signature" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="file-signature" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Info contractual</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">clipboard-check</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="clipboard-check" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="clipboard-check" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="clipboard-check" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Checklist SC-02</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">archive</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="archive" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="archive" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="archive" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Lote ZIP / Histórico</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── GRUPO 6: SEGURIDAD / IDENTIDAD / SISTEMA ── -->
+      <div class="space-y-3">
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest border-b border-lineLight pb-2">06 · Seguridad, identidad y sistema — Login / Usuario / OCR</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">lock</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="lock" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="lock" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="lock" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Password / Bloqueado</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">eye / eye-off</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="eye" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="eye-off" class="w-4 h-4 text-ink"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Mostrar / ocultar pwd</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">mail</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="mail" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="mail" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="mail" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Email / Login field</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">shield</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="shield" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="shield" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="shield" class="w-4 h-4 text-rexuRed"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Previsional / Acordeón</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">shield-check</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="shield-check" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="shield-check" class="w-4 h-4 text-ink"></i>
+              <i data-lucide="shield-check" class="w-4 h-4 text-rexuGreen"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Auditoría / Compliance</span>
+          </div>
+
+          <div class="bg-paper p-3 rounded-xl border border-lineLight text-center space-y-2">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase block font-bold">cpu</span>
+            <div class="flex items-center justify-center gap-3">
+              <i data-lucide="cpu" class="w-4 h-4 text-rexuGrey"></i>
+              <i data-lucide="cpu" class="w-4 h-4 text-rexuAmber"></i>
+              <i data-lucide="loader-2" class="w-4 h-4 text-rexuAmber animate-spin"></i>
+            </div>
+            <span class="text-[9px] font-mono text-rexuGrey">Motor OCR IA activo</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tabla de referencia rápida -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="px-4 py-3 bg-hueso border-b border-lineLight flex items-center justify-between">
+          <h3 class="font-bold text-xs text-ink">Referencia rápida — 43 iconos · uso en producción</h3>
+          <span class="font-mono text-[10px] text-rexuGrey">Biblioteca: lucide@latest</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-hueso border-b border-lineLight font-mono text-[9px] text-rexuGrey uppercase">
+                <th class="py-2 px-4">Icono</th>
+                <th class="py-2 px-4">Nombre Lucide</th>
+                <th class="py-2 px-4">Color semántico</th>
+                <th class="py-2 px-4">Uso en la plataforma</th>
+                <th class="py-2 px-4">Perfil</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-lineLight font-mono text-[10px]">
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">layout-dashboard</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — ítem Dashboard</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="cloud-upload" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">cloud-upload</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — Carga de Archivos</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="users-round" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">users-round</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — Contratistas</td><td class="py-2 px-4"><span class="badge-pill bg-rexuRed/10 text-rexuRed px-1.5 py-0.5">Mandante</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">file-spreadsheet</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — Nómina Maestra</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="eye" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">eye</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar Observaciones · Acción Ver tabla</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="building-2" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">building-2</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — Empresa / Mi Empresa</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="users" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">users</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo activo</td><td class="py-2 px-4 text-rexuGrey">Sidebar — Usuarios</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="log-out" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">log-out</td><td class="py-2 px-4 text-rexuGrey">Blanco/50 → White</td><td class="py-2 px-4 text-rexuGrey">Footer sidebar — Cerrar sesión</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="bell" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">bell</td><td class="py-2 px-4 text-rexuGrey">Ink + dot Rojo</td><td class="py-2 px-4 text-rexuGrey">Header — Notificaciones con badge</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="search" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">search</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">TopBar y barra de filtros</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="calendar-days" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">calendar-days</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Selector de período en header</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="chevron-down" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">chevron-down</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Dropdowns · selector contratista</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">chevron-right</td><td class="py-2 px-4 text-rexuGrey">Gris → Ink hover</td><td class="py-2 px-4 text-rexuGrey">Cards métricas · expandir fila</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="chevron-up" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">chevron-up</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Acordeón abierto</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="x" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">x</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Cerrar drawer · cerrar modal</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="plus" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">plus</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Agregar contratista · nuevo usuario</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="download" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">download</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Exportar reporte · descargar doc</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="upload" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">upload</td><td class="py-2 px-4 text-rexuGrey">Gris / Ámbar</td><td class="py-2 px-4 text-rexuGrey">Subir archivo · badge Pendiente</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="upload-cloud" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">upload-cloud</td><td class="py-2 px-4 text-rexuGrey">Gris → Rojo hover</td><td class="py-2 px-4 text-rexuGrey">Zona drag & drop (idle)</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="trash-2" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">trash-2</td><td class="py-2 px-4 text-rexuGrey">Gris → Rojo hover</td><td class="py-2 px-4 text-rexuGrey">Eliminar documento · acción destructiva</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">refresh-cw</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Banner sin conexión — Reintentar</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="log-in" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">log-in</td><td class="py-2 px-4 text-rexuGrey">Blanco</td><td class="py-2 px-4 text-rexuGrey">Botón primario Login</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="play" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">play</td><td class="py-2 px-4 text-rexuGrey">Blanco</td><td class="py-2 px-4 text-rexuGrey">Disparar toast demo</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">UI Kit</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="minus" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">minus</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Badge "No aplica" en checklist SC-02</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="check" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">check</td><td class="py-2 px-4 text-rexuGrey">Verde</td><td class="py-2 px-4 text-rexuGrey">Badge Validado · checkbox on</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">check-circle</td><td class="py-2 px-4 text-rexuGrey">Verde</td><td class="py-2 px-4 text-rexuGrey">F30 validado sin multas</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">check-circle-2</td><td class="py-2 px-4 text-rexuGrey">Verde</td><td class="py-2 px-4 text-rexuGrey">Toast éxito · doc validado</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="alert-circle" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">alert-circle</td><td class="py-2 px-4 text-rexuGrey">Rojo / Ámbar</td><td class="py-2 px-4 text-rexuGrey">Error de campo · Toast error</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">alert-triangle</td><td class="py-2 px-4 text-rexuGrey">Rojo / Ámbar</td><td class="py-2 px-4 text-rexuGrey">Alerta crítica · drawer obs.</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="x-circle" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">x-circle</td><td class="py-2 px-4 text-rexuGrey">Rojo</td><td class="py-2 px-4 text-rexuGrey">Falta acreditación AFP · rechazo</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin text-rexuAmber"></i></td><td class="py-2 px-4 font-bold text-ink">loader-2</td><td class="py-2 px-4 text-rexuGrey">Ámbar (spin)</td><td class="py-2 px-4 text-rexuGrey">OCR procesando · button loading</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="wifi-off" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">wifi-off</td><td class="py-2 px-4 text-rexuGrey">Rojo</td><td class="py-2 px-4 text-rexuGrey">Banner error de conexión</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="file-text" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">file-text</td><td class="py-2 px-4 text-rexuGrey">Ink / Rojo</td><td class="py-2 px-4 text-rexuGrey">Expediente digital · ver contrato PDF</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="file-plus" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">file-plus</td><td class="py-2 px-4 text-rexuGrey">Ink</td><td class="py-2 px-4 text-rexuGrey">Agregar trabajador SC-03 · + Contrato</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="file-signature" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">file-signature</td><td class="py-2 px-4 text-rexuGrey">Rojo</td><td class="py-2 px-4 text-rexuGrey">Acordeón info contractual en drawer</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">clipboard-check</td><td class="py-2 px-4 text-rexuGrey">Rojo</td><td class="py-2 px-4 text-rexuGrey">Checklist documental SC-02</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="archive" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">archive</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Modal subsanación lote ZIP</td><td class="py-2 px-4"><span class="badge-pill bg-navy/10 text-navy px-1.5 py-0.5">Contratista</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="lock" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">lock</td><td class="py-2 px-4 text-rexuGrey">Gris / Rojo</td><td class="py-2 px-4 text-rexuGrey">Campo password · botón Disabled</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="eye-off" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">eye-off</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Toggle mostrar/ocultar contraseña</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="mail" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">mail</td><td class="py-2 px-4 text-rexuGrey">Gris</td><td class="py-2 px-4 text-rexuGrey">Campo email en Login</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="shield" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">shield</td><td class="py-2 px-4 text-rexuGrey">Rojo</td><td class="py-2 px-4 text-rexuGrey">Acordeón Información Previsional</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-ink"></i></td><td class="py-2 px-4 font-bold text-ink">shield-check</td><td class="py-2 px-4 text-rexuGrey">Verde</td><td class="py-2 px-4 text-rexuGrey">Auditoría · compliance verificado</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+              <tr class="hover:bg-hueso/40"><td class="py-2 px-4"><i data-lucide="cpu" class="w-3.5 h-3.5 text-rexuAmber"></i></td><td class="py-2 px-4 font-bold text-ink">cpu</td><td class="py-2 px-4 text-rexuGrey">Ámbar</td><td class="py-2 px-4 text-rexuGrey">Motor OCR IA — estado procesando</td><td class="py-2 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-1.5 py-0.5">Ambos</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 04. TOPBARS & BÚSQUEDA GLOBAL ── -->
+    <section id="sec-bars" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 05 · CABECERAS OPERATIVAS</span>
+        <h2 class="font-display font-black text-2xl text-ink">TopBars Conciliadas: Mandante vs Contratista</h2>
+      </div>
+
+      <!-- Topbar Mandante -->
+      <div class="space-y-2">
+        <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">TopBar Mandante (Supervisión)</span>
+        <div class="bg-paper border border-lineLight rounded-xl px-6 py-3 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs font-bold uppercase text-rexuRed tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-rexuRed"></span> MODO MANDANTE (SUPERVISIÓN)
+            </span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 bg-hueso border border-lineLight px-3 py-1.5 rounded-lg text-xs font-mono">
+              <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-ink"></i>
+              <span class="text-rexuGrey">PERÍODO:</span>
+              <select class="bg-transparent font-bold text-ink outline-none cursor-pointer">
+                <option>Agosto 2026</option><option>Julio 2026</option>
+              </select>
+            </div>
+            <div class="relative hidden sm:block">
+              <input type="text" placeholder="Buscar contratista..." class="bg-hueso border border-lineLight rounded-lg pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-rexuGrey w-56 outline-none">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-rexuGrey absolute left-2.5 top-2.5"></i>
+            </div>
+            <button class="relative p-2 rounded-lg bg-hueso border border-lineLight">
+              <i data-lucide="bell" class="w-4 h-4 text-ink"></i>
+              <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rexuRed"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topbar Contratista -->
+      <div class="space-y-2">
+        <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">TopBar Contratista (Operativo)</span>
+        <div class="bg-paper border border-lineLight rounded-xl px-6 py-3 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs font-bold uppercase text-navy tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-navy"></span> MODO CONTRATISTA (OPERATIVO)
+            </span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 bg-hueso border border-lineLight px-3 py-1.5 rounded-lg text-xs font-mono">
+              <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-ink"></i>
+              <span class="text-rexuGrey">PERÍODO:</span>
+              <select class="bg-transparent font-bold text-ink outline-none cursor-pointer">
+                <option>Agosto 2026</option>
+              </select>
+            </div>
+            <div class="relative hidden sm:block">
+              <input type="text" placeholder="Buscar trabajador por RUT o nombre..." class="bg-hueso border border-lineLight rounded-lg pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-rexuGrey w-64 outline-none">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-rexuGrey absolute left-2.5 top-2.5"></i>
+            </div>
+            <button class="relative p-2 rounded-lg bg-hueso border border-lineLight">
+              <i data-lucide="bell" class="w-4 h-4 text-ink"></i>
+              <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rexuRed"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 06. TABLA DE DATOS + PAGINACIÓN ── -->
+    <section id="sec-table" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 06 · COMPONENTE CENTRAL DE DATOS</span>
+        <h2 class="font-display font-black text-2xl text-ink">Tabla Enriquecida + Chips de Filtro + Paginación</h2>
+      </div>
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="px-4 py-3 border-b border-lineLight flex flex-wrap items-center gap-2">
+          <div class="relative">
+            <input type="text" placeholder="Buscar empresa o RUT…" class="bg-hueso border border-lineLight rounded-lg pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-rexuGrey w-56 outline-none">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-rexuGrey absolute left-2.5 top-2.5"></i>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink text-white font-mono text-[10px] font-bold uppercase tracking-wide">Crítico <span class="bg-rexuRed text-white text-[9px] px-1.5 py-0.5 rounded-full">35</span><button class="opacity-60">✕</button></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-hueso border border-lineLight text-rexuGrey font-mono text-[10px] font-bold uppercase tracking-wide cursor-pointer hover:border-ink hover:text-ink transition-colors">En riesgo <span class="bg-lineLight text-rexuGrey text-[9px] px-1.5 py-0.5 rounded-full">89</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-hueso border border-lineLight text-rexuGrey font-mono text-[10px] font-bold uppercase tracking-wide cursor-pointer hover:border-ink hover:text-ink transition-colors">OK <span class="bg-lineLight text-rexuGrey text-[9px] px-1.5 py-0.5 rounded-full">241</span></span>
+          <button class="ml-auto font-mono text-[10px] font-bold text-rexuGrey hover:text-ink uppercase tracking-wide transition-colors">Limpiar filtros</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+                <th class="py-3 px-4">Razón Social</th>
+                <th class="py-3 px-4">RUT</th>
+                <th class="py-3 px-4">Cumplimiento</th>
+                <th class="py-3 px-4">Estado</th>
+                <th class="py-3 px-4">Pasivo Est.</th>
+                <th class="py-3 px-4">Obs.</th>
+                <th class="py-3 px-4">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-lineLight">
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-ink max-w-[200px] truncate">MARKETING Y PROMOCIONES S.A.</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">79.777.010-8</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-2"><div class="w-20 h-1.5 bg-lineLight rounded-full overflow-hidden"><div class="h-full rounded-full bg-rexuRed" style="width:2%"></div></div><span class="font-display font-black text-sm text-rexuRed">2%</span></div></td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuRed/10 text-rexuRed px-2.5 py-1 flex items-center gap-1.5 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-rexuRed"></span> Crítico</span></td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">—</td>
+                <td class="py-3 px-4 font-bold text-ink">0</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-1"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="eye" class="w-3.5 h-3.5 text-ink"></i></button><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="download" class="w-3.5 h-3.5 text-ink"></i></button></div></td>
+              </tr>
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-ink">CONSTRUCCIONES LERMA SPA</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">77.891.234-5</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-2"><div class="w-20 h-1.5 bg-lineLight rounded-full overflow-hidden"><div class="h-full rounded-full bg-rexuAmber" style="width:68%"></div></div><span class="font-display font-black text-sm" style="color:#E8A317">68%</span></div></td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuAmber/10 text-rexuAmber px-2.5 py-1 flex items-center gap-1.5 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-rexuAmber"></span> En riesgo</span></td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">$3.2M</td>
+                <td class="py-3 px-4 font-bold text-ink">7</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-1"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="eye" class="w-3.5 h-3.5 text-ink"></i></button><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="download" class="w-3.5 h-3.5 text-ink"></i></button></div></td>
+              </tr>
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-ink">SERVICIOS OPERACIONALES E Y L LTDA.</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">77.981.311-8</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-2"><div class="w-20 h-1.5 bg-lineLight rounded-full overflow-hidden"><div class="h-full rounded-full bg-rexuGreen" style="width:100%"></div></div><span class="font-display font-black text-sm text-rexuGreen">100%</span></div></td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2.5 py-1 flex items-center gap-1.5 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-rexuGreen"></span> OK</span></td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">—</td>
+                <td class="py-3 px-4 font-bold text-ink">0</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-1"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="eye" class="w-3.5 h-3.5 text-ink"></i></button><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="download" class="w-3.5 h-3.5 text-ink"></i></button></div></td>
+              </tr>
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-rexuGrey">ASTILLEROS ARICA S.A.</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">94.283.000-9</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-2"><div class="w-20 h-1.5 bg-lineLight rounded-full overflow-hidden"></div><span class="font-display font-black text-sm text-rexuGrey">—</span></div></td>
+                <td class="py-3 px-4"><span class="badge-pill bg-lineLight text-rexuGrey px-2.5 py-1 flex items-center gap-1.5 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-rexuGrey"></span> Sin datos</span></td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">—</td>
+                <td class="py-3 px-4 font-bold text-rexuGrey">0</td>
+                <td class="py-3 px-4"><div class="flex items-center gap-1"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="eye" class="w-3.5 h-3.5 text-ink"></i></button><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="download" class="w-3.5 h-3.5 text-ink"></i></button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="px-4 py-3 border-t border-lineLight bg-hueso flex items-center gap-2 flex-wrap">
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-paper border border-lineLight text-rexuGrey hover:border-ink font-mono text-xs font-bold">‹</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-ink text-white font-mono text-xs font-bold">1</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-paper border border-lineLight text-rexuGrey hover:border-ink font-mono text-xs font-bold">2</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-paper border border-lineLight text-rexuGrey hover:border-ink font-mono text-xs font-bold">3</button>
+          <span class="font-mono text-xs text-rexuGrey">…</span>
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-paper border border-lineLight text-rexuGrey hover:border-ink font-mono text-xs font-bold">15</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-paper border border-lineLight text-rexuGrey hover:border-ink font-mono text-xs font-bold">›</button>
+          <span class="ml-auto font-mono text-[10px] text-rexuGrey">365 registros · 25 por página</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 07. CARDS DE MÉTRICA + CARD CONTRATISTA ── -->
+    <section id="sec-cards" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 07 · DASHBOARD — CARDS INTERACTIVAS</span>
+        <h2 class="font-display font-black text-2xl text-ink">Cards de Métrica Clicables + Card de Contratista</h2>
+      </div>
+      <div>
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-3">Métricas — filtran la tabla al subconjunto que representan (req. SM-04, SM-07)</p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-paper rounded-xl border border-lineLight p-4 cursor-pointer hover:border-ink transition-colors relative group">
+            <p class="font-mono text-[9.5px] font-bold uppercase tracking-widest text-rexuGrey mb-2">Total</p>
+            <p class="font-display font-black text-4xl text-ink leading-none tracking-tight">365</p>
+            <p class="text-[11px] text-rexuGrey mt-1">146 empleados activos</p>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-lineLight group-hover:text-ink absolute top-4 right-4 transition-colors"></i>
+          </div>
+          <div class="bg-paper rounded-xl border border-lineLight p-4 cursor-pointer hover:border-rexuGreen transition-colors relative group">
+            <p class="font-mono text-[9.5px] font-bold uppercase tracking-widest text-rexuGrey mb-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rexuGreen"></span> OK</p>
+            <p class="font-display font-black text-4xl text-rexuGreen leading-none tracking-tight">241</p>
+            <p class="text-[11px] text-rexuGrey mt-1">66% del total</p>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-lineLight group-hover:text-rexuGreen absolute top-4 right-4 transition-colors"></i>
+          </div>
+          <div class="bg-paper rounded-xl border border-lineLight p-4 cursor-pointer relative group" style="--hover-color:#E8A317">
+            <p class="font-mono text-[9.5px] font-bold uppercase tracking-widest text-rexuGrey mb-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rexuAmber"></span> En riesgo</p>
+            <p class="font-display font-black text-4xl leading-none tracking-tight" style="color:#E8A317">89</p>
+            <p class="text-[11px] text-rexuGrey mt-1">24% del total</p>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-lineLight absolute top-4 right-4"></i>
+          </div>
+          <!-- Activo -->
+          <div class="bg-paper rounded-xl border-2 border-rexuRed p-4 cursor-pointer relative">
+            <p class="font-mono text-[9.5px] font-bold uppercase tracking-widest text-rexuGrey mb-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rexuRed"></span> Críticos</p>
+            <p class="font-display font-black text-4xl text-rexuRed leading-none tracking-tight">35</p>
+            <p class="text-[11px] text-rexuGrey mt-1">Pago bloqueado</p>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-rexuRed absolute top-4 right-4"></i>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-3">Card de contratista — grid del Dashboard Mandante (3 variantes de estado)</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button class="bg-paper rounded-xl border border-lineLight p-5 text-left hover:border-ink transition-colors shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-3"><div><p class="font-display font-extrabold text-base text-ink leading-tight">MARKETING Y PROMOCIONES S.A.</p><p class="font-mono text-[10px] text-rexuGrey mt-0.5">79.777.010-8</p></div><span class="badge-pill bg-rexuRed/10 text-rexuRed px-2.5 py-1 shrink-0">Crítico</span></div>
+            <div class="flex items-end justify-between mb-2"><span class="font-display font-black text-3xl text-rexuRed leading-none">0%</span><span class="font-mono text-[10px] text-rexuGrey uppercase">Pendiente</span></div>
+            <div class="w-full h-1.5 bg-lineLight rounded-full overflow-hidden mb-3"><div class="h-full bg-rexuRed rounded-full" style="width:0%"></div></div>
+            <div class="grid grid-cols-2 gap-2 text-xs border-t border-lineLight pt-3">
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Empleados</span><span class="font-bold text-ink">88</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Observaciones</span><span class="font-bold text-ink">0 obs</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Pasivo est.</span><span class="font-bold text-rexuGrey">—</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Pago</span><span class="font-bold text-ink">Pendiente</span></div>
+            </div>
+            <p class="font-mono text-[10px] font-bold text-rexuRed mt-3 border-t border-lineLight pt-2.5">Ver detalle →</p>
+          </button>
+          <button class="bg-paper rounded-xl border border-lineLight p-5 text-left hover:border-ink transition-colors shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-3"><div><p class="font-display font-extrabold text-base text-ink leading-tight">SERVICIOS ELECTROMECÁNICOS SPA</p><p class="font-mono text-[10px] text-rexuGrey mt-0.5">76.949.366-2</p></div><span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2.5 py-1 shrink-0">OK</span></div>
+            <div class="flex items-end justify-between mb-2"><span class="font-display font-black text-3xl text-rexuGreen leading-none">100%</span><span class="font-mono text-[10px] text-rexuGrey uppercase">Al día</span></div>
+            <div class="w-full h-1.5 bg-lineLight rounded-full overflow-hidden mb-3"><div class="h-full bg-rexuGreen rounded-full" style="width:100%"></div></div>
+            <div class="grid grid-cols-2 gap-2 text-xs border-t border-lineLight pt-3">
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Empleados</span><span class="font-bold text-ink">24</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Observaciones</span><span class="font-bold text-ink">0 obs</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Pasivo est.</span><span class="font-bold text-rexuGrey">—</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Pago</span><span class="font-bold text-rexuGreen">Habilitado</span></div>
+            </div>
+            <p class="font-mono text-[10px] font-bold text-rexuRed mt-3 border-t border-lineLight pt-2.5">Ver detalle →</p>
+          </button>
+          <button class="bg-paper rounded-xl border border-lineLight p-5 text-left hover:border-ink transition-colors shadow-sm opacity-70">
+            <div class="flex items-start justify-between gap-2 mb-3"><div><p class="font-display font-extrabold text-base text-ink leading-tight">ASTILLEROS ARICA S.A.</p><p class="font-mono text-[10px] text-rexuGrey mt-0.5">94.283.000-9</p></div><span class="badge-pill bg-lineLight text-rexuGrey px-2.5 py-1 shrink-0">Sin datos</span></div>
+            <div class="flex items-end justify-between mb-2"><span class="font-display font-black text-3xl text-rexuGrey leading-none">—</span><span class="font-mono text-[10px] text-rexuGrey uppercase">Pendiente</span></div>
+            <div class="w-full h-1.5 bg-lineLight rounded-full overflow-hidden mb-3"></div>
+            <div class="grid grid-cols-2 gap-2 text-xs border-t border-lineLight pt-3">
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Empleados</span><span class="font-bold text-ink">0</span></div>
+              <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Observaciones</span><span class="font-bold text-rexuGrey">—</span></div>
+            </div>
+            <p class="font-mono text-[10px] font-bold text-rexuRed mt-3 border-t border-lineLight pt-2.5">Ver detalle →</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 08. FORMULARIOS ── -->
+    <section id="sec-forms" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 08 · CAMPOS & CONTROLES</span>
+        <h2 class="font-display font-black text-2xl text-ink">Formularios: Campos, Estados, Validación y Controles</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm p-6 space-y-4">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">Formulario de acceso (Login)</span>
+          <div class="space-y-1.5"><label class="font-bold text-xs text-ink block">Correo electrónico</label><div class="relative"><input type="email" value="francisco.curtis@copec.cl" class="w-full bg-hueso border border-lineLight rounded-lg px-3 py-2 pl-9 text-sm text-ink outline-none"><i data-lucide="mail" class="w-4 h-4 text-rexuGrey absolute left-2.5 top-2.5"></i></div></div>
+          <div class="space-y-1.5"><label class="font-bold text-xs text-ink block">Contraseña <span class="text-rexuRed font-normal">(error state)</span></label><div class="relative"><input type="password" value="password" class="w-full bg-rexuRed/5 border border-rexuRed rounded-lg px-3 py-2 pl-9 pr-9 text-sm text-ink outline-none"><i data-lucide="lock" class="w-4 h-4 text-rexuRed absolute left-2.5 top-2.5"></i><i data-lucide="eye-off" class="w-4 h-4 text-rexuGrey absolute right-2.5 top-2.5 cursor-pointer"></i></div><p class="text-[11px] text-rexuRed flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Contraseña incorrecta. Intente nuevamente.</p></div>
+          <button class="w-full py-2.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2"><i data-lucide="log-in" class="w-3.5 h-3.5"></i> Acceder a Rexu</button>
+        </div>
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm p-6 space-y-4">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">Estados de campo + controles (empresa / usuarios)</span>
+          <div class="space-y-1"><label class="font-bold text-xs text-ink block">Razón Social <span class="text-rexuGrey font-normal">(default)</span></label><input type="text" value="COPEC S.A." class="w-full bg-hueso border border-lineLight rounded-lg px-3 py-2 text-sm text-ink outline-none"></div>
+          <div class="space-y-1"><label class="font-bold text-xs text-ink block">RUT <span class="text-ink font-normal">(focus)</span></label><input type="text" value="99.520.000-7" class="w-full bg-paper border-2 border-ink rounded-lg px-3 py-2 text-sm text-ink outline-none"></div>
+          <div class="space-y-1"><label class="font-bold text-xs text-ink block">RUT Contratista <span class="text-rexuRed font-normal">(error)</span></label><input type="text" value="76.001.888-Z" class="w-full bg-rexuRed/5 border border-rexuRed rounded-lg px-3 py-2 text-sm text-ink outline-none"><p class="text-[11px] text-rexuRed flex items-center gap-1 mt-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> RUT inválido — verifique el dígito verificador.</p></div>
+          <div class="flex flex-wrap gap-4 pt-1 items-center">
+            <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-ink"><div class="w-4 h-4 rounded bg-ink flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-white"></i></div> Obligatorio</label>
+            <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-rexuGrey"><div class="w-4 h-4 rounded border border-lineLight bg-hueso"></div> Notificar</label>
+            <label class="flex items-center gap-2 cursor-pointer"><div class="w-10 h-5 rounded-full bg-rexuGreen relative"><div class="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-white shadow-sm"></div></div><span class="text-xs font-semibold text-ink">Activo</span></label>
+            <label class="flex items-center gap-2 cursor-pointer"><div class="w-10 h-5 rounded-full bg-lineLight relative"><div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow-sm"></div></div><span class="text-xs font-semibold text-rexuGrey">Inactivo</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 09. ZONA CARGA DOCUMENTAL ── -->
+    <section id="sec-upload" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 09 · INGESTA DE DOCUMENTOS (SC-02)</span>
+        <h2 class="font-display font-black text-2xl text-ink">Zona Drag & Drop: Estados + Checklist Documental</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div class="border-2 border-dashed border-lineLight rounded-xl p-8 text-center bg-paper hover:border-rexuRed hover:bg-rexuRed/5 transition-colors cursor-pointer group">
+            <i data-lucide="upload-cloud" class="w-8 h-8 text-lineLight group-hover:text-rexuRed mx-auto mb-3 transition-colors"></i>
+            <p class="font-bold text-sm text-ink mb-1">Arrastre el documento aquí</p>
+            <p class="font-mono text-[10px] text-rexuGrey">PDF · máximo 10 MB · Liquidación Agosto 2026</p>
+            <button class="mt-3 px-3 py-1.5 bg-hueso border border-lineLight font-mono text-xs font-bold rounded-lg hover:bg-lineLight transition-colors">Seleccionar archivo</button>
+          </div>
+          <div class="border-2 border-dashed border-rexuRed rounded-xl p-8 text-center bg-rexuRed/5 cursor-pointer">
+            <i data-lucide="upload-cloud" class="w-8 h-8 text-rexuRed mx-auto mb-3"></i>
+            <p class="font-bold text-sm text-rexuRed">Suelte para cargar</p>
+            <p class="font-mono text-[10px] text-rexuGrey mt-1">liquidacion_ago_2026.pdf · 3.2 MB</p>
+          </div>
+          <div class="border border-lineLight rounded-xl p-4 bg-paper space-y-3">
+            <div class="flex items-center justify-between"><div class="flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 text-rexuAmber animate-spin"></i><span class="font-bold text-xs text-ink">Procesando con OCR IA…</span></div><span class="font-mono text-[10px] text-rexuGrey">liquidacion_ago_2026.pdf</span></div>
+            <div class="w-full h-1.5 bg-lineLight rounded-full overflow-hidden"><div class="h-full bg-rexuAmber rounded-full" style="width:65%"></div></div>
+            <p class="font-mono text-[10px] text-rexuGrey">3.2 MB · 65% · ~8s restantes</p>
+          </div>
+          <div class="border border-rexuGreen/30 rounded-xl p-4 bg-rexuGreen/5 flex items-center justify-between">
+            <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-rexuGreen shrink-0"></i><div><p class="font-bold text-xs text-ink">Documento validado</p><p class="font-mono text-[10px] text-rexuGrey">liquidacion_jun_2026.pdf · RUT 76.949.366-2</p></div></div>
+            <button class="p-1.5 rounded hover:bg-rexuGreen/10"><i data-lucide="trash-2" class="w-4 h-4 text-rexuGrey hover:text-rexuRed"></i></button>
+          </div>
+        </div>
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+          <div class="p-4 bg-hueso border-b border-lineLight flex items-center gap-2"><i data-lucide="clipboard-check" class="w-4 h-4 text-rexuRed"></i><h3 class="font-bold text-xs text-ink">Checklist Documental Mensual — SC-02</h3></div>
+          <div class="divide-y divide-lineLight text-xs">
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">Contratos de Trabajo</span><span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2.5 py-1 flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Validado</span></div>
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">Liquidaciones de Sueldo</span><span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2.5 py-1 flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Validado</span></div>
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">Comprobante Previred</span><span class="badge-pill bg-rexuAmber/10 text-rexuAmber px-2.5 py-1 flex items-center gap-1"><i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> OCR</span></div>
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">F30-1 (Antecedentes)</span><span class="badge-pill bg-rexuRed/10 text-rexuRed px-2.5 py-1 flex items-center gap-1"><i data-lucide="upload" class="w-3 h-3"></i> Pendiente</span></div>
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">Boletas de Honorarios</span><span class="badge-pill bg-rexuRed/10 text-rexuRed px-2.5 py-1 flex items-center gap-1"><i data-lucide="upload" class="w-3 h-3"></i> Pendiente</span></div>
+            <div class="p-3 flex items-center justify-between"><span class="font-bold text-ink">Declaración Art. 183-C</span><span class="badge-pill bg-lineLight text-rexuGrey px-2.5 py-1 flex items-center gap-1"><i data-lucide="minus" class="w-3 h-3"></i> No aplica</span></div>
+          </div>
+          <div class="p-4 border-t border-lineLight bg-hueso">
+            <div class="w-full h-2 bg-lineLight rounded-full overflow-hidden mb-2"><div class="h-full bg-rexuAmber rounded-full" style="width:42%"></div></div>
+            <p class="font-mono text-[10px] text-rexuGrey">42% completado · 3 documentos faltantes</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 10. TOASTS ── -->
+    <section id="sec-toasts" class="space-y-6">
+      <div class="border-b border-lineLight pb-3 flex items-center justify-between">
+        <div>
+          <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 10 · FEEDBACK ASÍNCRONO</span>
+          <h2 class="font-display font-black text-2xl text-ink">Globos de Notificación / Toasts</h2>
+        </div>
+        <button onclick="demoTriggerToast()" class="px-3 py-1.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg hover:bg-red-700 flex items-center gap-1.5">
+          <i data-lucide="play" class="w-3.5 h-3.5"></i> Disparar Toast Interactivo
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Toast Éxito -->
+        <div class="px-4 py-3 rounded-xl bg-ink text-paper font-mono text-xs font-bold shadow-2xl border border-white/20 flex items-center gap-3">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-rexuGreen shrink-0"></i>
+          <span>Documento procesado y validado correctamente.</span>
+        </div>
+        <!-- Toast Alerta -->
+        <div class="px-4 py-3 rounded-xl bg-ink text-paper font-mono text-xs font-bold shadow-2xl border border-white/20 flex items-center gap-3">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-rexuAmber shrink-0"></i>
+          <span>Advertencia: Documento próximo a vencer en 5 días.</span>
+        </div>
+        <!-- Toast Error / Crítico -->
+        <div class="px-4 py-3 rounded-xl bg-ink text-paper font-mono text-xs font-bold shadow-2xl border border-white/20 flex items-center gap-3">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-rexuRed shrink-0"></i>
+          <span>Error: PDF protegido con contraseña. Reenvío solicitado.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 06. ALERTAS SEMÁFORO ── -->
+    <section id="sec-alerts" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 11 · ALERTAS Y BANNERS</span>
+        <h2 class="font-display font-black text-2xl text-ink">Alertas Semáforo con Acciones Contextuales</h2>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Banner Error Conexión -->
+        <div class="p-4 bg-rexuRed/10 border border-rexuRed/30 rounded-xl flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <i data-lucide="wifi-off" class="w-5 h-5 text-rexuRed shrink-0"></i>
+            <div>
+              <p class="font-bold text-sm text-rexuRed">Error de conexión detectado</p>
+              <p class="text-xs text-rexuGrey">Datos servidos desde caché local. Algunos cambios pueden no haberse sincronizado con el servidor Rexu.</p>
+            </div>
+          </div>
+          <button class="px-3 py-1.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg hover:bg-red-700 flex items-center gap-1.5 shrink-0">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reintentar
+          </button>
+        </div>
+
+        <!-- Alerta Roja: Bloqueo de pago -->
+        <div class="bg-paper p-4 rounded-xl border-l-4 border-l-rexuRed border border-lineLight shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <span class="w-3 h-3 rounded-full bg-rexuRed mt-1 shrink-0"></span>
+            <div>
+              <span class="font-mono text-[10px] font-bold text-rexuRed uppercase tracking-wider">BLOQUEO AUTOMÁTICO DE PAGO</span>
+              <h4 class="font-bold text-sm text-ink">Factura N°4092 de "Constructora Lerma" retenida por la IA.</h4>
+              <p class="text-xs text-rexuGrey mt-0.5">Se activó regla de protección financiera preventivamente.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-end md:self-auto">
+            <button class="px-3 py-1.5 bg-hueso text-ink font-mono text-xs font-bold rounded border border-lineLight hover:bg-lineLight">Aceptar</button>
+            <button class="px-3 py-1.5 bg-ink text-paper font-mono text-xs font-bold rounded hover:bg-black">Ver</button>
+          </div>
+        </div>
+
+        <!-- Alerta Ámbar: Atraso -->
+        <div class="bg-paper p-4 rounded-xl border-l-4 border-l-rexuAmber border border-lineLight shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <span class="w-3 h-3 rounded-full bg-rexuAmber mt-1 shrink-0"></span>
+            <div>
+              <span class="font-mono text-[10px] font-bold text-rexuAmber uppercase tracking-wider">ATRASO DE CARGA DOCUMENTAL</span>
+              <h4 class="font-bold text-sm text-ink">Contratista "Servicios HB Ltda" no ha subido F30 del período Agosto.</h4>
+              <p class="text-xs text-rexuGrey mt-0.5">Vencimiento cumplido el 15/08/2026. Requiere regularización.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-end md:self-auto">
+            <button class="px-3 py-1.5 bg-hueso text-ink font-mono text-xs font-bold rounded border border-lineLight hover:bg-lineLight">Aceptar</button>
+            <button class="px-3 py-1.5 bg-ink text-paper font-mono text-xs font-bold rounded hover:bg-black">Ver</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 07. POPUPS Y MODALES DEL SISTEMA ── -->
+    <section id="sec-modals" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 12 · VENTANAS EMERGENTES (POPUPS)</span>
+        <h2 class="font-display font-black text-2xl text-ink">Inventario de Modales de Ambos Perfiles</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Modal Confirmación Eliminación -->
+        <div class="bg-paper rounded-2xl border border-lineLight p-5 space-y-3 shadow-md">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">01 · Modal Destructivo (Basurero)</span>
+          <div class="w-10 h-10 bg-rexuRed/10 text-rexuRed rounded-full flex items-center justify-center mx-auto">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-display font-black text-base text-ink text-center">¿Confirmar Eliminación?</h4>
+          <p class="text-xs text-rexuGrey text-center">Desvinculará a Constructora Lerma SPA permanentemente de la cartera.</p>
+          <div class="flex justify-center gap-2 pt-2">
+            <button class="px-3 py-1.5 bg-hueso font-mono text-xs font-bold rounded-lg border border-lineLight">Cancelar</button>
+            <button class="px-3 py-1.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg">Sí, Eliminar</button>
+          </div>
+        </div>
+
+        <!-- 2. Modal Reemplazo Documento -->
+        <div class="bg-paper rounded-2xl border border-lineLight p-5 space-y-3 shadow-md">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">02 · Modal Reemplazo Documental</span>
+          <h4 class="font-display font-black text-base text-ink">Reemplazar Documento</h4>
+          <div class="p-2.5 bg-hueso rounded-lg text-xs space-y-0.5">
+            <span class="font-mono text-[9px] text-rexuGrey uppercase">Observación activa</span>
+            <p class="font-bold text-ink">Cláusula de jornada no coincide.</p>
+          </div>
+          <div class="border-2 border-dashed border-lineLight rounded-lg p-3 text-center">
+            <i data-lucide="upload" class="w-4 h-4 text-rexuGrey mx-auto mb-1"></i>
+            <span class="font-mono text-[10px] text-rexuGrey block">Seleccionar PDF</span>
+          </div>
+          <div class="flex justify-end gap-2 pt-1">
+            <button class="px-3 py-1.5 bg-hueso font-mono text-xs font-bold rounded-lg">Cancelar</button>
+            <button class="px-3 py-1.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg">Confirmar</button>
+          </div>
+        </div>
+
+        <!-- 3. Modal Subsanación en Lote -->
+        <div class="bg-paper rounded-2xl border border-lineLight p-5 space-y-3 shadow-md">
+          <span class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider block">03 · Modal Subsanación en Lote (.ZIP)</span>
+          <h4 class="font-display font-black text-base text-ink">Subsanar en Lote</h4>
+          <div class="border-2 border-dashed border-lineLight rounded-lg p-4 text-center">
+            <i data-lucide="archive" class="w-6 h-6 text-rexuGrey mx-auto mb-1"></i>
+            <span class="font-mono text-[10px] text-rexuGrey block">Seleccionar archivo .zip</span>
+          </div>
+          <div class="flex justify-end gap-2 pt-1">
+            <button class="px-3 py-1.5 bg-hueso font-mono text-xs font-bold rounded-lg">Cancelar</button>
+            <button class="px-3 py-1.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg">Enviar Lote</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 08. DRAWER DE EXPEDIENTE & ACORDEÓN ── -->
+    <section id="sec-drawers" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 13 · PANELES LATERALES</span>
+        <h2 class="font-display font-black text-2xl text-ink">Drawer Lateral de Expediente Digital & Acordeones</h2>
+      </div>
+
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm p-6 max-w-xl space-y-4">
+        <!-- Header Drawer -->
+        <div class="flex items-center justify-between border-b border-lineLight pb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-navy/10 text-navy font-mono font-bold text-sm flex items-center justify-center">GA</div>
+            <div>
+              <h4 class="font-display font-black text-base text-ink">Gonzalo Esteban Astorga</h4>
+              <p class="font-mono text-[11px] text-rexuGrey">16.515.740-0</p>
+            </div>
+          </div>
+          <button class="text-rexuGrey"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+
+        <!-- Alerta Observación -->
+        <div class="p-3 bg-rexuRed/10 border border-rexuRed/30 rounded-lg flex items-center justify-between gap-2 text-rexuRed text-xs font-bold">
+          <div class="flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0"></i>
+            <span>CRÍTICO: Cláusula de jornada no coincide con asistencia.</span>
+          </div>
+          <span class="text-[10px] font-mono underline cursor-pointer">Ver &gt;</span>
+        </div>
+
+        <!-- Acordeón Contractual (Abierto) -->
+        <div class="border border-lineLight rounded-lg overflow-hidden">
+          <button onclick="toggleAccordionDemo('acc-demo-1')" class="w-full flex items-center justify-between p-3 bg-hueso font-bold text-xs text-ink">
+            <span class="flex items-center gap-2"><i data-lucide="file-signature" class="w-4 h-4 text-rexuRed"></i> Información Contractual</span>
+            <i id="acc-demo-1-icon" data-lucide="chevron-up" class="w-3.5 h-3.5 transition-transform"></i>
+          </button>
+          <div id="acc-demo-1-content" class="p-3 grid grid-cols-2 gap-3 text-xs bg-paper">
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">Cargo</span><span class="font-bold text-ink">Mecánico de Planta</span></div>
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">Tipo Contrato</span><span class="font-bold text-ink">Indefinido</span></div>
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">Inicio</span><span class="font-bold text-ink">03/01/2022</span></div>
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">Término</span><span class="font-bold text-ink">—</span></div>
+            <div class="col-span-2"><span class="block font-mono text-[10px] text-rexuGrey uppercase">Jornada</span><span class="font-bold text-ink">45 hrs/sem turno diurno</span></div>
+          </div>
+        </div>
+
+        <!-- Acordeón Previsional (Cerrado) -->
+        <div class="border border-lineLight rounded-lg overflow-hidden">
+          <button onclick="toggleAccordionDemo('acc-demo-2')" class="w-full flex items-center justify-between p-3 bg-hueso font-bold text-xs text-ink">
+            <span class="flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-rexuRed"></i> Información Previsional</span>
+            <i id="acc-demo-2-icon" data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform"></i>
+          </button>
+          <div id="acc-demo-2-content" class="hidden p-3 grid grid-cols-2 gap-3 text-xs bg-paper">
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">AFP</span><span class="font-bold text-ink">AFP Capital</span></div>
+            <div><span class="block font-mono text-[10px] text-rexuGrey uppercase">Salud</span><span class="font-bold text-ink">Isapre Banmédica</span></div>
+          </div>
+        </div>
+
+        <button class="w-full py-2.5 bg-ink text-paper font-mono text-xs font-bold rounded-lg hover:bg-black transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver Expediente Digital Completo (PDF)
+        </button>
+      </div>
+    </section>
+
+    <!-- ── 09. HEROS OPERATIVOS & CHECKLIST ── -->
+    <section id="sec-metrics" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 14 · ESTADO OPERATIVO & SUPERVISIÓN</span>
+        <h2 class="font-display font-black text-2xl text-ink">Hero de Liberación de Pago & Checklist SC-02</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Hero de Pago -->
+        <div class="lg:col-span-2 bg-paper rounded-xl border-2 border-rexuRed shadow-md p-6 space-y-4">
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+            <div class="space-y-1">
+              <span class="badge-pill bg-rexuRed/10 text-rexuRed px-3 py-1 inline-block">PAGO RETENIDO PREVENTIVAMENTE</span>
+              <h3 class="font-display font-black text-2xl text-ink">Estado de Liberación de Pago</h3>
+              <p class="text-xs text-rexuGrey">Condiciones requeridas para habilitar la facturación ante <strong>COPEC S.A.</strong></p>
+            </div>
+            <div class="flex items-center gap-6 shrink-0">
+              <div class="text-center">
+                <span class="block font-mono text-[10px] text-rexuGrey uppercase">Cumplimiento</span>
+                <span class="font-display font-black text-4xl text-rexuRed">42%</span>
+              </div>
+              <div class="text-center">
+                <span class="block font-mono text-[10px] text-rexuGrey uppercase">Vencimiento SLA</span>
+                <span class="font-display font-black text-xl text-ink">31/08/2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="w-full bg-hueso rounded-full h-3 border border-lineLight overflow-hidden">
+            <div class="bg-rexuRed h-full rounded-full" style="width:42%"></div>
+          </div>
+          <div class="border-t border-lineLight pt-3 space-y-2 text-xs">
+            <div class="flex items-center gap-2 text-rexuRed"><i data-lucide="x-circle" class="w-4 h-4"></i><span>Falta acreditación de cotizaciones previsionales en AFP.</span></div>
+            <div class="flex items-center gap-2 text-rexuGreen"><i data-lucide="check-circle" class="w-4 h-4"></i><span>Certificado F30-1 validado sin multas.</span></div>
+          </div>
+        </div>
+
+        <!-- Checklist SC-02 -->
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+          <div class="p-4 bg-hueso border-b border-lineLight">
+            <h3 class="font-bold text-xs text-ink flex items-center gap-2"><i data-lucide="clipboard-check" class="w-4 h-4 text-rexuRed"></i> Checklist Documental (SC-02)</h3>
+          </div>
+          <div class="divide-y divide-lineLight text-xs">
+            <div class="p-3 flex items-center justify-between">
+              <span class="font-bold text-ink">Contratos de Trabajo</span>
+              <span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2 py-0.5">VALIDADO ✓</span>
+            </div>
+            <div class="p-3 flex items-center justify-between">
+              <span class="font-bold text-ink">Liquidaciones de Sueldo</span>
+              <span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2 py-0.5">VALIDADO ✓</span>
+            </div>
+            <div class="p-3 flex items-center justify-between">
+              <span class="font-bold text-ink">Comprobante Previred</span>
+              <span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2 py-0.5">VALIDADO ✓</span>
+            </div>
+            <div class="p-3 flex items-center justify-between">
+              <span class="font-bold text-ink">Boletas de Honorarios</span>
+              <span class="badge-pill bg-rexuRed/10 text-rexuRed px-2 py-0.5">PENDIENTE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 15. NÓMINA MAESTRA ── -->
+    <section id="sec-nomina" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 15 · NÓMINA MAESTRA — AMBOS PERFILES</span>
+        <h2 class="font-display font-black text-2xl text-ink">Nómina: Fila de Trabajador + Tabs + Acordeón de Detalle</h2>
+      </div>
+
+      <!-- Tabs de vista -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="border-b border-lineLight flex">
+          <button class="px-5 py-3 font-bold text-xs text-ink border-b-2 border-rexuRed -mb-px">Resumen</button>
+          <button class="px-5 py-3 font-bold text-xs text-rexuGrey border-b-2 border-transparent -mb-px hover:text-ink transition-colors">Observaciones <span class="ml-1 bg-rexuRed text-white text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold">3</span></button>
+          <button class="px-5 py-3 font-bold text-xs text-rexuGrey border-b-2 border-transparent -mb-px hover:text-ink transition-colors">Nómina</button>
+        </div>
+
+        <!-- Tabla nómina -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+                <th class="py-3 px-4">Trabajador</th>
+                <th class="py-3 px-4">RUN</th>
+                <th class="py-3 px-4">Cargo</th>
+                <th class="py-3 px-4">Contrato</th>
+                <th class="py-3 px-4">Remuneración</th>
+                <th class="py-3 px-4">Estado Doc.</th>
+                <th class="py-3 px-4"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-lineLight">
+              <!-- Fila normal -->
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-ink">Gonzalo E. Astorga</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">16.515.740-0</td>
+                <td class="py-3 px-4 text-rexuGrey">Mecánico de Planta</td>
+                <td class="py-3 px-4"><span class="font-mono text-[9px] bg-lineLight text-ink px-2 py-0.5 rounded">Indefinido</span></td>
+                <td class="py-3 px-4 font-mono text-ink">$1.250.000</td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuGreen/10 text-rexuGreen px-2 py-0.5">OK</span></td>
+                <td class="py-3 px-4"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="chevron-down" class="w-3.5 h-3.5 text-ink"></i></button></td>
+              </tr>
+              <!-- Fila expandida (acordeón) -->
+              <tr class="bg-hueso/40">
+                <td colspan="7" class="px-4 py-4">
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs mb-3">
+                    <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">AFP</span><span class="font-bold text-ink">AFP Capital</span></div>
+                    <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Salud</span><span class="font-bold text-ink">Isapre Banmédica</span></div>
+                    <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Jornada</span><span class="font-bold text-ink">45 hrs/sem turno diurno</span></div>
+                    <div><span class="font-mono text-[9px] text-rexuGrey uppercase block">Inicio</span><span class="font-bold text-ink">03/01/2022</span></div>
+                  </div>
+                  <div class="flex gap-2">
+                    <button class="px-3 py-1.5 bg-paper border border-lineLight font-mono text-[10px] font-bold rounded-lg hover:bg-lineLight flex items-center gap-1.5"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver contrato</button>
+                    <button class="px-3 py-1.5 bg-paper border border-lineLight font-mono text-[10px] font-bold rounded-lg hover:bg-lineLight flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Liquidación</button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Fila con observación -->
+              <tr class="hover:bg-hueso/50 transition-colors border-l-2 border-rexuRed">
+                <td class="py-3 px-4 font-bold text-ink">María J. Contreras</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">14.324.567-K</td>
+                <td class="py-3 px-4 text-rexuGrey">Operadora</td>
+                <td class="py-3 px-4"><span class="font-mono text-[9px] bg-lineLight text-ink px-2 py-0.5 rounded">Plazo Fijo</span></td>
+                <td class="py-3 px-4 font-mono text-ink">$980.000</td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuRed/10 text-rexuRed px-2 py-0.5 flex items-center gap-1 w-fit"><i data-lucide="alert-triangle" class="w-3 h-3"></i> Obs.</span></td>
+                <td class="py-3 px-4"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink"></i></button></td>
+              </tr>
+              <tr class="hover:bg-hueso/50 transition-colors">
+                <td class="py-3 px-4 font-bold text-ink">Roberto A. Díaz</td>
+                <td class="py-3 px-4 font-mono text-rexuGrey">11.876.543-2</td>
+                <td class="py-3 px-4 text-rexuGrey">Conductor</td>
+                <td class="py-3 px-4"><span class="font-mono text-[9px] bg-lineLight text-ink px-2 py-0.5 rounded">Indefinido</span></td>
+                <td class="py-3 px-4 font-mono text-ink">$1.100.000</td>
+                <td class="py-3 px-4"><span class="badge-pill bg-rexuAmber/10 text-rexuAmber px-2 py-0.5">Pendiente</span></td>
+                <td class="py-3 px-4"><button class="p-1.5 rounded bg-hueso hover:bg-lineLight"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Botón agregar trabajador (SC-03) -->
+        <div class="px-4 py-3 border-t border-lineLight bg-hueso flex items-center justify-between">
+          <span class="font-mono text-[10px] text-rexuGrey">88 trabajadores activos en el período</span>
+          <button class="px-3 py-1.5 bg-ink text-white font-mono text-xs font-bold rounded-lg hover:bg-black transition-colors flex items-center gap-1.5">
+            <i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Agregar trabajador
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 16. CALENDARIO MATRIZ HISTÓRICA ── -->
+    <section id="sec-calendar" class="space-y-6">
+      <div class="border-b border-lineLight pb-3">
+        <span class="font-mono text-xs font-bold text-rexuRed uppercase tracking-widest">// 16 · CUMPLIMIENTO HISTÓRICO</span>
+        <h2 class="font-display font-black text-2xl text-ink">Matriz de Calendario de Cumplimiento Mensual</h2>
+      </div>
+
+      <!-- Leyenda -->
+      <div class="flex items-center gap-6 bg-paper p-3 rounded-lg border border-lineLight text-xs font-mono">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-full bg-rexuGreen/20 text-rexuGreen flex items-center justify-center font-bold">✓</span>
+          <span>Proceso Exitoso (100%)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-full bg-rexuAmber/20 text-rexuAmber flex items-center justify-center font-bold">✓*</span>
+          <span>Con Observaciones</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded-full bg-lineLight text-rexuGrey flex items-center justify-center font-bold">-</span>
+          <span>Sin Cargar / Futuro</span>
+        </div>
+      </div>
+
+      <!-- Matriz -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+              <th class="py-3 px-5">Mes</th>
+              <th class="py-3 px-5 text-center">2026</th>
+              <th class="py-3 px-5 text-center">2025</th>
+              <th class="py-3 px-5 text-center">2024</th>
+              <th class="py-3 px-5 text-center">2023</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-lineLight font-mono">
+            <tr class="hover:bg-hueso/50">
+              <td class="py-3 px-5 font-bold text-ink">Agosto</td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center hover:scale-110 transition-transform">✓</button></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center">✓</button></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center">✓</button></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuAmber/20 text-rexuAmber font-bold inline-flex items-center justify-center">✓*</button></td>
+            </tr>
+            <tr class="hover:bg-hueso/50">
+              <td class="py-3 px-5 font-bold text-ink">Septiembre</td>
+              <td class="py-3 px-5 text-center"><span class="text-rexuGrey font-bold">-</span></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center">✓</button></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center">✓</button></td>
+              <td class="py-3 px-5 text-center"><button class="w-7 h-7 rounded-full bg-rexuGreen/20 text-rexuGreen font-bold inline-flex items-center justify-center">✓</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== CONTENEDOR TOAST FLOTANTE ==================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-ink text-paper border-t border-lineNight py-8 px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-display font-black text-xl text-paper tracking-tight">rexu<span class="text-rexuRed">.</span></span>
+        <span class="text-white/40 font-mono text-xs">· Design System & UX/UI Kit Maestro v3.0</span>
+      </div>
+      <p class="font-mono text-xs text-white/40 text-center sm:text-right">
+        Entregable 02 · Presupuesto REXU-UXUI-v2 · FLAMA MEDIA · 2026
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== SCRIPTS INTERACTIVOS ==================== -->
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    function demoTriggerToast() {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto px-4 py-3 rounded-xl bg-ink text-paper font-mono text-xs font-bold shadow-2xl border border-white/20 flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0';
+      toast.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4 text-rexuGreen"></i> <span>¡Toast dinámico disparado con éxito desde el UI Kit!</span>';
+      container.appendChild(toast);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function toggleAccordionDemo(id) {
+      const content = document.getElementById(id + '-content');
+      const icon = document.getElementById(id + '-icon');
+      content.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+
+    // ── SCROLLSPY ──
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateActiveLink() {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top <= 80) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.sec === current) {
+          link.classList.add('active');
+          // Scroll the nav to keep active link visible
+          link.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    updateActiveLink();
+  </script>
+</body>
+</html>

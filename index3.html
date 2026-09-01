@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REXU · Matriz de Alcance y Control de Vistas UX/UI</title>
+  <style>
+    :root {
+      --ink: #0B0B0C;
+      --paper: #FFFFFF;
+      --hueso: #F5F5F2;
+      --red: #E1232B;
+      --green: #1FB866;
+      --green-dark: #0D8A47;
+      --amber: #E8A317;
+      --navy: #0A1A38;
+      --muted: #6B6B68;
+      --line: #E2E2DF;
+      --line-subtle: #ECECE9;
+    }
+      /* TARJETA DESTACADA EN VERDE IMPACTO / NUEVO */
+      .kpi-card.highlight-green {
+        background: #F0FDF4;
+        border: 1.5px solid #86EFAC;
+        border-left: 4px solid var(--green);
+        box-shadow: 0 2px 10px rgba(31, 184, 102, 0.08);
+      }
+
+      .kpi-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .new-badge {
+        background: var(--green);
+        color: #FFFFFF;
+        font-family: 'Space Mono', monospace, Courier;
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.08em;
+      }
+
+      .kpi-value {
+        font-size: 26px;
+        font-weight: 900;
+        margin-top: 4px;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
+      .kpi-sub {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--hueso);
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 32px 20px;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    header {
+      background-color: var(--ink);
+      color: var(--paper);
+      padding: 36px 40px 28px 40px;
+      border-bottom: 3px solid var(--red);
+    }
+
+    .brand-eyebrow {
+      font-family: 'Space Mono', monospace, Courier;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 14px;
+      height: 2.5px;
+      background-color: var(--red);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    h1 span.dot {
+      color: var(--red);
+    }
+
+    .header-desc {
+      color: #9A9A95;
+      font-size: 14px;
+      max-width: 920px;
+    }
+
+    /* KPI Summary */
+    .kpi-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      padding: 24px 40px;
+      background: #FAFAFA;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .kpi-card {
+      background: var(--paper);
+      padding: 16px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .kpi-card.card-done {
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-left: 4px solid var(--green);
+    }
+
+    .kpi-card.card-process {
+      background: #FFFBEB;
+      border: 1.5px solid #FDE68A;
+      border-left: 4px solid var(--amber);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge-status-kpi {
+      font-family: 'Space Mono', monospace, Courier;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+    }
+
+    .badge-done-kpi { background: var(--green); color: #FFFFFF; }
+    .badge-process-kpi { background: var(--amber); color: #FFFFFF; }
+
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 900;
+      margin-top: 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Filters & Controls */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 40px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tabs-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover { background: var(--hueso); }
+    .tab-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .tab-btn.active-mandante { background: var(--red); color: var(--paper); border-color: var(--red); }
+    .tab-btn.active-contratista { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+    .tab-btn.active-done { background: var(--green-dark); color: var(--paper); border-color: var(--green-dark); }
+    .tab-btn.active-process { background: #B45309; color: var(--paper); border-color: #B45309; }
+
+    .filters-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .select-filter {
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 8px 14px 8px 32px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      font-size: 12.5px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus { border-color: var(--ink); }
+
+    .search-box svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      stroke: var(--muted);
+    }
+
+    /* Table styling */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    thead th {
+      background: #F8F8F7;
+      padding: 14px 20px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--line-subtle);
+      transition: background-color 0.15s ease;
+    }
+
+    tbody tr:hover { background-color: #FBFBFA; }
+
+    td {
+      padding: 16px 20px;
+      vertical-align: top;
+    }
+
+    .view-cell { min-width: 240px; }
+
+    .view-code {
+      font-family: 'Space Mono', monospace, Courier;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .view-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .pills-holder {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'Space Mono', monospace, Courier;
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-done {
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #86EFAC;
+    }
+
+    .status-process {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+    }
+
+    .profile-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .profile-mandante { background: rgba(225, 35, 43, 0.1); color: var(--red); }
+    .profile-contratista { background: rgba(10, 26, 56, 0.1); color: var(--navy); }
+    .profile-transversal { background: #E5E7EB; color: #374151; }
+
+    .scope-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .scope-existing { background: #F3F4F6; color: #4B5563; border: 1px solid #E5E7EB; }
+    .scope-new { background: #EDE9FE; color: #5B21B6; border: 1px solid #DDD6FE; font-weight: 800; }
+
+    .problem-box {
+      color: #78350F;
+      background: #FFFBEB;
+      border-left: 3px solid #F59E0B;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .problem-box ul { margin-left: 16px; margin-top: 4px; }
+    .problem-box li { margin-bottom: 3px; }
+    .problem-box li:last-child { margin-bottom: 0; }
+
+    .solution-box {
+      color: #064E3B;
+      background: #ECFDF5;
+      border-left: 3px solid var(--green);
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .solution-box ul { margin-left: 16px; margin-top: 4px; }
+    .solution-box li { margin-bottom: 3px; }
+    .solution-box li:last-child { margin-bottom: 0; }
+    .solution-box strong { color: #047857; }
+
+    .origin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .origin-client { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+    .origin-proactive { background: #F0FDF4; color: var(--green-dark); border: 1px solid #86EFAC; }
+    .origin-joint { background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; }
+
+    .trace-id {
+      font-family: 'Space Mono', monospace, Courier;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    footer {
+      padding: 24px 40px;
+      background: #F8F8F7;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .no-results {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="brand-eyebrow">Presupuesto PRX-2026-006 Aprobado · Dirección Creativa: Moisés Andrade</div>
+    <h1>Matriz de Control y Estado de Vistas UX/UI (26 Vistas)<span class="dot">.</span></h1>
+    <p class="header-desc">
+      Control de avance del proyecto Rexu. Se presentan las 19 vistas completadas correspondientes al Bloque 1 (Perfil Mandante y Login) y las 7 vistas operativas en ejecución del Bloque 2 (Perfil Contratista).
+    </p>
+  </header>
+
+  <!-- KPI SUMMARY -->
+  <div class="kpi-bar">
+    <div class="kpi-card highlight-red">
+      <div class="kpi-label">Total Vistas Contratadas</div>
+      <div class="kpi-value" id="count-total">26 <span class="kpi-sub">Desktop</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Vistas Existentes (Rediseño)</div>
+      <div class="kpi-value" style="color: #4B5563;" id="count-existing">14 <span class="kpi-sub">· $50k c/u ($700k)</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Vistas Nuevas (Diseño Integral)</div>
+      <div class="kpi-value" style="color: var(--red);" id="count-new">12 <span class="kpi-sub">· $70k c/u ($840k)</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Nuevas: Solicitadas por Cliente</div>
+      <div class="kpi-value" style="color: #1E40AF;" id="count-new-client">7 <span class="kpi-sub">· Requerimientos</span></div>
+    </div>
+    
+    <!-- CONTENEDOR EN VERDE DESTACADO / CARÁCTER ATRACTIVO "NUEVO" -->
+    <div class="kpi-card highlight-green">
+      <div class="kpi-label" style="color: var(--green-dark);">
+        <span>Nuevas: Arquitectura / UX</span>
+        <span class="new-badge">NUEVO</span>
+      </div>
+      <div class="kpi-value" style="color: var(--green-dark);" id="count-new-proactive">
+        5 <span class="kpi-sub" style="color: #166534; font-weight: 700;">· Proactividad UX</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS & CONTROLS -->
+  <div class="controls-bar">
+    <div class="tabs-filter">
+      <button class="tab-btn active" data-filter="all">Todas (26)</button>
+      <button class="tab-btn" data-filter="mandante">Mandante</button>
+      <button class="tab-btn" data-filter="contratista">Contratista</button>
+      <button class="tab-btn" data-filter="completadas">✓ Completadas (Bloque 1 · 19)</button>
+      <button class="tab-btn" data-filter="proceso">⏳ En Proceso (Bloque 2 · 7)</button>
+    </div>
+
+    <div class="filters-group">
+      <div class="filter-item">
+        <label for="scopeFilter">Tipo:</label>
+        <select id="scopeFilter" class="select-filter">
+          <option value="all">Todos los tipos</option>
+          <option value="existente">Existentes (14)</option>
+          <option value="nueva">Nuevas (12)</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="originFilter">Origen:</label>
+        <select id="originFilter" class="select-filter">
+          <option value="all">Todos los orígenes</option>
+          <option value="client">Solicitud Cliente</option>
+          <option value="proactive">Iniciativa / Proactividad UX</option>
+          <option value="joint">Mixto (Cliente + Propuesta UX)</option>
+        </select>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Buscar por código, problema, vista...">
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-container">
+    <table id="matrixTable">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Vista / Módulo</th>
+          <th style="width: 34%;">Problemática Detectada</th>
+          <th style="width: 32%;">Mejora Implementada / Solución UX-UI</th>
+          <th style="width: 12%;">Origen & Trazabilidad</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+
+        <!-- ================================================================= -->
+        <!-- BLOQUE 1: PERFIL MANDANTE & LOGIN (19 VISTAS) — COMPLETADAS       -->
+        <!-- ================================================================= -->
+
+        <!-- 1. LOGIN -->
+        <tr data-profile="transversal" data-scope="existente" data-origin="proactive" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#01 · Mandante / Transversal</span>
+            <div class="view-title">Acceso / Login</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-transversal">Transversal</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Pantalla genérica sin identidad corporativa de alto impacto, carente de los lineamientos editoriales del Manual de Marca 2026.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Rediseño con identidad editorial suiza de Rexu (tipografía Archivo/Space Mono, contrastes Papel/Tinta/Rojo y selector de rol asistido).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-proactive">Iniciativa UX</span>
+            <span class="trace-id">Proactividad de Diseño</span>
+          </td>
+        </tr>
+
+        <!-- 2. DASHBOARD GENERAL -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#02 · Mandante</span>
+            <div class="view-title">Dashboard General (Cumplimiento)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li><strong>Listado infinito:</strong> 365 contratistas volcados en cards sin paginación (5.142 líneas HTML, 369 botones en una sola carga).</li>
+                <li><strong>Métricas inertes:</strong> Los contadores de riesgo no filtraban la pantalla.</li>
+                <li><strong>Falta de métricas críticas:</strong> Ausencia de deudas previsionales, multas DT, TGR y pasivos.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Métricas clicables como filtros:</strong> Panel superior de pasivos que filtra la grilla al instante.</li>
+                <li><strong>Paginación a 10/25 items</strong> con selector de densidad.</li>
+                <li><strong>Buscador semántico en vivo</strong> y ordenamiento por riesgo legal.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-03 / SM-04 + UX</span>
+          </td>
+        </tr>
+
+        <!-- 3. EVALUACIÓN DE PROVEEDORES -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#03 · Mandante</span>
+            <div class="view-title">Evaluación de Proveedores</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li><strong>Ruptura de permisos de rol:</strong> La vista ofrecía un dropzone de carga masiva al mandante, cuando su rol es de supervisión.</li>
+                <li>Pestañas inoperativas y estado vacío sin orientación.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Renombrado de módulo:</strong> Pasa a <em>"Evaluación de Proveedores"</em> con 2 tabs (Externa / Auditoría Interna COPEC).</li>
+                <li>Eliminación de la zona de carga para el mandante y filtros por chips reactivos con conteo.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-12 / SM-13 / SM-18</span>
+          </td>
+        </tr>
+
+        <!-- 4. CONTRATISTAS LISTADO -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#04 · Mandante</span>
+            <div class="view-title">Contratistas (Listado Maestro)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li><strong>Tabla inoperable:</strong> 366 filas corridas en una sola página sin paginar.</li>
+                <li><strong>Información insuficiente:</strong> Solo 3 columnas (RUT, Razón Social, Ver panel).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Tabla enriquecida:</strong> Columnas de % cumplimiento, estado de pago, pasivo estimado y acciones rápidas (lápiz para editar, basurero para eliminar con modal).</li>
+                <li>Paginación real y buscador interactivo.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-06 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 5. NÓMINA MAESTRA (ABSORBIDA) -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#05 · Mandante</span>
+            <div class="view-title">Nómina Maestra (Antigua / Absorbida)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Módulo huérfano que obligaba a elegir un contratista de una lista lateral ciega de 365 empresas.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Absorción estructural:</strong> Se integra como pestaña <em>"Nómina"</em> dentro de la Ficha Detalle de cada Contratista con drawer lateral de trabajador.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-05 / SM-10 / SM-11</span>
+          </td>
+        </tr>
+
+        <!-- 6. OBSERVACIONES (ABSORBIDA) -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#06 · Mandante</span>
+            <div class="view-title">Observaciones (Antigua / Absorbida)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Exigía seleccionar una empresa desde un listado infinito y carecía de fecha de origen de las fallas.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Absorción estructural:</strong> Pasa a ser la pestaña <em>"Observaciones & Hallazgos IA"</em> dentro del Detalle del Contratista con la columna <em>"Fecha de Incidencia"</em>.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-05 / SM-09</span>
+          </td>
+        </tr>
+
+        <!-- 7. EMPRESA -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#07 · Mandante</span>
+            <div class="view-title">Empresa (Datos Institucionales)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Formulario plano ocupando un botón principal en la sidebar para datos estáticos.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Reubicación dentro del contenedor <em>"Configuraciones"</em> organizado en bloques (Identificación Legal y Contacto/Ubicación).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-14 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 8. USUARIOS -->
+        <tr data-profile="mandante" data-scope="existente" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#08 · Mandante</span>
+            <div class="view-title">Usuarios (Gestión de Accesos)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Ocupaba espacio principal en la sidebar sin diferenciación visual de roles ni validación de RUT.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Reubicación en <em>"Configuraciones"</em> con tabla de roles semánticos y modal de alta con algoritmo de validación de RUT chileno.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-14 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 9. NOTIFICACIONES · ALERTAS -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#09 · Mandante (Nueva)</span>
+            <div class="view-title">Notificaciones · Alertas Semáforo</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>El mandante no recibía alertas en tiempo real sobre bloqueos de pago o atrasos documentales.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Centro de alertas semáforo con los 8 tipos exigidos y botones de acción <em>"Aceptar"</em>, <em>"Ver"</em> y descarte dinámico.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-01 (Pestaña 1/3)</span>
+          </td>
+        </tr>
+
+        <!-- 10. NOTIFICACIONES · NOVEDADES -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#10 · Mandante (Nueva)</span>
+            <div class="view-title">Notificaciones · Novedades</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin canal interno para comunicar nuevas funcionalidades o mejoras normativas.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Feed editorial con anuncios de lanzamientos (Motor OCR Ultra Rápido, IA Forense contra adulteración).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-01 (Pestaña 2/3)</span>
+          </td>
+        </tr>
+
+        <!-- 11. NOTIFICACIONES · INFORMACIONES -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#11 · Mandante (Nueva)</span>
+            <div class="view-title">Notificaciones · Informaciones</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin registro cronológico de eventos administrativos de la cuenta.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Log de 14 eventos con buscador en vivo y categorización por etiquetas (Usuario, IA, Alerta, Sistema).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-01 (Pestaña 3/3)</span>
+          </td>
+        </tr>
+
+        <!-- 12. AUDITORÍAS -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#12 · Mandante (Nueva)</span>
+            <div class="view-title">Auditorías (Librería PDF)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Inexistente: sin repositorio para descargar dictámenes oficiales respaldados.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Librería de certificados con filtros por tipo (Compliance, Pericial, ESG, Laboral), toggle cuadrícula/lista y simulación de descarga.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-02 (Alcance Nuevo)</span>
+          </td>
+        </tr>
+
+        <!-- 13. DETALLE CONTRATISTA · RESUMEN -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#13 · Mandante (Nueva)</span>
+            <div class="view-title">Detalle Contratista · Resumen</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Para evaluar una empresa había que consultar múltiples pantallas separadas.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Dashboard individualizado con métricas críticas (previsionales, multas DT, inconsistencias) y estado de liberación de pago de la empresa.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-05 / SM-07</span>
+          </td>
+        </tr>
+
+        <!-- 14. DETALLE CONTRATISTA · OBSERVACIONES -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#14 · Mandante (Nueva)</span>
+            <div class="view-title">Detalle Contratista · Observaciones</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Dispersión de hallazgos sin contexto de la empresa auditada.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Pestaña con tabla de fallas documentales filtradas para el contratista activo, con fecha de incidencia y nivel de criticidad.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-05 / SM-09</span>
+          </td>
+        </tr>
+
+        <!-- 15. DETALLE CONTRATISTA · NÓMINA -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#15 · Mandante (Nueva)</span>
+            <div class="view-title">Detalle Contratista · Nómina (Drawer)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Imposibilidad de consultar el estado de los trabajadores dependientes desde la ficha del contratista.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Pestaña con nómina de trabajadores del contratista y apertura del <strong>Drawer lateral con ficha 360°</strong> (contractual, previsional, remuneraciones).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-05 / SM-11</span>
+          </td>
+        </tr>
+
+        <!-- 16. CALENDARIO DE CUMPLIMIENTO -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#16 · Mandante (Nueva)</span>
+            <div class="view-title">Calendario de Cumplimiento</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin matriz histórica mensual para auditar cumplimiento tributario/laboral multianual.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Matriz mes/año (2021–2026) con checks interactivos y modal emergente con desglose de documentos validados y observados.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-08 (Alcance Nuevo)</span>
+          </td>
+        </tr>
+
+        <!-- 17. CONFIGURACIONES CONTENEDOR -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#17 · Mandante (Nueva)</span>
+            <div class="view-title">Configuraciones (Contenedor Hub)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sidebar saturada con accesos secundarios de administración.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Consola modular con navegación por sub-pestañas que agrupa Empresa, Usuarios, Plan y Facturación.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-14 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 18. PLAN & CONSUMO -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="client" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#18 · Mandante (Nueva)</span>
+            <div class="view-title">Plan & Consumo IA</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin visibilidad del límite de empresas contratadas ni consumo de auditorías IA.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Panel con badge Enterprise, conteo de 365/500 contratistas y barra de consumo porcentual del período.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-client">Solicitud Cliente</span>
+            <span class="trace-id">SM-15 (Alcance Nuevo)</span>
+          </td>
+        </tr>
+
+        <!-- 19. INFORMACIÓN DE FACTURACIÓN -->
+        <tr data-profile="mandante" data-scope="nueva" data-origin="proactive" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#19 · Mandante (Nueva)</span>
+            <div class="view-title">Información de Facturación</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-mandante">Mandante</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Falta de autoservicio para consultar facturas del servicio Rexu y fechas de cobro.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Panel con próximo cobro, métodos de pago registrados y tabla histórica de facturas DTE con descarga en PDF.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-proactive">Iniciativa UX</span>
+            <span class="trace-id">Propuesta de Arquitectura UX</span>
+          </td>
+        </tr>
+
+        <!-- ================================================================= -->
+        <!-- BLOQUE 2: PERFIL CONTRATISTA & AYUDA (7 VISTAS) — EN PROCESO      -->
+        <!-- ================================================================= -->
+
+        <!-- 20. CONTRATISTA DASHBOARD -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="proactive" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#20 · Contratista</span>
+            <div class="view-title">Dashboard Contratista (Liberación Pago)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>El estado de liberación de pago estaba al fondo sin peso visual y el feed de IA aparecía vacío.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Hero Card de Liberación de Pago:</strong> Indicador maestro con checklist de condiciones para habilitar la facturación y feed activo del motor de IA.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-proactive">Iniciativa UX</span>
+            <span class="trace-id">Auditoría C1 + UI Kit</span>
+          </td>
+        </tr>
+
+        <!-- 21. CONTRATISTA CARGA DOCUMENTOS -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="joint" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#21 · Contratista</span>
+            <div class="view-title">Carga de Documentos (Checklist SC-02)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Carga a ciegas sin saber qué tipos documentales habían sido procesados ni alerta de lotes mezclados.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Checklist SC-02:</strong> Panel lateral con verificación por tipo documental, barra de progreso y alerta visual de documentos mezclados.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SC-02 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 22. CONTRATISTA NÓMINA MAESTRA -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="joint" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#22 · Contratista</span>
+            <div class="view-title">Nómina Maestra (Acciones SC-03)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>F30/F30-1 mezclados con personas y falta de acciones para finiquitos y anexos.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li><strong>Acciones SC-03:</strong> Botones rápidos <em>"+ Subir Contrato"</em>, <em>"+ Finiquito"</em> y <em>"+ Anexo"</em> con modales específicos y tabla con drawer de trabajador.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SC-03 / SM-10 + UX</span>
+          </td>
+        </tr>
+
+        <!-- 23. CONTRATISTA OBSERVACIONES -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="joint" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#23 · Contratista</span>
+            <div class="view-title">Observaciones (Consola de Subsanación)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Lista plana inmanejable de 33 observaciones sin filtros ni flujo guiado para subsanar.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Filtros por criticidad con contadores dinámicos, modal de reemplazo individual y función de <strong>Subsanación en Lote</strong> con archivo ZIP.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-09 + Proactividad UX</span>
+          </td>
+        </tr>
+
+        <!-- 24. CONTRATISTA EMPRESA -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="proactive" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#24 · Contratista</span>
+            <div class="view-title">Empresa (Ficha Proveedor)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Formulario estático sin posibilidad de actualizar contactos de faena.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Ficha con datos legales protegidos (solo lectura) y bloque de contacto operativo editable con guardado en vivo.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-proactive">Iniciativa UX</span>
+            <span class="trace-id">Proactividad de Diseño</span>
+          </td>
+        </tr>
+
+        <!-- 25. CONTRATISTA USUARIOS -->
+        <tr data-profile="contratista" data-scope="existente" data-origin="proactive" data-status="proceso">
+          <td class="view-cell">
+            <span class="view-code">#25 · Contratista</span>
+            <div class="view-title">Usuarios (Operadores Proveedor)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-process">⏳ EN PROCESO (B2)</span>
+              <span class="profile-pill profile-contratista">Contratista</span>
+              <span class="scope-pill scope-existing">Existente</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin diferenciación de roles operativos (admin, operador de carga, solo lectura).</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Gestión de operadores con asignación de roles y modal de alta con validación de RUT.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-proactive">Iniciativa UX</span>
+            <span class="trace-id">Proactividad de Diseño</span>
+          </td>
+        </tr>
+
+        <!-- 26. AYUDA & SOPORTE -->
+        <tr data-profile="transversal" data-scope="nueva" data-origin="joint" data-status="completada">
+          <td class="view-cell">
+            <span class="view-code">#26 · Transversal (Nueva)</span>
+            <div class="view-title">Ayuda & Soporte Técnico (FAQs)</div>
+            <div class="pills-holder">
+              <span class="status-pill status-done">✓ COMPLETADA (B1)</span>
+              <span class="profile-pill profile-transversal">Transversal</span>
+              <span class="scope-pill scope-new">Nueva</span>
+            </div>
+          </td>
+          <td>
+            <div class="problem-box">
+              <ul>
+                <li>Sin canales directos de soporte ante dudas normativas o bloqueos de plataforma.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <div class="solution-box">
+              <ul>
+                <li>Soporte multicanal (Correo, Teléfono, WhatsApp 24/7), acordeón interactivo de FAQs y formulario de envío de tickets.</li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="origin-badge origin-joint">Mixto</span>
+            <span class="trace-id">SM-16 + Proactividad UX</span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div id="noResults" class="no-results" style="display: none;">
+      No se encontraron vistas que coincidan con los filtros aplicados.
+    </div>
+  </div>
+
+  <footer>
+    <div>REXU SpA · Rediseño UX/UI Desktop · Dirección Creativa: Moisés Andrade</div>
+    <div>Presupuesto PRX-2026-006 Aprobado · Bloque 1: 19 Vistas (100% Completadas) · Bloque 2: 7 Vistas (En Proceso)</div>
+  </footer>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const scopeFilter = document.getElementById('scopeFilter');
+  const originFilter = document.getElementById('originFilter');
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const rows = document.querySelectorAll('#tableBody tr');
+  const noResults = document.getElementById('noResults');
+
+  let currentTab = 'all';
+  let currentScope = 'all';
+  let currentOrigin = 'all';
+  let currentSearch = '';
+
+  function filterTable() {
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const profile = row.getAttribute('data-profile');
+      const scope = row.getAttribute('data-scope');
+      const origin = row.getAttribute('data-origin');
+      const status = row.getAttribute('data-status');
+      const text = row.innerText.toLowerCase();
+
+      // Tab logic
+      let matchesTab = false;
+      if (currentTab === 'all') matchesTab = true;
+      else if (currentTab === 'completadas') matchesTab = (status === 'completada');
+      else if (currentTab === 'proceso') matchesTab = (status === 'proceso');
+      else matchesTab = (profile === currentTab);
+
+      // Scope select logic
+      const matchesScope = (currentScope === 'all' || scope === currentScope);
+
+      // Origin select logic
+      const matchesOrigin = (currentOrigin === 'all' || origin === currentOrigin);
+
+      // Search text logic
+      const matchesSearch = (currentSearch === '' || text.includes(currentSearch));
+
+      if (matchesTab && matchesScope && matchesOrigin && matchesSearch) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active', 'active-mandante', 'active-contratista', 'active-done', 'active-process'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      currentTab = filter;
+
+      if (filter === 'mandante') btn.classList.add('active-mandante');
+      if (filter === 'contratista') btn.classList.add('active-contratista');
+      if (filter === 'completadas') btn.classList.add('active-done');
+      if (filter === 'proceso') btn.classList.add('active-process');
+
+      filterTable();
+    });
+  });
+
+  scopeFilter.addEventListener('change', (e) => {
+    currentScope = e.target.value;
+    filterTable();
+  });
+
+  originFilter.addEventListener('change', (e) => {
+    currentOrigin = e.target.value;
+    filterTable();
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    currentSearch = e.target.value.toLowerCase().trim();
+    filterTable();
+  });
+</script>
+
+</body>
+</html>
