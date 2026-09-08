@@ -3785,6 +3785,7 @@
       screen.style.opacity    = '0';
       setTimeout(() => {
         screen.style.display = 'none';
+        switchMainView('dashboard');
         // El app ya está renderizado detrás — reinicializar iconos
         if (typeof lucide !== 'undefined') lucide.createIcons();
         showToast('Sesión iniciada como ' + (selectedRole === 'mandante' ? 'Mandante · COPEC S.A.' : 'Contratista') + ' — Agosto 2026.');
