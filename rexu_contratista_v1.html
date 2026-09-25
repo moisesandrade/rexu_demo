@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REXU · Compliance Laboral (Perfil Contratista)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink:'#0B0B0C', paper:'#FFFFFF', hueso:'#F5F5F2',
+            navy:'#0A1A38', rexuRed:'#E1232B', rexuGreen:'#1FB866',
+            rexuAmber:'#E8A317', rexuGrey:'#9A9A95',
+            lineNight:'#1F1F24', lineLight:'#E2E2DC'
+          },
+          fontFamily: {
+            display:['Archivo','sans-serif'],
+            sans:['Manrope','sans-serif'],
+            mono:['Space Mono','monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family:'Manrope',sans-serif; background-color:#F5F5F2; color:#0B0B0C; }
+    .custom-scrollbar::-webkit-scrollbar { width:6px; height:6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background:rgba(0,0,0,0.03); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.15); border-radius:99px; }
+    /* Badge Píldora canónico */
+    .badge-pill { border-radius:9999px; font-family:'Space Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+    /* Tabs — píldora negra sobre fondo hueso/borde — ESTÁNDAR B1 */
+    .tab-active { background:#0B0B0C; color:#FFFFFF; font-weight:700; border-radius:8px; padding:7px 16px; border:none; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; transition:all .15s; }
+    .tab-inactive { color:#9A9A95; padding:7px 16px; border-radius:8px; background:transparent; border:none; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; transition:all .15s; }
+    .tab-inactive:hover { color:#0B0B0C; background:#E5E5E3; }
+    /* Inputs canónicos B1 */
+    .input-search { background:#E8E8E5; border:2px solid #0B0B0C; border-radius:8px; padding:6px 12px; font-size:12px; color:#0B0B0C; font-family:'Space Mono',monospace; font-weight:700; outline:none; transition:border-color .15s; }
+    .input-search::placeholder { color:rgba(11,11,12,0.45); }
+    .input-search:focus { border-color:#E1232B; }
+    .select-search { background:#E8E8E5; border:2px solid #0B0B0C; border-radius:8px; padding:6px 10px; font-size:11px; color:#0B0B0C; font-family:'Space Mono',monospace; font-weight:700; outline:none; cursor:pointer; transition:border-color .15s; }
+    .select-search:focus { border-color:#E1232B; }
+    /* Nav */
+    .nav-btn-active { background:rgba(255,255,255,0.10); color:#FFFFFF; font-weight:600; }
+    .nav-btn-idle { color:rgba(255,255,255,0.70); }
+    .nav-btn-idle:hover { background:rgba(255,255,255,0.05); color:#FFFFFF; }
+    /* Drag-over */
+    .drag-over { border-color:#E1232B !important; background-color:rgba(225,35,43,0.04) !important; }
+    /* Drawer slide */
+    @keyframes slideInRight { from{transform:translateX(100%)} to{transform:translateX(0)} }
+    .drawer-open { animation:slideInRight .25s cubic-bezier(.4,0,.2,1) forwards; }
+    /* Spinner */
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .animate-spin { animation:spin 1s linear infinite; }
+    /* Compliance bar */
+    #compliance-bar, #checklist-bar { transition:width .7s cubic-bezier(.4,0,.2,1); }
+    /* Readonly fields B1 estilo */
+    .field-readonly { background:#F5F5F2; border:1px solid #E2E2DC; border-radius:8px; padding:8px 12px; font-size:12px; color:#0B0B0C; width:100%; cursor:default; }
+    .field-editable { background:#FFFFFF; border:1px solid #E2E2DC; border-radius:8px; padding:8px 12px; font-size:12px; color:#0B0B0C; width:100%; outline:none; transition:border-color .15s; }
+    .field-editable:focus { border-color:#0B0B0C; }
+  </style>
+</head>
+<body class="h-screen flex overflow-hidden select-none">
+
+<!-- ==================== LOGIN ==================== -->
+<div id="login-screen" class="fixed inset-0 z-[100] flex bg-ink" style="opacity:1;transition:opacity 0.4s ease;">
+  <!-- Panel izquierdo -->
+  <div class="hidden lg:flex flex-col justify-between w-[52%] bg-ink p-14 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden="true">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M 48 0 L 0 0 0 48" fill="none" stroke="#ffffff" stroke-width="0.5"/></pattern></defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+      </svg>
+    </div>
+    <div class="absolute top-0 left-14 w-[2px] h-24 bg-rexuRed"></div>
+    <div><span class="font-display font-black text-4xl text-paper tracking-tight">rexu<span class="text-rexuRed">.</span></span></div>
+    <div class="space-y-6 max-w-sm">
+      <p class="font-mono text-[10px] font-bold text-rexuRed uppercase tracking-[0.2em]">// Compliance laboral · Ley 20.123 / Ley 21.595</p>
+      <h1 class="font-display font-black text-[2.75rem] leading-[1.1] text-paper">Inteligencia<br>que <span class="text-rexuRed">protege.</span></h1>
+      <p class="text-white/50 text-sm leading-relaxed font-sans">Plataforma de fiscalización y trazabilidad documental para empresas mandantes y sus cadenas de subcontratación.</p>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-rexuGreen"></div><span class="font-mono text-[10px] text-white/40 uppercase tracking-wider">Sistema operativo</span></div>
+      <span class="font-mono text-[10px] text-white/25">rexu.io · v2.4.1</span>
+    </div>
+  </div>
+  <!-- Panel derecho -->
+  <div class="flex-1 flex flex-col bg-hueso px-8 py-8 relative">
+    <div class="flex-1 flex items-center justify-center -mt-10">
+      <div class="w-full max-w-sm space-y-8">
+        <div class="space-y-1">
+          <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-[0.15em]">Acceso a la plataforma</p>
+          <h2 class="font-display font-black text-2xl text-ink">Iniciar sesión</h2>
+        </div>
+        <div class="bg-paper rounded-xl border border-lineLight p-1 flex gap-1">
+          <button onclick="showMandanteEntregado()" class="flex-1 py-2 rounded-lg font-mono text-[11px] font-bold uppercase tracking-wider transition-all text-rexuGrey/50 cursor-not-allowed flex items-center justify-center gap-1.5">
+            Mandante <i data-lucide="lock" class="w-3 h-3 opacity-50"></i>
+          </button>
+          <button class="flex-1 py-2 rounded-lg font-mono text-[11px] font-bold uppercase tracking-wider transition-all bg-ink text-paper">Contratista</button>
+        </div>
+        <div class="space-y-4">
+          <div class="space-y-1.5">
+            <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider">Correo electrónico</label>
+            <input id="login-email" type="email" value="jdañobeitia.admin@barañao.cl" placeholder="usuario@empresa.cl"
+              class="w-full bg-paper border border-lineLight rounded-lg px-4 py-3 text-sm text-ink placeholder:text-rexuGrey focus:outline-none focus:border-ink transition-colors font-sans">
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider">Contraseña</label>
+              <button class="font-mono text-[10px] text-rexuGrey hover:text-rexuRed transition-colors">¿Olvidaste tu contraseña?</button>
+            </div>
+            <div class="relative">
+              <input id="login-password" type="password" value="demo1234" placeholder="••••••••"
+                class="w-full bg-paper border border-lineLight rounded-lg px-4 py-3 text-sm text-ink placeholder:text-rexuGrey focus:outline-none focus:border-ink transition-colors font-sans pr-11">
+              <button onclick="togglePwd()" class="absolute right-3 top-1/2 -translate-y-1/2 text-rexuGrey hover:text-ink transition-colors">
+                <i id="pwd-eye-icon" data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <button onclick="handleLogin()" class="w-full bg-rexuRed text-paper font-mono font-bold text-sm py-3.5 rounded-lg hover:bg-red-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+          <i data-lucide="log-in" class="w-4 h-4"></i> Acceder a la plataforma
+        </button>
+        <div class="flex items-center justify-center gap-2 pt-2">
+          <div class="w-1.5 h-1.5 rounded-full bg-rexuGreen"></div>
+          <span class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Perfil: <strong class="text-ink">Contratista (Operativo)</strong></span>
+        </div>
+        <div id="login-error" class="hidden items-center gap-2 p-3 bg-rexuRed/10 border border-rexuRed/30 rounded-lg">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-rexuRed shrink-0"></i>
+          <span class="font-mono text-[11px] text-rexuRed font-bold">Credenciales incorrectas. Intenta de nuevo.</span>
+        </div>
+      </div>
+    </div>
+    <div class="pt-6"><p class="font-mono text-[10px] text-rexuGrey/60 text-center">© 2026 Rexu SpA · <a href="#" class="hover:text-rexuGrey">Términos de uso</a> · <a href="#" class="hover:text-rexuGrey">Privacidad</a></p></div>
+  </div>
+</div>
+
+<!-- Modal Mandante Entregado -->
+<div id="modal-mandante-entregado" class="fixed inset-0 z-[110] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeMandanteEntregado()"></div>
+  <div class="relative bg-paper rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
+    <div class="h-1 w-full bg-gradient-to-r from-ink via-rexuGreen to-ink"></div>
+    <div class="p-8 space-y-5">
+      <div class="flex flex-col items-center text-center space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-ink flex items-center justify-center"><i data-lucide="check-circle-2" class="w-7 h-7 text-rexuGreen"></i></div>
+        <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-[0.2em]">Bloque 1 · Entregado</p>
+        <h3 class="font-display font-black text-xl text-ink leading-tight">Perfil Mandante<br><span class="text-rexuGreen">ya disponible.</span></h3>
+        <p class="text-xs text-rexuGrey leading-relaxed font-sans">El módulo <strong class="text-ink">Mandante (Supervisión)</strong> fue diseñado y entregado en el <strong class="text-ink">Bloque 1</strong>. Este prototipo corresponde exclusivamente al perfil Contratista.</p>
+      </div>
+      <div class="border-t border-lineLight"></div>
+      <div class="bg-hueso rounded-xl p-4 space-y-2">
+        <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rexuGreen shrink-0"></span><span class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Fase completada</span></div>
+        <p class="font-bold text-xs text-ink">Bloque 1 · Perfil Mandante — Entregado ✓</p>
+        <div class="flex items-center gap-2 pt-1"><span class="w-1.5 h-1.5 rounded-full bg-rexuAmber shrink-0"></span><span class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Fase actual</span></div>
+        <p class="font-bold text-xs text-rexuAmber">Bloque 2 · Perfil Contratista — En producción</p>
+      </div>
+      <button onclick="closeMandanteEntregado()" class="w-full py-3 bg-ink text-paper font-mono text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver — ingresar como Contratista
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="w-64 bg-ink text-paper flex flex-col justify-between z-30 shrink-0 border-r border-lineNight">
+  <div>
+    <!-- Logo solo — empresa se mueve al header -->
+    <div class="p-5 border-b border-lineNight flex items-center">
+      <a href="#" onclick="switchView('dashboard')" class="inline-flex items-center gap-1">
+        <span class="font-display font-black text-2xl text-paper tracking-tight">rexu<span class="text-rexuRed">.</span></span>
+      </a>
+    </div>
+    <!-- Nav -->
+    <nav class="p-3 space-y-0.5 text-sm font-medium custom-scrollbar overflow-y-auto max-h-[calc(100vh-160px)]">
+      <div class="px-3 pt-2 pb-1 font-mono text-[9px] font-bold uppercase tracking-widest text-white/30">Módulos Operativos</div>
+      <button id="nav-dashboard" onclick="switchView('dashboard')"
+        class="nav-btn relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors nav-btn-active">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 text-rexuRed"></i><span>Dashboard</span>
+      </button>
+      <button id="nav-carga" onclick="switchView('carga')"
+        class="nav-btn relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors nav-btn-idle">
+        <i data-lucide="upload-cloud" class="w-4 h-4"></i><span>Carga de Documentos</span>
+      </button>
+      <button id="nav-nomina" onclick="switchView('nomina')"
+        class="nav-btn relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors nav-btn-idle">
+        <i data-lucide="users" class="w-4 h-4"></i><span>Nómina Maestra</span>
+      </button>
+      <button id="nav-observaciones" onclick="switchView('observaciones')"
+        class="nav-btn relative w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors nav-btn-idle">
+        <div class="flex items-center gap-3"><i data-lucide="alert-circle" class="w-4 h-4"></i><span>Observaciones</span></div>
+        <span id="obs-badge" class="bg-rexuRed text-white font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">8</span>
+      </button>
+      <div class="px-3 pt-4 pb-1 font-mono text-[9px] font-bold uppercase tracking-widest text-white/30">Ajustes & Soporte</div>
+      <div>
+        <button onclick="toggleConfigMenu()" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-paper transition-colors">
+          <div class="flex items-center gap-3"><i data-lucide="settings" class="w-4 h-4"></i><span>Configuraciones</span></div>
+          <i id="config-chevron" data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform rotate-180"></i>
+        </button>
+        <div id="config-submenu" class="pl-8 pr-2 py-1 space-y-1 text-xs">
+          <button onclick="switchView('configuraciones','empresa')" class="w-full text-left py-1.5 px-2 text-white/60 hover:text-paper rounded transition-colors">Ficha Empresa</button>
+          <button onclick="switchView('configuraciones','usuarios')" class="w-full text-left py-1.5 px-2 text-white/60 hover:text-paper rounded transition-colors">Usuarios & Roles</button>
+        </div>
+      </div>
+      <button id="nav-ayuda" onclick="switchView('ayuda')"
+        class="nav-btn relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors nav-btn-idle">
+        <i data-lucide="help-circle" class="w-4 h-4"></i><span>Ayuda & Soporte</span>
+      </button>
+    </nav>
+  </div>
+  <!-- User Footer -->
+  <div class="p-4 border-t border-lineNight bg-black/40 flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-navy text-paper font-mono font-bold text-xs flex items-center justify-center shrink-0">JD</div>
+    <div class="min-w-0 flex-1">
+      <p class="text-xs font-bold text-paper truncate">Juan Pablo Dañobeitia</p>
+      <p class="font-mono text-[9px] text-white/50 uppercase tracking-wider truncate">Contratista Admin</p>
+    </div>
+    <button title="Cerrar sesión" onclick="showToast('Cerrando sesión...')" class="text-white/40 hover:text-rexuRed transition-colors shrink-0">
+      <i data-lucide="log-out" class="w-4 h-4"></i>
+    </button>
+  </div>
+</aside>
+
+<!-- ==================== MAIN ==================== -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+  <!-- TOP BAR — empresa mandante activa reemplaza el badge de modo -->
+  <header class="bg-paper border-b border-lineLight px-8 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+    <div class="flex items-center gap-3">
+      <!-- Empresa activa contratista -->
+      <div class="flex items-center gap-2 bg-hueso border border-lineLight px-3 py-1.5 rounded-lg text-xs font-mono">
+        <i data-lucide="building-2" class="w-3.5 h-3.5 text-rexuGrey"></i>
+        <span class="font-bold text-rexuGrey">CONTRATISTA:</span>
+        <span class="font-bold text-ink">BARAÑAO SPA</span>
+      </div>
+      <!-- Selector mandante activo — en el header tal como acordamos -->
+      <div class="flex items-center gap-2 bg-hueso border border-lineLight px-3 py-1.5 rounded-lg text-xs font-mono">
+        <i data-lucide="shield" class="w-3.5 h-3.5 text-rexuGrey"></i>
+        <span class="text-rexuGrey">MANDANTE:</span>
+        <select id="mandante-select" onchange="changeMandante(this.value)" class="bg-transparent font-bold text-ink outline-none cursor-pointer">
+          <option value="copec">COPEC S.A.</option>
+          <option value="arauco">CELULOSA ARAUCO</option>
+          <option value="cmpc">CMPC TISSUE</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- Selector período -->
+      <div class="flex items-center gap-2 bg-hueso border border-lineLight px-3 py-1.5 rounded-lg text-xs font-mono">
+        <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-rexuGrey"></i>
+        <span class="text-rexuGrey">PERÍODO:</span>
+        <select id="period-select" onchange="changePeriod(this.value)" class="bg-transparent font-bold text-ink outline-none cursor-pointer">
+          <option value="2026-08">Agosto 2026</option>
+          <option value="2026-07">Julio 2026</option>
+          <option value="2026-06">Junio 2026</option>
+        </select>
+      </div>
+      <!-- Buscador global — token canónico B1 -->
+      <div class="relative hidden sm:block">
+        <input type="text" id="global-search" oninput="globalSearch(this.value)" placeholder="Buscar trabajador por RUT o nombre..."
+          class="bg-[#E8E8E5] border-2 border-ink rounded-lg pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-ink/50 focus:outline-none focus:border-rexuRed transition-all font-mono font-bold w-60">
+        <i data-lucide="search" class="w-3.5 h-3.5 text-ink absolute left-2.5 top-2 pointer-events-none"></i>
+      </div>
+      <!-- Bell -->
+      <button onclick="switchView('observaciones')" class="relative p-2 rounded-lg bg-hueso border border-lineLight hover:bg-lineLight transition-colors">
+        <i data-lucide="bell" class="w-4 h-4 text-ink"></i>
+        <span id="header-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rexuRed"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+
+    <!-- ==================== V-08: DASHBOARD ==================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-lineLight pb-4">
+        <div>
+          <h1 class="font-display font-black text-3xl text-ink tracking-tight">Dashboard Contratista<span class="text-rexuRed">.</span></h1>
+          <p class="text-sm text-rexuGrey font-medium mt-1">Constructora e Inmobiliaria Barañao SpA · RUT: 76.541.238-4 · <span id="mandante-label" class="font-bold text-ink">Supervisado por COPEC S.A.</span></p>
+        </div>
+        <button onclick="exportarPDF(this)" class="px-4 py-2 bg-ink text-paper text-xs font-mono font-bold rounded-lg hover:bg-black transition-colors flex items-center gap-2 shrink-0">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Estado PDF
+        </button>
+      </div>
+
+      <!-- HERO CARD: LIBERACIÓN DE PAGO — layout 2 col -->
+      <div id="hero-pago" class="bg-paper rounded-xl border-2 border-rexuRed shadow-md transition-all duration-700 overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-lineLight">
+
+          <!-- COL IZQUIERDA: Estado + métricas + barra -->
+          <div class="p-6 space-y-4">
+            <!-- Badge -->
+            <span id="hero-badge" class="badge-pill bg-rexuRed/10 text-rexuRed px-3 py-1 inline-flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rexuRed"></span>PAGO RETENIDO PREVENTIVAMENTE
+            </span>
+            <!-- Título -->
+            <div>
+              <h2 class="font-display font-black text-2xl text-ink leading-tight">Estado de Liberación de Pago</h2>
+              <p class="text-xs text-rexuGrey mt-1">Condiciones requeridas para habilitar facturación ante <span id="hero-mandante" class="font-bold text-ink">COPEC S.A.</span></p>
+            </div>
+            <!-- Métricas inline -->
+            <div class="flex items-end gap-8">
+              <div>
+                <span class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-0.5">Cumplimiento</span>
+                <span id="hero-pct" class="font-display font-black text-5xl text-rexuRed leading-none">42%</span>
+              </div>
+              <div class="pb-1">
+                <span class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-0.5">Vencimiento SLA</span>
+                <span class="font-display font-black text-2xl text-ink leading-none">31/08/2026</span>
+              </div>
+            </div>
+            <!-- Barra de progreso -->
+            <div>
+              <div class="flex justify-between text-[11px] font-mono text-rexuGrey mb-1.5">
+                <span>Progreso del período</span><span id="hero-pct-bar">42%</span>
+              </div>
+              <div class="w-full bg-hueso rounded-full h-2.5 border border-lineLight overflow-hidden">
+                <div id="compliance-bar" class="bg-rexuRed h-full rounded-full" style="width:42%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COL DERECHA: Checklist condiciones -->
+          <div class="p-6">
+            <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest mb-4">Condiciones para habilitar el pago:</p>
+            <div id="checklist-pago" class="space-y-0"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MÉTRICAS — ESTÁNDAR B1: text-5xl, color semántico en label/dot, NO en el número -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div onclick="switchView('nomina')" class="cursor-pointer bg-paper p-5 rounded-xl border border-lineLight hover:border-ink transition-all shadow-sm group">
+          <div class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-2">TRABAJADORES</div>
+          <div class="flex items-baseline">
+            <span class="font-display font-black text-5xl text-ink group-hover:scale-105 transition-transform">14</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuGrey flex items-center gap-1">
+            <i data-lucide="arrow-right" class="w-3 h-3"></i> Ver nómina completa
+          </div>
+        </div>
+        <div class="cursor-pointer bg-paper p-5 rounded-xl border border-lineLight hover:border-rexuGreen transition-all shadow-sm group">
+          <div class="font-mono text-[10px] font-bold text-rexuGreen uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuGreen"></span>VALIDADOS
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-display font-black text-5xl text-rexuGreen group-hover:scale-105 transition-transform">9</span>
+            <span class="font-display font-black text-2xl text-rexuGreen/50">64.3%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuGreen font-medium flex items-center gap-1">
+            <i data-lucide="check-circle-2" class="w-3 h-3"></i> Expedientes completos OK
+          </div>
+        </div>
+        <div class="cursor-pointer bg-paper p-5 rounded-xl border border-lineLight hover:border-rexuAmber transition-all shadow-sm group">
+          <div class="font-mono text-[10px] font-bold text-rexuAmber uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuAmber"></span>INCOMPLETOS
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-display font-black text-5xl text-rexuAmber group-hover:scale-105 transition-transform">1</span>
+            <span class="font-display font-black text-2xl text-rexuAmber/50">7.1%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuAmber font-medium flex items-center gap-1">
+            <i data-lucide="alert-triangle" class="w-3 h-3"></i> En proceso motor IA
+          </div>
+        </div>
+        <div onclick="switchView('observaciones')" class="cursor-pointer bg-paper p-5 rounded-xl border border-lineLight hover:border-rexuRed transition-all shadow-sm group">
+          <div class="font-mono text-[10px] font-bold text-rexuRed uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuRed"></span>OBSERVACIONES
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span id="dash-obs-count" class="font-display font-black text-5xl text-rexuRed group-hover:scale-105 transition-transform">8</span>
+            <span class="font-display font-black text-2xl text-rexuRed/50">28.6%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuRed font-medium flex items-center gap-1">
+            <i data-lucide="arrow-right" class="w-3 h-3"></i> Subsanar ahora
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED IA -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="p-4 bg-hueso border-b border-lineLight flex items-center justify-between">
+          <h3 class="font-bold text-sm text-ink flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-rexuRed"></i> Motor IA — Actividad Reciente</h3>
+          <span class="font-mono text-[10px] text-rexuGrey flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-rexuGreen animate-pulse"></span>SLA procesamiento: dentro de 24 hrs
+          </span>
+        </div>
+        <div id="ia-feed" class="divide-y divide-lineLight"></div>
+      </div>
+    </section>
+
+    <!-- ==================== V-09: CARGA DE DOCUMENTOS ==================== -->
+    <section id="view-carga" class="space-y-6 hidden">
+      <div class="border-b border-lineLight pb-4">
+        <h1 class="font-display font-black text-3xl text-ink tracking-tight">Carga de Documentos<span class="text-rexuRed">.</span></h1>
+        <p class="text-sm text-rexuGrey font-medium mt-1">Sube los documentos del período. El motor IA los procesa en tiempo real · SLA 24 hrs.</p>
+      </div>
+
+      <!-- Dropzone ancho completo -->
+      <div id="drop-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
+        onclick="document.getElementById('file-input').click()"
+        class="border-2 border-dashed border-lineLight rounded-xl p-10 text-center space-y-3 transition-all cursor-pointer hover:border-rexuRed hover:bg-rexuRed/5 w-full">
+        <i data-lucide="upload-cloud" class="w-12 h-12 text-rexuGrey mx-auto"></i>
+        <div>
+          <p class="font-bold text-sm text-ink">Arrastra los archivos aquí o haz clic para seleccionar</p>
+          <p class="text-xs text-rexuGrey mt-1">PDF · Máx. 25 MB por archivo · Hasta 500 documentos por lote</p>
+        </div>
+        <input id="file-input" type="file" multiple accept=".pdf" class="hidden" onchange="handleFileSelect(event)">
+        <button onclick="event.stopPropagation(); document.getElementById('file-input').click()"
+          class="px-5 py-2.5 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg hover:bg-red-700 transition-colors">
+          Seleccionar Archivos PDF
+        </button>
+      </div>
+
+      <!-- Alerta tipos mezclados -->
+      <div id="mixed-alert" class="hidden p-4 bg-rexuAmber/10 border border-rexuAmber/40 rounded-xl flex items-start gap-3">
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-rexuAmber shrink-0 mt-0.5"></i>
+        <div class="flex-1">
+          <p class="font-bold text-sm text-rexuAmber">Tipos de documento mezclados detectados</p>
+          <p class="text-xs text-rexuGrey mt-1">Separa los archivos por tipo para evitar errores de procesamiento IA.</p>
+        </div>
+        <button onclick="document.getElementById('mixed-alert').classList.add('hidden')" class="text-rexuGrey hover:text-ink shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <!-- 2 columnas: Historial izq · Checklist der -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <!-- Historial de procesamiento -->
+        <div class="lg:col-span-3">
+          <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+            <div class="p-4 bg-hueso border-b border-lineLight flex flex-wrap items-center justify-between gap-2">
+              <span class="font-bold text-sm text-ink flex items-center gap-2"><i data-lucide="history" class="w-4 h-4 text-rexuGrey"></i> Historial de Procesamiento</span>
+              <div class="flex flex-wrap gap-1">
+                <button data-status="todos" onclick="setCargaChip(this,'todos')" class="carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-ink text-paper">Todos</button>
+                <button data-status="recibido" onclick="setCargaChip(this,'recibido')" class="carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-paper border border-lineLight text-rexuGrey hover:border-ink transition-colors">Recibido</button>
+                <button data-status="procesando" onclick="setCargaChip(this,'procesando')" class="carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-paper border border-lineLight text-rexuAmber hover:border-rexuAmber transition-colors">Procesando IA</button>
+                <button data-status="validado" onclick="setCargaChip(this,'validado')" class="carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-paper border border-lineLight text-rexuGreen hover:border-rexuGreen transition-colors">Validado OK</button>
+                <button data-status="error" onclick="setCargaChip(this,'error')" class="carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-paper border border-lineLight text-rexuRed hover:border-rexuRed transition-colors">Con Error</button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead><tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+                  <th class="py-2.5 px-4">Archivo</th>
+                  <th class="py-2.5 px-4">Tipo IA</th>
+                  <th class="py-2.5 px-4 text-center">Estado</th>
+                  <th class="py-2.5 px-4 text-right">Fecha</th>
+                  <th class="py-2.5 px-4 text-right">Acción</th>
+                </tr></thead>
+                <tbody id="carga-tbody" class="divide-y divide-lineLight"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Checklist SC-02 en 2 columnas internas -->
+        <div class="lg:col-span-2">
+          <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden sticky top-4">
+            <div class="p-4 bg-hueso border-b border-lineLight">
+              <h3 class="font-bold text-sm text-ink flex items-center gap-2"><i data-lucide="clipboard-check" class="w-4 h-4 text-rexuRed"></i> Checklist Documental del Período</h3>
+              <p class="font-mono text-[10px] text-rexuGrey mt-1 uppercase tracking-wider">SC-02 · Verificación por tipo</p>
+            </div>
+            <div class="p-4">
+              <div class="grid grid-cols-2 gap-x-4" id="checklist-docs"></div>
+            </div>
+            <div class="p-4 bg-hueso border-t border-lineLight">
+              <div class="flex justify-between text-[11px] font-mono mb-1.5">
+                <span class="text-rexuGrey">Tipos completados</span>
+                <span id="checklist-lbl" class="font-bold text-ink">0 / 10</span>
+              </div>
+              <div class="w-full bg-lineLight rounded-full h-2 overflow-hidden">
+                <div id="checklist-bar" class="bg-rexuGreen h-full rounded-full" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== V-10: NÓMINA MAESTRA ==================== -->
+    <section id="view-nomina" class="space-y-5 hidden">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-lineLight pb-4">
+        <div>
+          <h1 class="font-display font-black text-3xl text-ink tracking-tight">Nómina Maestra<span class="text-rexuRed">.</span></h1>
+          <p class="text-sm text-rexuGrey font-medium mt-1">14 trabajadores activos · Agosto 2026</p>
+        </div>
+        <!-- SC-03: Toolbar 3 botones de acción diferenciados -->
+        <div class="flex items-center gap-2">
+          <button onclick="openDocModal('contrato')"
+            class="px-3 py-2 bg-rexuRed text-paper font-mono text-xs font-bold rounded-lg hover:bg-red-700 active:scale-[0.99] flex items-center gap-1.5 transition-all">
+            <i data-lucide="file-plus" class="w-3.5 h-3.5"></i> + Subir Contrato
+          </button>
+          <button onclick="openDocModal('finiquito')"
+            class="px-3 py-2 bg-ink text-paper font-mono text-xs font-bold rounded-lg hover:bg-black active:scale-[0.99] flex items-center gap-1.5 transition-all">
+            <i data-lucide="file-x" class="w-3.5 h-3.5"></i> + Finiquito
+          </button>
+          <button onclick="openDocModal('anexo')"
+            class="px-3 py-2 bg-ink text-paper font-mono text-xs font-bold rounded-lg hover:bg-black active:scale-[0.99] flex items-center gap-1.5 transition-all">
+            <i data-lucide="paperclip" class="w-3.5 h-3.5"></i> + Anexo
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIs NÓMINA — ESTÁNDAR B1: text-5xl, VALOR en color semántico (como el mandante), label + dot del mismo color -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm">
+          <div class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-2">TOTAL NÓMINA</div>
+          <div class="flex items-baseline">
+            <span class="font-display font-black text-5xl text-ink">14</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuGrey">Trabajadores activos</div>
+        </div>
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm">
+          <div class="font-mono text-[10px] font-bold text-rexuGreen uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuGreen"></span> COMPLETOS
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-display font-black text-5xl text-rexuGreen">9</span>
+            <span class="font-display font-black text-2xl text-rexuGreen/50">64.3%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuGreen font-medium flex items-center gap-1">
+            <i data-lucide="check-circle-2" class="w-3 h-3"></i> Expedientes OK
+          </div>
+        </div>
+        <div class="bg-paper p-5 rounded-xl border border-lineLight shadow-sm">
+          <div class="font-mono text-[10px] font-bold text-rexuAmber uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuAmber"></span> INCOMPLETOS
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-display font-black text-5xl text-rexuAmber">1</span>
+            <span class="font-display font-black text-2xl text-rexuAmber/50">7.1%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuAmber font-medium flex items-center gap-1">
+            <i data-lucide="alert-triangle" class="w-3 h-3"></i> En proceso IA
+          </div>
+        </div>
+        <div onclick="switchView('observaciones')" class="cursor-pointer bg-paper p-5 rounded-xl border border-lineLight hover:border-rexuRed transition-all shadow-sm group">
+          <div class="font-mono text-[10px] font-bold text-rexuRed uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rexuRed"></span> CON OBS.
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-display font-black text-5xl text-rexuRed group-hover:scale-105 transition-transform">4</span>
+            <span class="font-display font-black text-2xl text-rexuRed/50">28.6%</span>
+          </div>
+          <div class="mt-3 text-[11px] text-rexuRed font-medium flex items-center gap-1">
+            <i data-lucide="arrow-right" class="w-3 h-3"></i> Requieren acción
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla nómina con tabs píldora + filtros -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="p-4 bg-hueso border-b border-lineLight flex flex-wrap items-center justify-between gap-3">
+          <div class="flex bg-hueso rounded-xl border border-lineLight p-1 gap-1">
+            <button onclick="filterNomina('todos')" id="ntab-todos" class="tab-active">Todos (14)</button>
+            <button onclick="filterNomina('obs')" id="ntab-obs" class="tab-inactive">Con Obs. (4)</button>
+            <button onclick="filterNomina('venciendo')" id="ntab-venc" class="tab-inactive">Venciendo (2)</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="relative">
+              <input type="text" id="nomina-search" oninput="applyNominaFilters()" placeholder="Buscar por RUT o nombre..."
+                class="bg-[#E8E8E5] border-2 border-ink rounded-lg pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-ink/50 focus:outline-none focus:border-rexuRed transition-all font-mono font-bold w-52">
+              <i data-lucide="filter" class="w-3.5 h-3.5 text-ink absolute left-2.5 top-2 pointer-events-none"></i>
+            </div>
+            <select id="nomina-status" onchange="applyNominaFilters()"
+              class="bg-[#E8E8E5] border-2 border-ink text-xs font-bold px-3 py-1.5 rounded-lg outline-none cursor-pointer focus:border-rexuRed transition-colors font-mono">
+              <option value="todos">Todos los estados</option>
+              <option value="completo">Completo</option>
+              <option value="incompleto">Incompleto</option>
+              <option value="obs">Con observación</option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead><tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+              <th class="py-3 px-5">RUT</th>
+              <th class="py-3 px-5">Nombre</th>
+              <th class="py-3 px-5">Cargo</th>
+              <th class="py-3 px-5 text-center">Estado</th>
+              <th class="py-3 px-5 text-center">Vto. Contrato</th>
+              <th class="py-3 px-5 text-right">Acciones</th>
+            </tr></thead>
+            <tbody id="nomina-tbody" class="divide-y divide-lineLight"></tbody>
+          </table>
+        </div>
+        <div class="p-4 bg-hueso border-t border-lineLight flex items-center justify-between text-[11px] font-mono">
+          <span id="nomina-summary" class="text-rexuGrey"></span>
+          <div id="nomina-paginator" class="flex items-center gap-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== V-11: OBSERVACIONES ==================== -->
+    <section id="view-observaciones" class="space-y-5 hidden">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-lineLight pb-4">
+        <div>
+          <h1 class="font-display font-black text-3xl text-ink tracking-tight">Observaciones & Brechas Activas<span class="text-rexuRed">.</span></h1>
+          <p class="text-sm text-rexuGrey font-medium mt-1">Resuelve cada observación para habilitar la liberación de pago ante el mandante.</p>
+        </div>
+        <button id="btn-subsanar-lote" onclick="subsanarLote()" class="hidden px-4 py-2 bg-rexuRed text-paper text-xs font-mono font-bold rounded-lg hover:bg-red-700 flex items-center gap-2 transition-all shrink-0">
+          <i data-lucide="archive" class="w-3.5 h-3.5"></i> Subsanar en Lote (ZIP)
+        </button>
+      </div>
+
+      <!-- Chips criticidad — 5 tipos -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap gap-2" id="obs-chips">
+          <button onclick="setObsChip(this,'todas')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-ink text-paper flex items-center gap-1.5" data-filter="todas">
+            Todas <span id="chip-count-todas" class="bg-white/20 px-1.5 rounded-full">8</span>
+          </button>
+          <button onclick="setObsChip(this,'critica')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-paper border border-rexuRed/40 text-rexuRed flex items-center gap-1.5 hover:bg-rexuRed/10 transition-colors" data-filter="critica">
+            Críticas <span id="chip-count-critica" class="bg-rexuRed/15 px-1.5 rounded-full">3</span>
+          </button>
+          <button onclick="setObsChip(this,'alta')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-paper border border-rexuAmber/60 text-rexuAmber flex items-center gap-1.5 hover:bg-rexuAmber/10 transition-colors" data-filter="alta">
+            Altas <span id="chip-count-alta" class="bg-rexuAmber/15 px-1.5 rounded-full">2</span>
+          </button>
+          <button onclick="setObsChip(this,'media')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-paper border border-rexuAmber/30 text-rexuAmber/80 flex items-center gap-1.5 hover:bg-rexuAmber/10 transition-colors" data-filter="media">
+            Medias <span id="chip-count-media" class="bg-rexuAmber/10 px-1.5 rounded-full">2</span>
+          </button>
+          <button onclick="setObsChip(this,'baja')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-paper border border-lineLight text-rexuGrey flex items-center gap-1.5 hover:bg-hueso transition-colors" data-filter="baja">
+            Bajas <span id="chip-count-baja" class="bg-hueso px-1.5 rounded-full">1</span>
+          </button>
+          <button onclick="setObsChip(this,'informativa')" class="obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-paper border border-navy/30 text-navy flex items-center gap-1.5 hover:bg-navy/5 transition-colors" data-filter="informativa">
+            Informativas <span id="chip-count-informativa" class="bg-navy/10 px-1.5 rounded-full">0</span>
+          </button>
+        </div>
+        <label class="flex items-center gap-2 font-mono text-[10px] text-rexuGrey cursor-pointer">
+          <input type="checkbox" id="select-all-obs" onchange="toggleSelectAllObs(this)" class="rounded"> Seleccionar todas
+        </label>
+      </div>
+
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead><tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+              <th class="py-3 px-3 w-8"><input type="checkbox" class="rounded"></th>
+              <th class="py-3 px-3">Fecha Incidencia</th>
+              <th class="py-3 px-3">Tipo</th>
+              <th class="py-3 px-3">Trabajador</th>
+              <th class="py-3 px-3">Descripción</th>
+              <th class="py-3 px-3 text-center">Criticidad</th>
+              <th class="py-3 px-3 text-right">Acción</th>
+            </tr></thead>
+            <tbody id="obs-tbody" class="divide-y divide-lineLight"></tbody>
+          </table>
+        </div>
+        <div class="p-4 bg-hueso border-t border-lineLight flex items-center justify-between text-[11px] font-mono">
+          <span id="obs-summary" class="text-rexuGrey"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== V-12 + V-13: CONFIGURACIONES ==================== -->
+    <section id="view-configuraciones" class="space-y-5 hidden">
+      <div class="border-b border-lineLight pb-4">
+        <h1 class="font-display font-black text-3xl text-ink tracking-tight">Configuraciones<span class="text-rexuRed">.</span></h1>
+        <p class="text-sm text-rexuGrey font-medium mt-1">Ficha empresarial y gestión de operadores autorizados.</p>
+      </div>
+
+      <!-- Tabs píldora canónicas B1 -->
+      <div class="flex bg-hueso rounded-xl border border-lineLight p-1 gap-1 w-fit">
+        <button id="cfg-tab-empresa" onclick="switchCfgTab('empresa')" class="tab-active">Ficha Empresa</button>
+        <button id="cfg-tab-usuarios" onclick="switchCfgTab('usuarios')" class="tab-inactive">Usuarios & Roles</button>
+      </div>
+
+      <!-- V-12: Ficha Empresa — layout de 2 bloques como en la imagen de referencia -->
+      <div id="cfg-empresa">
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+          <div class="p-5 border-b border-lineLight flex items-center justify-between">
+            <h3 class="font-bold text-sm text-ink">Datos del Contratista Auditado</h3>
+            <button id="btn-edit-empresa" onclick="toggleEmpresaEdit()"
+              class="px-3 py-1.5 bg-paper border border-lineLight text-ink font-mono text-[10px] font-bold rounded-lg hover:bg-hueso flex items-center gap-1.5 transition-colors">
+              <i data-lucide="pencil" class="w-3.5 h-3.5"></i> Editar contacto
+            </button>
+          </div>
+          <div class="p-6 space-y-6">
+            <!-- Sección legal — readonly -->
+            <div>
+              <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest mb-3">IDENTIFICACIÓN LEGAL <span class="text-rexuGrey/60">(solo lectura)</span></p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">RUT Empresa</label>
+                  <div class="field-readonly font-mono font-bold">76.541.238-4</div>
+                </div>
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">Razón Social</label>
+                  <div class="field-readonly font-bold">CONSTRUCTORA E INMOBILIARIA BARAÑAO SPA</div>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs text-rexuGrey mb-1">Giro Comercial</label>
+                  <div class="field-readonly">Construcción de edificios y obras de ingeniería civil</div>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs text-rexuGrey mb-1">Representante Legal</label>
+                  <div class="field-readonly font-bold">Juan Pablo Dañobeitia Morales</div>
+                </div>
+              </div>
+            </div>
+            <!-- Sección contacto operativo — editable -->
+            <div class="border-t border-lineLight pt-6">
+              <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-widest mb-3">CONTACTO OPERATIVO DE FAENA <span class="text-rexuGrey/60">(editable)</span></p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">Dirección</label>
+                  <input class="empresa-field field-readonly w-full" readonly value="Av. Nueva Las Condes 4541, Las Condes">
+                </div>
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">Comuna</label>
+                  <input class="empresa-field field-readonly w-full" readonly value="Las Condes, Santiago">
+                </div>
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">Email DT</label>
+                  <input class="empresa-field field-readonly w-full" readonly value="compliance.barañao@gmail.com" type="email">
+                </div>
+                <div>
+                  <label class="block text-xs text-rexuGrey mb-1">Teléfono</label>
+                  <input class="empresa-field field-readonly w-full" readonly value="+56 2 2345 6789">
+                </div>
+              </div>
+              <div id="empresa-save-row" class="hidden flex gap-2 pt-4">
+                <button onclick="saveEmpresaEdit()" class="px-4 py-2 bg-rexuRed text-paper font-mono text-xs font-bold rounded-lg hover:bg-red-700 flex items-center gap-1.5 transition-colors">
+                  <i data-lucide="save" class="w-3.5 h-3.5"></i> Guardar cambios
+                </button>
+                <button onclick="cancelEmpresaEdit()" class="px-4 py-2 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-lg hover:bg-lineLight flex items-center gap-1.5 transition-colors">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i> Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="px-6 pb-4 text-[10px] text-rexuGrey font-mono">Los datos de identificación legal son administrados por Rexu SpA · Para correcciones contacta a <a href="mailto:soporte@rexu.io" class="text-rexuRed underline">soporte@rexu.io</a></p>
+        </div>
+      </div>
+
+      <!-- V-13: Usuarios & Roles -->
+      <div id="cfg-usuarios" class="hidden">
+        <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+          <div class="p-4 bg-hueso border-b border-lineLight flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-sm text-ink">Operadores Autorizados</h3>
+              <p class="font-mono text-[10px] text-rexuGrey mt-0.5">Gestiona quién puede operar y cargar documentos en este módulo</p>
+            </div>
+            <button onclick="document.getElementById('modal-add-op').classList.remove('hidden'); if(typeof lucide!=='undefined') lucide.createIcons();"
+              class="px-3 py-1.5 bg-rexuRed text-white text-xs font-mono font-bold rounded-lg flex items-center gap-1.5 hover:bg-red-700 transition-colors">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Agregar Operador
+            </button>
+          </div>
+          <table class="w-full text-left text-xs border-collapse">
+            <thead><tr class="bg-hueso border-b border-lineLight font-mono text-[10px] text-rexuGrey uppercase">
+              <th class="py-2.5 px-4">RUT</th>
+              <th class="py-2.5 px-4">Nombre</th>
+              <th class="py-2.5 px-4">Email</th>
+              <th class="py-2.5 px-4">Rol</th>
+              <th class="py-2.5 px-4 text-right">Acción</th>
+            </tr></thead>
+            <tbody id="ops-tbody" class="divide-y divide-lineLight"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== V-AYUDA — Layout B1: FAQs izq, 3 canales apilados der ==================== -->
+    <!-- ==================== V-AYUDA: Ticket arriba · FAQs abajo ancho completo ==================== -->
+    <section id="view-ayuda" class="space-y-6 hidden">
+      <div class="border-b border-lineLight pb-4">
+        <h1 class="font-display font-black text-3xl text-ink tracking-tight">Ayuda & Soporte Técnico<span class="text-rexuRed">.</span></h1>
+        <p class="text-sm text-rexuGrey font-medium mt-1">Canales directos de atención para el contratista.</p>
+      </div>
+
+      <!-- Fila 1: Ticket izq · 3 canales der -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+        <!-- COL IZQUIERDA: Formulario ticket -->
+        <div class="lg:col-span-3">
+          <div class="bg-paper p-6 rounded-xl border border-lineLight shadow-sm space-y-4 h-full">
+            <h3 class="font-bold text-sm text-ink border-b border-lineLight pb-3">Enviar Ticket de Soporte</h3>
+            <form onsubmit="submitSoporte(event)" novalidate class="space-y-3 text-xs">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-mono text-rexuGrey mb-1">Asunto</label>
+                  <select class="w-full p-2 bg-hueso border border-lineLight rounded-lg font-mono font-bold text-ink focus:outline-none focus:border-ink text-xs">
+                    <option>Error en plataforma</option>
+                    <option>Consulta de documentos</option>
+                    <option>Problema con observación</option>
+                    <option>Otro</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-mono text-rexuGrey mb-1">Prioridad</label>
+                  <select class="w-full p-2 bg-hueso border border-lineLight rounded-lg font-mono font-bold text-ink focus:outline-none focus:border-ink text-xs">
+                    <option>Normal</option><option>Alta</option><option>Urgente</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="block font-mono text-rexuGrey mb-1">Descripción del problema</label>
+                <textarea class="w-full p-2 bg-hueso border border-lineLight rounded-lg font-sans text-ink focus:outline-none focus:border-ink resize-none text-xs" rows="5" placeholder="Describe el problema con el mayor detalle posible..."></textarea>
+              </div>
+              <button type="submit" class="px-4 py-2 bg-rexuRed text-white font-mono text-xs font-bold rounded-lg hover:bg-red-700 flex items-center gap-2 transition-colors">
+                <i data-lucide="send" class="w-3.5 h-3.5"></i> Enviar Ticket
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- COL DERECHA: 3 canales apilados -->
+        <div class="lg:col-span-2 flex flex-col gap-4">
+          <a href="mailto:soporte@rexu.io" class="bg-paper p-5 rounded-xl border border-lineLight flex items-center gap-4 hover:border-rexuRed hover:shadow-md transition-all group">
+            <div class="w-10 h-10 bg-rexuRed/10 rounded-lg flex items-center justify-center shrink-0">
+              <i data-lucide="mail" class="w-5 h-5 text-rexuRed"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-ink">Correo Directo</h4>
+              <p class="font-mono text-xs text-rexuRed font-bold">soporte@rexu.io</p>
+              <span class="text-[10px] text-rexuGrey">Respuesta en &lt; 4 hrs hábiles</span>
+            </div>
+          </a>
+          <a href="tel:+56229008800" class="bg-paper p-5 rounded-xl border border-lineLight flex items-center gap-4 hover:border-rexuRed hover:shadow-md transition-all group">
+            <div class="w-10 h-10 bg-rexuRed/10 rounded-lg flex items-center justify-center shrink-0">
+              <i data-lucide="phone" class="w-5 h-5 text-rexuRed"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-ink">Teléfono Mesa de Control</h4>
+              <p class="font-mono text-xs text-rexuRed font-bold">+56 2 2900 8800</p>
+              <span class="text-[10px] text-rexuGrey">Lun–Vie 9:00–18:00 hrs</span>
+            </div>
+          </a>
+          <a href="https://wa.me/56970001234" target="_blank" class="bg-paper p-5 rounded-xl border border-lineLight flex items-center gap-4 hover:border-rexuGreen hover:shadow-md transition-all group">
+            <div class="w-10 h-10 bg-rexuGreen/10 rounded-lg flex items-center justify-center shrink-0">
+              <i data-lucide="message-square" class="w-5 h-5 text-rexuGreen"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-ink">WhatsApp de Emergencia</h4>
+              <p class="font-mono text-xs text-rexuGreen font-bold">+56 9 7000 1234</p>
+              <span class="text-[10px] text-rexuGrey">Respuesta inmediata 24/7</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Fila 2: FAQs — ancho completo -->
+      <div class="bg-paper rounded-xl border border-lineLight shadow-sm overflow-hidden">
+        <div class="p-5 bg-hueso border-b border-lineLight">
+          <h3 class="font-bold text-sm text-ink">Preguntas frecuentes</h3>
+          <p class="text-xs text-rexuGrey mt-0.5">Respuestas a las consultas más comunes sobre el módulo Contratista.</p>
+        </div>
+        <div id="faq-container" class="divide-y divide-lineLight"></div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- ==================== DRAWER TRABAJADOR ==================== -->
+<div id="worker-drawer-overlay" class="fixed inset-0 bg-black/40 z-[60] hidden backdrop-blur-sm" onclick="closeWorkerDrawer()"></div>
+<div id="worker-drawer" class="fixed top-0 right-0 h-full max-w-md w-full bg-paper shadow-2xl z-[61] translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="p-5 border-b border-lineLight flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div id="wd-avatar" class="w-10 h-10 rounded-full bg-ink text-paper font-mono font-bold text-sm flex items-center justify-center shrink-0"></div>
+      <div><p id="wd-name" class="font-bold text-sm text-ink"></p><p id="wd-rut" class="font-mono text-[10px] text-rexuGrey"></p></div>
+    </div>
+    <button onclick="closeWorkerDrawer()" class="p-2 rounded-lg hover:bg-hueso text-rexuGrey hover:text-ink transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+  </div>
+  <div id="wd-alert" class="hidden mx-5 mt-4 p-3 bg-rexuRed/10 border border-rexuRed/30 rounded-xl flex items-start gap-2">
+    <i data-lucide="alert-triangle" class="w-4 h-4 text-rexuRed shrink-0 mt-0.5"></i>
+    <div class="flex-1"><p class="font-bold text-xs text-rexuRed">Observación activa</p><p id="wd-alert-text" class="text-xs text-rexuGrey mt-0.5"></p></div>
+    <button onclick="closeWorkerDrawer(); switchView('observaciones')" class="font-mono text-[10px] text-rexuRed hover:underline shrink-0 font-bold">Ver →</button>
+  </div>
+  <div class="flex-1 overflow-y-auto custom-scrollbar divide-y divide-lineLight mt-4">
+    <div>
+      <button onclick="toggleWorkerAcc('contractual')" class="w-full flex items-center justify-between p-4 hover:bg-hueso/50 transition-colors">
+        <span class="font-bold text-xs text-ink flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-rexuRed"></i> Datos Contractuales</span>
+        <i id="wd-icon-contractual" data-lucide="chevron-down" class="w-4 h-4 text-rexuGrey transition-transform"></i>
+      </button>
+      <div id="wd-acc-contractual" class="px-5 pb-4 space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Cargo</p><p id="wd-cargo" class="font-bold text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Tipo Contrato</p><p id="wd-tipo" class="font-bold text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Inicio</p><p id="wd-inicio" class="font-mono text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Término</p><p id="wd-termino" class="font-mono text-xs text-ink mt-0.5"></p></div>
+          <div class="col-span-2"><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Jornada</p><p id="wd-jornada" class="text-xs text-ink mt-0.5"></p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button onclick="toggleWorkerAcc('previsional')" class="w-full flex items-center justify-between p-4 hover:bg-hueso/50 transition-colors">
+        <span class="font-bold text-xs text-ink flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-rexuGreen"></i> Datos Previsionales</span>
+        <i id="wd-icon-previsional" data-lucide="chevron-down" class="w-4 h-4 text-rexuGrey transition-transform"></i>
+      </button>
+      <div id="wd-acc-previsional" class="hidden px-5 pb-4 space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">AFP</p><p id="wd-afp" class="font-bold text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Régimen Salud</p><p id="wd-regimen" class="font-bold text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Institución</p><p id="wd-institucion" class="text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">% Cotiz. AFP</p><p id="wd-cot-afp" class="font-mono text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">% Cotiz. Salud</p><p id="wd-cot-salud" class="font-mono text-xs text-ink mt-0.5"></p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button onclick="toggleWorkerAcc('remuneracion')" class="w-full flex items-center justify-between p-4 hover:bg-hueso/50 transition-colors">
+        <span class="font-bold text-xs text-ink flex items-center gap-2"><i data-lucide="banknote" class="w-4 h-4 text-rexuAmber"></i> Remuneración</span>
+        <i id="wd-icon-remuneracion" data-lucide="chevron-down" class="w-4 h-4 text-rexuGrey transition-transform"></i>
+      </button>
+      <div id="wd-acc-remuneracion" class="hidden px-5 pb-4 space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Sueldo Base</p><p id="wd-sueldo-base" class="font-bold text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Líquido</p><p id="wd-liquido" class="font-bold text-xs text-rexuGreen mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Gratificación</p><p id="wd-grat" class="text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Descuentos</p><p id="wd-desc" class="text-xs text-rexuRed mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Días Trabajados</p><p id="wd-dias-trab" class="font-mono text-xs text-ink mt-0.5"></p></div>
+          <div><p class="font-mono text-[10px] text-rexuGrey uppercase tracking-wider">Ausencias</p><p id="wd-dias-aus" class="font-mono text-xs text-rexuAmber mt-0.5"></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODALES ==================== -->
+
+<!-- Modal Subir Documento -->
+<div id="modal-doc" class="fixed inset-0 z-[70] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-doc')"></div>
+  <div class="relative bg-paper rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div class="h-1 w-full bg-gradient-to-r from-ink via-rexuRed to-ink"></div>
+    <div class="p-6 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider">Gestión Documental</p>
+          <h3 id="modal-doc-title" class="font-display font-black text-xl text-ink mt-0.5">Subir Contrato</h3>
+        </div>
+        <button onclick="closeModal('modal-doc')" class="p-2 rounded-lg hover:bg-hueso text-rexuGrey hover:text-ink transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div>
+        <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Trabajador</label>
+        <select id="doc-worker" class="w-full p-2.5 bg-hueso border border-lineLight rounded-lg font-mono font-bold text-ink focus:outline-none focus:border-ink text-xs"></select>
+      </div>
+      <div>
+        <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Documento PDF</label>
+        <div id="doc-drop" onclick="document.getElementById('doc-file-input').click()"
+          class="border-2 border-dashed border-lineLight rounded-xl p-6 text-center cursor-pointer hover:border-rexuRed hover:bg-rexuRed/5 transition-all">
+          <i data-lucide="file-up" class="w-8 h-8 text-rexuGrey mx-auto mb-2"></i>
+          <p id="doc-file-lbl" class="text-xs text-rexuGrey">Arrastra el PDF aquí o haz clic para seleccionar</p>
+          <input id="doc-file-input" type="file" accept=".pdf" class="hidden" onchange="document.getElementById('doc-file-lbl').textContent=this.files[0]?.name||'Sin archivo'">
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="submitDoc()" class="flex-1 py-3 bg-rexuRed text-paper font-mono text-xs font-bold rounded-xl hover:bg-red-700 active:scale-[0.99] flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="upload" class="w-4 h-4"></i> Cargar documento
+        </button>
+        <button onclick="closeModal('modal-doc')" class="px-5 py-3 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-xl hover:bg-lineLight transition-colors">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Subsanar Observación -->
+<div id="modal-subsanar" class="fixed inset-0 z-[70] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-subsanar')"></div>
+  <div class="relative bg-paper rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div class="h-1 w-full bg-gradient-to-r from-ink via-rexuRed to-ink"></div>
+    <div class="p-6 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider">Reemplazar Documento</p>
+          <h3 class="font-display font-black text-xl text-ink mt-0.5">Subsanar Observación</h3>
+        </div>
+        <button onclick="closeModal('modal-subsanar')" class="p-2 rounded-lg hover:bg-hueso text-rexuGrey hover:text-ink transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div id="modal-obs-detail" class="p-3 bg-rexuRed/5 border border-rexuRed/20 rounded-xl text-xs text-rexuGrey"></div>
+      <div>
+        <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Documento corregido (PDF)</label>
+        <div onclick="document.getElementById('subsanar-file').click()"
+          class="border-2 border-dashed border-lineLight rounded-xl p-6 text-center cursor-pointer hover:border-rexuGreen hover:bg-rexuGreen/5 transition-all">
+          <i data-lucide="file-check" class="w-8 h-8 text-rexuGrey mx-auto mb-2"></i>
+          <p id="subsanar-file-lbl" class="text-xs text-rexuGrey">Arrastra el PDF corregido aquí</p>
+          <input id="subsanar-file" type="file" accept=".pdf" class="hidden" onchange="document.getElementById('subsanar-file-lbl').textContent=this.files[0]?.name||'Sin archivo'">
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="confirmarSubsanacion()" class="flex-1 py-3 bg-rexuGreen text-paper font-mono text-xs font-bold rounded-xl hover:bg-green-700 active:scale-[0.99] flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="check" class="w-4 h-4"></i> Confirmar subsanación
+        </button>
+        <button onclick="closeModal('modal-subsanar')" class="px-5 py-3 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-xl hover:bg-lineLight transition-colors">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Agregar Operador -->
+<div id="modal-add-op" class="fixed inset-0 z-[70] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-add-op')"></div>
+  <div class="relative bg-paper rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div class="h-1 w-full bg-gradient-to-r from-ink via-rexuRed to-ink"></div>
+    <div class="p-6 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider">Gestión de Accesos</p>
+          <h3 class="font-display font-black text-xl text-ink mt-0.5">Agregar Operador</h3>
+        </div>
+        <button onclick="closeModal('modal-add-op')" class="p-2 rounded-lg hover:bg-hueso text-rexuGrey hover:text-ink transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <form id="form-op" onsubmit="submitOp(event)" novalidate class="space-y-4">
+        <div>
+          <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">RUT (con punto y guión)</label>
+          <input id="op-rut" type="text" placeholder="12.345.678-9" oninput="validateRutField(this)"
+            class="bg-[#E8E8E5] border-2 border-ink rounded-lg px-3 py-2 text-xs text-ink font-mono font-bold focus:outline-none focus:border-rexuRed transition-all w-full" maxlength="12">
+          <p id="op-rut-feedback" class="font-mono text-[10px] mt-1 hidden"></p>
+        </div>
+        <div>
+          <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Nombre completo</label>
+          <input id="op-name" type="text" placeholder="Nombre Apellido"
+            class="bg-[#E8E8E5] border-2 border-ink rounded-lg px-3 py-2 text-xs text-ink font-mono font-bold focus:outline-none focus:border-rexuRed transition-all w-full">
+        </div>
+        <div>
+          <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Correo electrónico</label>
+          <input id="op-email" type="email" placeholder="operador@empresa.cl"
+            class="bg-[#E8E8E5] border-2 border-ink rounded-lg px-3 py-2 text-xs text-ink font-mono font-bold focus:outline-none focus:border-rexuRed transition-all w-full">
+        </div>
+        <div>
+          <label class="block font-mono text-[10px] font-bold text-rexuGrey uppercase tracking-wider mb-1.5">Rol asignado</label>
+          <select id="op-rol" class="bg-[#E8E8E5] border-2 border-ink text-xs font-bold px-3 py-2 rounded-lg outline-none cursor-pointer focus:border-rexuRed transition-colors font-mono w-full">
+            <option value="">— Seleccionar rol —</option>
+            <option value="admin">Contratista Admin</option>
+            <option value="carga">Operador de Carga</option>
+            <option value="lectura">Solo Lectura</option>
+          </select>
+        </div>
+        <div id="op-error" class="hidden p-3 bg-rexuRed/10 border border-rexuRed/30 rounded-lg font-mono text-[11px] text-rexuRed font-bold"></div>
+        <div class="flex gap-3 pt-1">
+          <button type="submit" class="flex-1 py-3 bg-rexuRed text-paper font-mono text-xs font-bold rounded-xl hover:bg-red-700 active:scale-[0.99] flex items-center justify-center gap-2 transition-all">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Registrar operador
+          </button>
+          <button type="button" onclick="closeModal('modal-add-op')" class="px-5 py-3 bg-hueso border border-lineLight text-ink font-mono text-xs font-bold rounded-xl hover:bg-lineLight transition-colors">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-[200] hidden">
+  <div class="bg-ink text-paper px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 font-mono text-xs font-bold max-w-sm">
+    <i data-lucide="check-circle" class="w-4 h-4 text-rexuGreen shrink-0"></i>
+    <span id="toast-msg"></span>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// DATOS DE PRODUCCIÓN
+// ══════════════════════════════════════════════════════════════════════
+const workers = [
+  { id:'w01', initials:'PG', name:'Pedro González Vargas',      rut:'12.345.678-9', cargo:'Maestro Mayor Obras',    estado:'completo',  vence:'15/12/2026', obs:false,  afp:'Capital',    regimen:'Fonasa',  inst:'Fonasa Tramo B', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$980.000',  liquido:'$832.000', grat:'$163.000', desc:'$148.000', diasTrab:'30', diasAus:'0',  tipo:'Indefinido',         inicio:'01/03/2022', termino:'Indefinido' },
+  { id:'w02', initials:'MC', name:'María Carrasco Díaz',         rut:'14.567.890-1', cargo:'Jefa Administrativa',   estado:'completo',  vence:'30/06/2027', obs:false,  afp:'Habitat',    regimen:'Isapre',  inst:'Banmédica',      cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$1.200.000',liquido:'$1.010.000',grat:'$200.000',desc:'$190.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'15/08/2021', termino:'Indefinido' },
+  { id:'w03', initials:'CU', name:'Carlos Uribe Morales',        rut:'16.789.012-3', cargo:'Electricista Jefe',     estado:'obs',       vence:'31/08/2026', obs:true, obsLvl:'CRÍTICO', obsText:'Liquidación agosto no coincide con contrato registrado.',    afp:'PlanVital', regimen:'Fonasa', inst:'Fonasa Tramo A', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$850.000', liquido:'$710.000', grat:'$141.000',desc:'$140.000',diasTrab:'28',diasAus:'2',  tipo:'Plazo Fijo',         inicio:'01/01/2026', termino:'31/12/2026' },
+  { id:'w04', initials:'LP', name:'Luis Pérez Tapia',            rut:'18.901.234-5', cargo:'Operador Grúa Torre',   estado:'obs',       vence:'31/08/2026', obs:true, obsLvl:'ALTA',    obsText:'Certificado previsional AFP fuera de plazo de vigencia.',   afp:'Modelo',    regimen:'Fonasa', inst:'Fonasa Tramo B', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$1.100.000',liquido:'$930.000', grat:'$183.000',desc:'$170.000',diasTrab:'26',diasAus:'4',  tipo:'Indefinido',         inicio:'10/05/2020', termino:'Indefinido' },
+  { id:'w05', initials:'AS', name:'Ana Solís Ramírez',           rut:'11.234.567-8', cargo:'Asistente Contable',    estado:'completo',  vence:'30/11/2027', obs:false,  afp:'Habitat',    regimen:'Isapre',  inst:'Cruz Blanca',    cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$780.000',  liquido:'$650.000', grat:'$130.000',desc:'$130.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'03/07/2023', termino:'Indefinido' },
+  { id:'w06', initials:'RH', name:'Rodrigo Herrera Vidal',       rut:'13.456.789-0', cargo:'Albañil Especialista',  estado:'obs',       vence:'31/08/2026', obs:true, obsLvl:'ALTA',    obsText:'Finiquito pendiente de firma y no registrado en sistema.',  afp:'Capital',   regimen:'Fonasa', inst:'Fonasa Tramo C', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$920.000',  liquido:'$785.000', grat:'$153.000',desc:'$135.000',diasTrab:'22',diasAus:'8',  tipo:'Plazo Fijo',         inicio:'15/02/2026', termino:'31/08/2026' },
+  { id:'w07', initials:'JM', name:'Jorge Muñoz Castillo',        rut:'15.678.901-2', cargo:'Pintor Industrial',     estado:'completo',  vence:'31/12/2026', obs:false,  afp:'PlanVital', regimen:'Fonasa',  inst:'Fonasa Tramo A', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$750.000',  liquido:'$628.000', grat:'$125.000',desc:'$122.000',diasTrab:'30',diasAus:'0',  tipo:'Obra o Faena',       inicio:'01/06/2026', termino:'31/12/2026' },
+  { id:'w08', initials:'VN', name:'Valentina Núñez Flores',      rut:'17.890.123-4', cargo:'Encargada Calidad',     estado:'completo',  vence:'30/04/2027', obs:false,  afp:'Modelo',    regimen:'Isapre',  inst:'Consalud',       cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$1.050.000',liquido:'$890.000', grat:'$175.000',desc:'$160.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'20/09/2022', termino:'Indefinido' },
+  { id:'w09', initials:'FE', name:'Felipe Espinoza Lagos',       rut:'19.012.345-6', cargo:'Técnico Sanitario',     estado:'incompleto',vence:'31/08/2026', obs:false,  afp:'Capital',   regimen:'Fonasa',  inst:'Fonasa Tramo B', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$870.000',  liquido:'$735.000', grat:'$145.000',desc:'$135.000',diasTrab:'30',diasAus:'0',  tipo:'Plazo Fijo',         inicio:'01/07/2026', termino:'31/12/2026' },
+  { id:'w10', initials:'SC', name:'Sofía Castro Reyes',          rut:'10.123.456-7', cargo:'Secretaria Técnica',    estado:'completo',  vence:'28/02/2028', obs:false,  afp:'Habitat',   regimen:'Fonasa',  inst:'Fonasa Tramo A', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$730.000',  liquido:'$612.000', grat:'$121.000',desc:'$118.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'11/01/2024', termino:'Indefinido' },
+  { id:'w11', initials:'DM', name:'Diego Miranda Torres',        rut:'20.234.567-8', cargo:'Soldador Certificado',  estado:'obs',       vence:'31/08/2026', obs:true, obsLvl:'MEDIA',   obsText:'Contrato de plazo fijo no renovado — debe emitirse nuevo.',  afp:'Modelo',   regimen:'Isapre',  inst:'Masvida',        cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$1.000.000',liquido:'$845.000', grat:'$166.000',desc:'$155.000',diasTrab:'30',diasAus:'0',  tipo:'Plazo Fijo',         inicio:'01/02/2026', termino:'31/07/2026' },
+  { id:'w12', initials:'IR', name:'Ingrid Rojas Valenzuela',     rut:'12.987.654-3', cargo:'Asist. Prevención',     estado:'completo',  vence:'31/05/2027', obs:false,  afp:'PlanVital', regimen:'Fonasa',  inst:'Fonasa Tramo B', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$950.000',  liquido:'$805.000', grat:'$158.000',desc:'$145.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'05/04/2021', termino:'Indefinido' },
+  { id:'w13', initials:'EV', name:'Eduardo Vera Contreras',      rut:'14.876.543-2', cargo:'Chofer Maquinaria',     estado:'completo',  vence:'30/09/2026', obs:false,  afp:'Capital',   regimen:'Fonasa',  inst:'Fonasa Tramo C', cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$810.000',  liquido:'$682.000', grat:'$135.000',desc:'$128.000',diasTrab:'28',diasAus:'2',  tipo:'Indefinido',         inicio:'18/11/2019', termino:'Indefinido' },
+  { id:'w14', initials:'NF', name:'Nicole Fuentes Mardones',     rut:'16.765.432-1', cargo:'Coordinadora RRHH',     estado:'completo',  vence:'30/03/2028', obs:false,  afp:'Habitat',   regimen:'Isapre',  inst:'Vida Tres',      cotAfp:'10.00%', cotSalud:'7.00%', sueldo:'$1.150.000',liquido:'$975.000', grat:'$191.000',desc:'$175.000',diasTrab:'30',diasAus:'0',  tipo:'Indefinido',         inicio:'22/06/2023', termino:'Indefinido' },
+];
+
+const obsData = [
+  { id:'obs01', fecha:'02/08/2026 09:14', tipo:'Liquidación',    trabajador:'Carlos Uribe Morales',   desc:'Monto de liquidación agosto 2026 no coincide con sueldo base del contrato vigente. Diferencia detectada: $28.000.',     criticidad:'critica',    estado:'pendiente' },
+  { id:'obs02', fecha:'03/08/2026 11:42', tipo:'Previred',       trabajador:'Luis Pérez Tapia',       desc:'Certificado de cotizaciones previsionales AFP Modelo está fuera del rango de vigencia permitido (30 días corridos).',    criticidad:'alta',       estado:'pendiente' },
+  { id:'obs03', fecha:'05/08/2026 14:07', tipo:'Finiquito',      trabajador:'Rodrigo Herrera Vidal',  desc:'Finiquito del período anterior no se encuentra firmado ni registrado en la plataforma. Trabajador en finiquito pendiente.',criticidad:'alta',       estado:'pendiente' },
+  { id:'obs04', fecha:'07/08/2026 08:55', tipo:'F29',            trabajador:'— (Empresa)',             desc:'Formulario F29 julio 2026 presenta monto observado por SII. Requiere aclaración con certificado de declaración.',        criticidad:'critica',    estado:'pendiente' },
+  { id:'obs05', fecha:'08/08/2026 10:20', tipo:'Contrato',       trabajador:'Diego Miranda Torres',   desc:'Contrato de plazo fijo con vencimiento 31/07/2026 no ha sido renovado ni se ha emitido finiquito correspondiente.',      criticidad:'media',      estado:'pendiente' },
+  { id:'obs06', fecha:'10/08/2026 15:33', tipo:'AFP',            trabajador:'Felipe Espinoza Lagos',  desc:'No se registra comprobante de cotización previsional AFP Capital para el período julio 2026.',                           criticidad:'critica',    estado:'pendiente' },
+  { id:'obs07', fecha:'12/08/2026 09:05', tipo:'Contrato',       trabajador:'Jorge Muñoz Castillo',   desc:'Contrato de obra o faena vigente no tiene firma de ambas partes. Se requiere documento debidamente firmado.',            criticidad:'media',      estado:'pendiente' },
+  { id:'obs08', fecha:'13/08/2026 16:00', tipo:'Horario',        trabajador:'Eduardo Vera Contreras', desc:'Registro de asistencia del mes de julio no ha sido cargado. Documento obligatorio según cláusula de supervisión.',       criticidad:'baja',       estado:'pendiente' },
+];
+
+const iaFeedData = [
+  { tipo:'OK',     label:'IA · OK',     msg:'Validación exitosa de cotizaciones previsionales AFP Capital para 9 trabajadores.',  hora:'hace 2 hrs',  color:'text-rexuGreen', bg:'bg-rexuGreen/10' },
+  { tipo:'ALERTA', label:'IA · ALERTA', msg:'Descalce detectado en liquidación Uribe vs. contrato registrado. $28.000 de diferencia.', hora:'hace 4 hrs', color:'text-rexuRed',   bg:'bg-rexuRed/10'   },
+  { tipo:'ALERTA', label:'IA · ALERTA', msg:'Certificado previsional AFP Modelo (Pérez Tapia) vencido. Vigencia superada en 12 días.', hora:'hace 6 hrs', color:'text-rexuRed',   bg:'bg-rexuRed/10'   },
+  { tipo:'SISTEMA',label:'SISTEMA',     msg:'Recordatorio: Cierre del período Agosto 2026 en 18 días. 8 observaciones pendientes.', hora:'Ayer 08:00',  color:'text-rexuAmber', bg:'bg-rexuAmber/10' },
+  { tipo:'OK',     label:'IA · OK',     msg:'F30 julio 2026 procesado y validado correctamente. Sin inconsistencias detectadas.',   hora:'Ayer 10:30',  color:'text-rexuGreen', bg:'bg-rexuGreen/10' },
+];
+
+const checklistDocs = [
+  // Col izquierda — Prioritarios
+  { id:'f30',      label:'Formulario F30',              prioritario:true,  cargado:true  },
+  { id:'f30-1',    label:'Formulario F30-1',            prioritario:true,  cargado:false },
+  { id:'cert-deuda',label:'Certificado de Deuda',       prioritario:true,  cargado:true  },
+  { id:'previred', label:'Comprobante Previred',         prioritario:true,  cargado:true  },
+  { id:'f29',      label:'Formulario F29',              prioritario:true,  cargado:false },
+  // Col derecha — Complementarios
+  { id:'contratos',label:'Contratos de Trabajo',        prioritario:false, cargado:true  },
+  { id:'anexos',   label:'Anexos de Contrato',          prioritario:false, cargado:false },
+  { id:'honorarios',label:'Boletas de Honorarios',      prioritario:false, cargado:true  },
+  { id:'polizas',  label:'Pólizas de Seguro',           prioritario:false, cargado:false },
+  { id:'escrituras',label:'Escrituras / Poderes',       prioritario:false, cargado:true  },
+];
+
+const cargaHistorial = [
+  { archivo:'F30_Ago2026_Barañao.pdf',        tipo:'Formulario F30',        estado:'validado',   fecha:'01/08/2026' },
+  { archivo:'Previred_Jul2026.pdf',           tipo:'Comprobante Previred',  estado:'validado',   fecha:'02/08/2026' },
+  { archivo:'Contratos_Lote_Ago.pdf',         tipo:'Contratos Trabajo',     estado:'procesando', fecha:'05/08/2026' },
+  { archivo:'Cert_Deuda_Jul26.pdf',           tipo:'Certificado Deuda',     estado:'validado',   fecha:'06/08/2026' },
+  { archivo:'F29_Jul2026.pdf',                tipo:'Formulario F29',        estado:'error',      fecha:'07/08/2026' },
+  { archivo:'Poliza_ACC_2026.pdf',            tipo:'Póliza de Seguro',      estado:'recibido',   fecha:'08/08/2026' },
+  { archivo:'Anexo_Muñoz_ExtFaena.pdf',       tipo:'Anexo de Contrato',     estado:'procesando', fecha:'10/08/2026' },
+];
+
+const opData = [
+  { rut:'16.765.432-1', name:'Nicole Fuentes Mardones', email:'nfuentes.admin@barañao.cl',         rol:'admin'   },
+  { rut:'14.876.543-2', name:'Eduardo Vera Contreras',  email:'evera.operador@barañao.cl',         rol:'carga'   },
+  { rut:'12.987.654-3', name:'Ingrid Rojas Valenzuela', email:'irojas.carga@barañao.cl',            rol:'carga'   },
+  { rut:'19.012.345-6', name:'Felipe Espinoza Lagos',   email:'fespinoza.lectura@barañao.cl',      rol:'lectura' },
+];
+
+const faqs = [
+  { q:'¿Cómo sé qué documentos debo subir?',        a:'Revisa el Checklist Documental del Período en el módulo Carga de Documentos. Allí encontrarás la lista completa de documentos requeridos con su estado actual.' },
+  { q:'¿Qué significa "Pago Retenido Preventivamente"?', a:'Indica que el mandante ha aplicado una retención sobre tu pago hasta que todas las condiciones de compliance sean satisfechas. Debes subsanar las observaciones pendientes para liberar el monto.' },
+  { q:'¿Cuánto tiempo tiene el motor IA para procesar mis documentos?', a:'El SLA estándar es de 24 horas hábiles. Si pasadas 48 horas no ves un resultado, contacta a soporte técnico.' },
+  { q:'¿Puedo subsanar varias observaciones a la vez?', a:'Sí. Selecciona las observaciones usando los checkboxes y utiliza el botón "Subsanar en Lote" para cargar un archivo ZIP con todos los documentos corregidos.' },
+  { q:'¿Quién puede agregar trabajadores a la nómina?', a:'Solo los operadores con rol "Contratista Admin" u "Operador de Carga" pueden agregar trabajadores. Los usuarios con rol "Solo Lectura" no tienen acceso a esa acción.' },
+];
+
+// ══════════════════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ══════════════════════════════════════════════════════════════════════
+let obsResueltas = 0;
+let obsTotal = obsData.length;
+let obsDataset = [...obsData];
+let obsFilter = 'todas';
+let nominaFilter = 'todos';
+let nominaDataset = [...workers];
+let nominaPage = 1;
+const NOMINA_PAGE_SIZE = 10;
+let pendingDocType = 'contrato';
+let pendingObsId = null;
+
+// ══════════════════════════════════════════════════════════════════════
+// HERO CARD REACTIVIDAD
+// ══════════════════════════════════════════════════════════════════════
+const heroConditions = [
+  { id:'cond-docs',  label:'Documentos del período cargados y validados',  done:false },
+  { id:'cond-obs',   label:'Observaciones activas subsanadas y revalidadas', done:false },
+  { id:'cond-nomina',label:'Nómina maestra configurada y sin brechas',      done:false },
+];
+
+function getHeroPct() {
+  const done = heroConditions.filter(c => c.done).length;
+  // Ajuste real: si hay observaciones pendientes, la barra no puede superar 70%
+  const rawPct = Math.round((done / heroConditions.length) * 100);
+  const obsPendientes = obsTotal - obsResueltas;
+  if (obsPendientes > 0) return Math.min(rawPct, 42 + obsResueltas * 8);
+  return rawPct;
+}
+
+function renderHero() {
+  const pct = getHeroPct();
+  const heroEl = document.getElementById('hero-pago');
+  const barEl  = document.getElementById('compliance-bar');
+  const badgeEl = document.getElementById('hero-badge');
+  const pctEl  = document.getElementById('hero-pct');
+  const pctBarEl = document.getElementById('hero-pct-bar');
+
+  if(barEl)  barEl.style.width = pct + '%';
+  if(pctEl)  pctEl.textContent = pct + '%';
+  if(pctBarEl) pctBarEl.textContent = pct + '%';
+
+  const allDone = pct === 100;
+  if(heroEl) {
+    heroEl.className = `bg-paper rounded-xl border-2 ${allDone ? 'border-rexuGreen' : 'border-rexuRed'} shadow-md p-6 space-y-4 transition-all duration-700`;
+  }
+  if(barEl) barEl.className = `h-full rounded-full transition-all duration-700 ${allDone ? 'bg-rexuGreen' : 'bg-rexuRed'}`;
+  if(pctEl) pctEl.className = `font-display font-black text-4xl ${allDone ? 'text-rexuGreen' : 'text-rexuRed'} leading-none`;
+  if(badgeEl) {
+    badgeEl.className = `badge-pill ${allDone ? 'bg-rexuGreen/10 text-rexuGreen' : 'bg-rexuRed/10 text-rexuRed'} px-3 py-1 inline-flex items-center gap-1.5`;
+    badgeEl.innerHTML = allDone
+      ? '<span class="w-1.5 h-1.5 rounded-full bg-rexuGreen inline-block"></span>PAGO HABILITADO EN ERP / SAP'
+      : '<span class="w-1.5 h-1.5 rounded-full bg-rexuRed inline-block"></span>PAGO RETENIDO PREVENTIVAMENTE';
+  }
+
+  const container = document.getElementById('checklist-pago');
+  if(!container) return;
+  container.innerHTML = '';
+  heroConditions.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'flex items-center gap-3 py-3 border-b border-lineLight last:border-b-0';
+    div.innerHTML = `
+      <span class="shrink-0 w-5 h-5 flex items-center justify-center rounded-full font-mono text-[10px] font-bold
+        ${c.done ? 'bg-rexuGreen/15 text-rexuGreen' : 'bg-hueso border border-lineLight text-rexuGrey'}">
+        ${c.done ? '✓' : '·'}
+      </span>
+      <p class="text-xs ${c.done ? 'text-rexuGrey line-through' : 'text-ink font-medium'}">${c.label}</p>`;
+    container.appendChild(div);
+  });
+}
+
+function checkHeroConditions() {
+  const obsPend = obsTotal - obsResueltas;
+  heroConditions[1].done = obsPend === 0;
+  heroConditions[0].done = checklistDocs.filter(d => d.cargado).length >= 7;
+  heroConditions[2].done = workers.filter(w => w.estado === 'completo').length >= 12;
+  renderHero();
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// FEED IA
+// ══════════════════════════════════════════════════════════════════════
+function renderIAFeed() {
+  const c = document.getElementById('ia-feed');
+  if(!c) return;
+  c.innerHTML = '';
+  iaFeedData.forEach(ev => {
+    const div = document.createElement('div');
+    div.className = 'flex items-start gap-3 px-5 py-3 hover:bg-hueso/50 transition-colors';
+    div.innerHTML = `
+      <span class="shrink-0 ${ev.bg} ${ev.color} badge-pill px-2 py-0.5 mt-0.5">${ev.label}</span>
+      <p class="text-xs text-ink flex-1">${ev.msg}</p>
+      <span class="font-mono text-[10px] text-rexuGrey shrink-0 whitespace-nowrap">${ev.hora}</span>`;
+    c.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// CARGA DE DOCUMENTOS
+// ══════════════════════════════════════════════════════════════════════
+let cargaFilter = 'todos';
+function renderCarga() {
+  const tbody = document.getElementById('carga-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  const data = cargaFilter === 'todos' ? cargaHistorial : cargaHistorial.filter(r => r.estado === cargaFilter);
+  if(!data.length) {
+    tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-xs text-rexuGrey">Sin registros para el filtro seleccionado.</td></tr>`;
+    return;
+  }
+  const estMap = {
+    recibido:   { lbl:'RECIBIDO',    cls:'bg-hueso border border-lineLight text-rexuGrey' },
+    procesando: { lbl:'PROCESANDO',  cls:'bg-rexuAmber/10 text-rexuAmber border border-rexuAmber/20' },
+    validado:   { lbl:'VALIDADO ✓',  cls:'bg-rexuGreen/10 text-rexuGreen border border-rexuGreen/20' },
+    error:      { lbl:'CON ERROR',   cls:'bg-rexuRed/10 text-rexuRed border border-rexuRed/20' },
+  };
+  data.forEach(r => {
+    const e = estMap[r.estado] || estMap.recibido;
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-hueso/50 transition-colors';
+    tr.innerHTML = `
+      <td class="py-2.5 px-4 font-mono text-[10px] text-ink truncate" title="${r.archivo}">${r.archivo}</td>
+      <td class="py-2.5 px-4 text-xs text-rexuGrey truncate">${r.tipo}</td>
+      <td class="py-2.5 px-4 text-center"><span class="badge-pill ${e.cls} px-2 py-0.5">${e.lbl}</span></td>
+      <td class="py-2.5 px-4 text-right font-mono text-[10px] text-rexuGrey">${r.fecha}</td>
+      <td class="py-2.5 px-4 text-right">
+        ${r.estado === 'error'
+          ? `<button onclick="showToast('Reiniciando procesamiento...')" class="font-mono text-[10px] text-rexuRed hover:underline font-bold">Reintentar</button>`
+          : `<button onclick="showToast('Descargando ${r.archivo}...')" class="font-mono text-[10px] text-rexuGrey hover:text-ink hover:underline">Ver</button>`}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function setCargaChip(btn, status) {
+  cargaFilter = status;
+  document.querySelectorAll('.carga-chip').forEach(b => {
+    b.className = b === btn
+      ? 'carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-ink text-paper'
+      : 'carga-chip px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-paper border border-lineLight text-rexuGrey hover:border-ink transition-colors';
+  });
+  renderCarga();
+}
+
+// Checklist 2 columnas
+function renderChecklist() {
+  const c = document.getElementById('checklist-docs');
+  if(!c) return;
+  c.innerHTML = '';
+  const prior = checklistDocs.filter(d => d.prioritario);
+  const comp  = checklistDocs.filter(d => !d.prioritario);
+  const maxLen = Math.max(prior.length, comp.length);
+
+  const colH1 = document.createElement('div');
+  colH1.className = 'col-span-1';
+  colH1.innerHTML = `<p class="font-mono text-[9px] font-bold text-rexuGrey uppercase tracking-widest pb-2 border-b border-lineLight mb-2">Documentos Prioritarios</p>`;
+  const colH2 = document.createElement('div');
+  colH2.className = 'col-span-1';
+  colH2.innerHTML = `<p class="font-mono text-[9px] font-bold text-rexuGrey uppercase tracking-widest pb-2 border-b border-lineLight mb-2">Documentos Complementarios</p>`;
+  c.appendChild(colH1); c.appendChild(colH2);
+
+  const renderRow = (doc) => {
+    const div = document.createElement('div');
+    div.className = 'flex items-center justify-between py-2 border-b border-lineLight/50 last:border-b-0';
+    div.innerHTML = `
+      <span class="text-xs ${doc.cargado ? 'text-ink font-medium' : 'text-rexuGrey'} truncate pr-2">${doc.label}</span>
+      <span class="shrink-0 ${doc.cargado ? 'text-rexuGreen' : 'text-rexuGrey'} font-mono text-[11px] font-bold">${doc.cargado ? '✓' : '·'}</span>`;
+    return div;
+  };
+
+  prior.forEach((d, i) => {
+    const col1 = document.createElement('div'); col1.className = 'col-span-1';
+    col1.appendChild(renderRow(d));
+    c.appendChild(col1);
+    const col2 = document.createElement('div'); col2.className = 'col-span-1';
+    if(comp[i]) col2.appendChild(renderRow(comp[i]));
+    c.appendChild(col2);
+  });
+
+  const done = checklistDocs.filter(d => d.cargado).length;
+  const total = checklistDocs.length;
+  const lbl = document.getElementById('checklist-lbl');
+  const bar = document.getElementById('checklist-bar');
+  if(lbl) lbl.textContent = `${done} / ${total}`;
+  if(bar) bar.style.width = (done / total * 100) + '%';
+}
+
+// Drag & Drop
+function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function handleDragLeave(e) { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function handleDrop(e) {
+  e.preventDefault();
+  handleDragLeave(e);
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+  if(files.length) processFiles(files);
+}
+function handleFileSelect(e) { processFiles(Array.from(e.target.files)); }
+function processFiles(files) {
+  const types = [...new Set(files.map(f => f.name.split('_')[0]))];
+  if(types.length > 1) { document.getElementById('mixed-alert').classList.remove('hidden'); }
+  files.forEach(f => {
+    cargaHistorial.unshift({ archivo:f.name, tipo:'Procesando...', estado:'recibido', fecha: new Date().toLocaleDateString('es-CL') });
+  });
+  renderCarga();
+  showToast(`${files.length} archivo(s) recibido(s). Procesando con motor IA...`);
+  setTimeout(() => {
+    cargaHistorial[0].estado = 'validado'; cargaHistorial[0].tipo = 'Documento General';
+    renderCarga(); showToast('Procesamiento IA completado.');
+  }, 2000);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// NÓMINA MAESTRA
+// ══════════════════════════════════════════════════════════════════════
+function renderNomina() {
+  const tbody = document.getElementById('nomina-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+
+  const total = Math.max(1, Math.ceil(nominaDataset.length / NOMINA_PAGE_SIZE));
+  if(nominaPage > total) nominaPage = total;
+  const start = (nominaPage - 1) * NOMINA_PAGE_SIZE;
+  const page  = nominaDataset.slice(start, start + NOMINA_PAGE_SIZE);
+
+  if(!page.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-xs text-rexuGrey">Sin trabajadores para los filtros aplicados.</td></tr>`;
+  } else {
+    page.forEach(w => {
+      const isVenciendo = w.vence && new Date(w.vence.split('/').reverse().join('-')) < new Date(Date.now() + 30*24*60*60*1000);
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-hueso/50 transition-colors';
+      const estMap = {
+        completo:   { cls:'bg-rexuGreen/10 text-rexuGreen border border-rexuGreen/20',  lbl:'COMPLETO' },
+        incompleto: { cls:'bg-rexuAmber/10 text-rexuAmber border border-rexuAmber/20', lbl:'INCOMPLETO' },
+        obs:        { cls:'bg-rexuRed/10 text-rexuRed border border-rexuRed/20',        lbl:'CON OBS.' },
+      };
+      const e = estMap[w.estado] || estMap.completo;
+      tr.innerHTML = `
+        <td class="py-3 px-4 font-mono text-[10px] text-rexuGrey">${w.rut}</td>
+        <td class="py-3 px-4 font-bold text-xs text-ink cursor-pointer hover:text-rexuRed transition-colors" onclick="openWorkerDrawer('${w.id}')">${w.name}</td>
+        <td class="py-3 px-4 text-xs text-rexuGrey truncate">${w.cargo}</td>
+        <td class="py-3 px-4 text-center"><span class="badge-pill ${e.cls} px-2 py-0.5">${e.lbl}</span></td>
+        <td class="py-3 px-4 text-center">
+          <span class="font-mono text-[10px] ${isVenciendo ? 'text-rexuRed font-bold' : 'text-rexuGrey'}">${w.vence}</span>
+          ${isVenciendo ? '<span class="badge-pill bg-rexuRed/10 text-rexuRed border border-rexuRed/20 px-1.5 py-0.5 ml-1">VENCIENDO</span>' : ''}
+        </td>
+        <td class="py-3 px-4 text-right">
+          <button onclick="openWorkerDrawer('${w.id}')" class="px-2 py-1 bg-ink text-paper rounded-lg font-mono text-[10px] font-bold hover:bg-black transition-colors flex items-center gap-1 whitespace-nowrap ml-auto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3.5 h-3.5" style="display:inline;vertical-align:middle"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver ficha
+          </button>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  const summary = document.getElementById('nomina-summary');
+  if(summary) summary.textContent = `Mostrando ${start+1}–${Math.min(start+page.length, nominaDataset.length)} de ${nominaDataset.length} trabajadores`;
+  renderNominaPaginator(total);
+}
+
+function renderNominaPaginator(totalPages) {
+  const wrap = document.getElementById('nomina-paginator');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const mk = (lbl, page, opts={}) => {
+    const b = document.createElement('button');
+    b.textContent = lbl;
+    b.className = opts.active
+      ? 'px-2.5 py-1 bg-ink text-paper rounded-lg font-mono text-[10px] font-bold'
+      : 'px-2.5 py-1 bg-paper border border-lineLight rounded-lg font-mono text-[10px] hover:bg-lineLight transition-colors' + (opts.disabled ? ' opacity-40 cursor-not-allowed' : '');
+    if(!opts.disabled && !opts.active) b.onclick = () => { nominaPage = page; renderNomina(); };
+    return b;
+  };
+  wrap.appendChild(mk('Ant.', nominaPage-1, {disabled: nominaPage<=1}));
+  for(let p=1; p<=totalPages; p++) wrap.appendChild(mk(String(p), p, {active: p===nominaPage}));
+  wrap.appendChild(mk('Sig.', nominaPage+1, {disabled: nominaPage>=totalPages}));
+}
+
+function filterNomina(tab) {
+  if(tab) {
+    nominaFilter = tab;
+    ['todos','obs','venciendo'].forEach(t => {
+      const el = document.getElementById('ntab-'+t);
+      if(el) el.className = t === tab ? 'tab-active' : 'tab-inactive';
+    });
+  }
+  applyNominaFilters();
+}
+
+function applyNominaFilters() {
+  const search = (document.getElementById('nomina-search')?.value||'').toLowerCase();
+  const status = document.getElementById('nomina-status')?.value || 'todos';
+  nominaDataset = workers.filter(w => {
+    const matchSearch = !search || w.name.toLowerCase().includes(search) || w.rut.includes(search);
+    const matchStatus = status === 'todos' || w.estado === status;
+    let matchTab = true;
+    if(nominaFilter === 'obs') matchTab = w.obs;
+    if(nominaFilter === 'venciendo') matchTab = w.vence && new Date(w.vence.split('/').reverse().join('-')) < new Date(Date.now() + 30*24*60*60*1000);
+    return matchSearch && matchStatus && matchTab;
+  });
+  nominaPage = 1;
+  renderNomina();
+}
+
+function globalSearch(q) {
+  const el = document.getElementById('nomina-search');
+  if(el) { el.value = q; }
+  if(!document.getElementById('view-nomina').classList.contains('hidden')) {
+    applyNominaFilters();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// OBSERVACIONES
+// ══════════════════════════════════════════════════════════════════════
+function updateObsBadge() {
+  const pend = obsData.filter(o => o.estado === 'pendiente').length;
+  const el = document.getElementById('obs-badge');
+  const dot = document.getElementById('header-dot');
+  const dash = document.getElementById('dash-obs-count');
+  if(el) el.textContent = pend > 0 ? pend : '';
+  if(el) el.style.display = pend > 0 ? '' : 'none';
+  if(dot) dot.style.display = pend > 0 ? '' : 'none';
+  if(dash) dash.textContent = pend;
+}
+
+function renderObs() {
+  const tbody = document.getElementById('obs-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+
+  obsDataset = obsFilter === 'todas' ? obsData : obsData.filter(o => o.criticidad === obsFilter);
+  const pendientes = obsDataset.filter(o => o.estado === 'pendiente');
+  const resueltas  = obsDataset.filter(o => o.estado === 'resuelto');
+
+  const critMap = {
+    critica:     { cls:'bg-rexuRed/10 text-rexuRed border border-rexuRed/20',            lbl:'CRÍTICA' },
+    alta:        { cls:'bg-rexuAmber/10 text-rexuAmber border border-rexuAmber/20',       lbl:'ALTA' },
+    media:       { cls:'bg-rexuAmber/10 text-rexuAmber/80 border border-rexuAmber/10',    lbl:'MEDIA' },
+    baja:        { cls:'bg-hueso border border-lineLight text-rexuGrey',                  lbl:'BAJA' },
+    informativa: { cls:'bg-navy/10 text-navy border border-navy/20',                      lbl:'INFO' },
+  };
+
+  const renderRow = (obs, resuelto) => {
+    const c = critMap[obs.criticidad] || critMap.baja;
+    const tr = document.createElement('tr');
+    tr.className = `transition-colors ${resuelto ? 'opacity-50 bg-rexuGreen/5' : 'hover:bg-hueso/50'}`;
+    tr.innerHTML = `
+      <td class="py-3 px-3"><input type="checkbox" class="obs-check rounded" data-id="${obs.id}" onchange="updateLoteBtn()"></td>
+      <td class="py-3 px-3 font-mono text-[10px] text-ink whitespace-nowrap">${obs.fecha}</td>
+      <td class="py-3 px-3 text-[10px] font-bold text-rexuGrey uppercase font-mono">${obs.tipo}</td>
+      <td class="py-3 px-3 text-xs text-ink font-medium truncate" title="${obs.trabajador}">${obs.trabajador}</td>
+      <td class="py-3 px-3 text-xs text-rexuGrey leading-snug">${obs.desc}</td>
+      <td class="py-3 px-3 text-center"><span class="badge-pill ${c.cls} px-2 py-0.5">${c.lbl}</span></td>
+      <td class="py-3 px-3 text-right">
+        ${resuelto
+          ? `<span class="badge-pill bg-rexuGreen/10 text-rexuGreen border border-rexuGreen/20 px-2 py-0.5">RESUELTA ✓</span>`
+          : `<button onclick="openSubsanar('${obs.id}')" class="px-2 py-1.5 bg-rexuRed text-paper font-mono text-[10px] font-bold rounded-lg hover:bg-red-700 active:scale-[0.99] flex items-center gap-1 whitespace-nowrap ml-auto transition-all">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3 h-3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Reemplazar Doc.
+            </button>`}
+      </td>`;
+    tbody.appendChild(tr);
+  };
+
+  pendientes.forEach(o => renderRow(o, false));
+  resueltas.forEach(o => renderRow(o, true));
+
+  if(!pendientes.length && !resueltas.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-xs text-rexuGrey">No hay observaciones para este filtro.</td></tr>`;
+  }
+
+  const summary = document.getElementById('obs-summary');
+  if(summary) summary.textContent = `${pendientes.length} pendientes · ${resueltas.length} resueltas`;
+  updateObsChipCounts();
+}
+
+function updateObsChipCounts() {
+  const counts = { todas:0, critica:0, alta:0, media:0, baja:0, informativa:0 };
+  obsData.filter(o => o.estado === 'pendiente').forEach(o => { counts.todas++; counts[o.criticidad]++; });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('chip-count-'+k);
+    if(el) el.textContent = counts[k];
+  });
+}
+
+function setObsChip(btn, filter) {
+  obsFilter = filter;
+  document.querySelectorAll('.obs-chip').forEach(b => {
+    const isActive = b === btn;
+    b.className = isActive
+      ? `obs-chip px-3 py-1.5 rounded-full font-mono text-[10px] font-bold bg-ink text-paper flex items-center gap-1.5`
+      : b.className.replace('bg-ink text-paper', '').replace('bg-rexuRed/10 text-rexuRed flex items-center gap-1.5', '') + ' hover:opacity-80';
+  });
+  renderObs();
+}
+
+function updateLoteBtn() {
+  const checked = document.querySelectorAll('.obs-check:checked').length;
+  const btn = document.getElementById('btn-subsanar-lote');
+  if(btn) btn.classList.toggle('hidden', checked === 0);
+  const allChk = document.getElementById('select-all-obs');
+  const total = document.querySelectorAll('.obs-check').length;
+  if(allChk) allChk.checked = checked === total && total > 0;
+}
+
+function toggleSelectAllObs(masterChk) {
+  document.querySelectorAll('.obs-check').forEach(c => c.checked = masterChk.checked);
+  updateLoteBtn();
+}
+
+function openSubsanar(obsId) {
+  pendingObsId = obsId;
+  const obs = obsData.find(o => o.id === obsId);
+  if(!obs) return;
+  const detail = document.getElementById('modal-obs-detail');
+  if(detail) detail.innerHTML = `<strong class="text-ink">${obs.tipo} · ${obs.trabajador}</strong><br>${obs.desc}`;
+  document.getElementById('subsanar-file-lbl').textContent = 'Arrastra el PDF corregido aquí';
+  document.getElementById('subsanar-file').value = '';
+  document.getElementById('modal-subsanar').classList.remove('hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function confirmarSubsanacion() {
+  const file = document.getElementById('subsanar-file').files[0];
+  if(!file) { showToast('Selecciona un archivo PDF para continuar.'); return; }
+  const obs = obsData.find(o => o.id === pendingObsId);
+  if(obs) {
+    obs.estado = 'resuelto';
+    obsResueltas++;
+    obsTotal = obsData.filter(o => o.estado === 'pendiente').length + obsResueltas;
+  }
+  closeModal('modal-subsanar');
+  updateObsBadge();
+  renderObs();
+  checkHeroConditions();
+  showToast('Observación marcada como resuelta. El motor IA revalidará en 24 hrs.');
+}
+
+function subsanarLote() {
+  const checks = document.querySelectorAll('.obs-check:checked');
+  checks.forEach(c => {
+    const obs = obsData.find(o => o.id === c.dataset.id);
+    if(obs && obs.estado === 'pendiente') { obs.estado = 'resuelto'; obsResueltas++; }
+  });
+  document.getElementById('btn-subsanar-lote').classList.add('hidden');
+  updateObsBadge(); renderObs(); checkHeroConditions();
+  showToast(`${checks.length} observaciones enviadas para revalidación por IA.`);
+}
+
+function reintentarConexion() {
+  showToast('Reconectando...');
+  setTimeout(() => { document.getElementById('error-banner').classList.add('hidden'); showToast('Conexión restablecida.'); }, 1200);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// DRAWER TRABAJADOR
+// ══════════════════════════════════════════════════════════════════════
+function openWorkerDrawer(wid) {
+  const w = workers.find(x => x.id === wid);
+  if(!w) return;
+  document.getElementById('wd-avatar').textContent  = w.initials;
+  document.getElementById('wd-name').textContent    = w.name;
+  document.getElementById('wd-rut').textContent     = w.rut;
+  document.getElementById('wd-cargo').textContent   = w.cargo;
+  document.getElementById('wd-tipo').textContent    = w.tipo;
+  document.getElementById('wd-inicio').textContent  = w.inicio;
+  document.getElementById('wd-termino').textContent = w.termino;
+  document.getElementById('wd-jornada').textContent = w.tipo + ' · 45 hrs semanales';
+  document.getElementById('wd-afp').textContent     = w.afp;
+  document.getElementById('wd-regimen').textContent = w.regimen;
+  document.getElementById('wd-institucion').textContent = w.inst;
+  document.getElementById('wd-cot-afp').textContent = w.cotAfp;
+  document.getElementById('wd-cot-salud').textContent = w.cotSalud;
+  document.getElementById('wd-sueldo-base').textContent = w.sueldo;
+  document.getElementById('wd-liquido').textContent = w.liquido;
+  document.getElementById('wd-grat').textContent    = w.grat;
+  document.getElementById('wd-desc').textContent    = w.desc;
+  document.getElementById('wd-dias-trab').textContent = w.diasTrab + ' días';
+  document.getElementById('wd-dias-aus').textContent  = w.diasAus + ' días';
+
+  const alertEl = document.getElementById('wd-alert');
+  if(w.obs) {
+    document.getElementById('wd-alert-text').textContent = `${w.obsLvl}: ${w.obsText}`;
+    alertEl.classList.remove('hidden');
+  } else {
+    alertEl.classList.add('hidden');
+  }
+
+  document.getElementById('worker-drawer-overlay').classList.remove('hidden');
+  const drawer = document.getElementById('worker-drawer');
+  drawer.classList.remove('translate-x-full');
+  drawer.classList.add('drawer-open');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function closeWorkerDrawer() {
+  const drawer = document.getElementById('worker-drawer');
+  drawer.classList.add('translate-x-full');
+  drawer.classList.remove('drawer-open');
+  document.getElementById('worker-drawer-overlay').classList.add('hidden');
+}
+
+function toggleWorkerAcc(section) {
+  const panel = document.getElementById('wd-acc-'+section);
+  const icon  = document.getElementById('wd-icon-'+section);
+  if(!panel) return;
+  panel.classList.toggle('hidden');
+  if(icon) icon.classList.toggle('rotate-180');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// MODAL DOCUMENTOS (Contrato / Finiquito / Anexo)
+// ══════════════════════════════════════════════════════════════════════
+const docTitles = { contrato:'Subir Contrato', finiquito:'Subir Finiquito', anexo:'Subir Anexo' };
+function openDocModal(type) {
+  pendingDocType = type;
+  const title = document.getElementById('modal-doc-title');
+  if(title) title.textContent = docTitles[type] || 'Subir Documento';
+  document.getElementById('doc-file-lbl').textContent = 'Arrastra el PDF aquí o haz clic para seleccionar';
+  document.getElementById('doc-file-input').value = '';
+  // Popular select trabajadores
+  const sel = document.getElementById('doc-worker');
+  if(sel) {
+    sel.innerHTML = '<option value="">— Seleccionar trabajador —</option>';
+    workers.forEach(w => { const o = document.createElement('option'); o.value = w.id; o.textContent = w.name; sel.appendChild(o); });
+  }
+  document.getElementById('modal-doc').classList.remove('hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function onDocFileSelect(input) {
+  document.getElementById('doc-file-lbl').textContent = input.files[0]?.name || 'Sin archivo';
+}
+function submitDoc() {
+  const worker = document.getElementById('doc-worker').value;
+  const lbl    = document.getElementById('doc-file-lbl').textContent;
+  if(!worker) { showToast('Selecciona un trabajador.'); return; }
+  if(lbl.includes('Arrastra') || lbl.includes('Sin archivo')) { showToast('Selecciona un archivo PDF.'); return; }
+  const w = workers.find(x => x.id === worker);
+  closeModal('modal-doc');
+  showToast(`${docTitles[pendingDocType]} cargado para ${w?.name || 'trabajador'}.`);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// OPERADORES
+// ══════════════════════════════════════════════════════════════════════
+const rolLabels = { admin:'CONTRATISTA ADMIN', carga:'OPERADOR CARGA', lectura:'SOLO LECTURA' };
+function renderOps() {
+  const tbody = document.getElementById('ops-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  opData.forEach((op, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-hueso/50 transition-colors';
+    const rolCls = op.rol === 'admin'
+      ? 'bg-navy/10 text-navy border border-navy/20'
+      : op.rol === 'carga'
+        ? 'bg-ink text-paper'
+        : 'bg-hueso border border-lineLight text-rexuGrey';
+    tr.innerHTML = `
+      <td class="py-2.5 px-4 font-mono text-[10px] text-rexuGrey">${op.rut}</td>
+      <td class="py-2.5 px-4 font-bold text-xs text-ink">${op.name}</td>
+      <td class="py-2.5 px-4 text-xs text-rexuGrey truncate">${op.email}</td>
+      <td class="py-2.5 px-4"><span class="badge-pill ${rolCls} px-2 py-0.5">${rolLabels[op.rol]}</span></td>
+      <td class="py-2.5 px-4 text-right">
+        <div class="flex items-center justify-end gap-1">
+          <button onclick="showToast('Editando permisos de ${op.name}...')" class="p-1.5 hover:bg-lineLight rounded-lg text-ink transition-colors" title="Editar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3.5 h-3.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          ${i > 0
+            ? `<button onclick="removeOp(${i})" class="p-1.5 hover:bg-rexuRed/10 rounded-lg text-rexuRed transition-colors" title="Eliminar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3.5 h-3.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+               </button>`
+            : `<button onclick="showToast('No es posible eliminar al administrador principal.')" class="p-1.5 rounded-lg text-rexuGrey cursor-not-allowed opacity-40" title="Administrador principal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3.5 h-3.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+               </button>`}
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function removeOp(i) { opData.splice(i, 1); renderOps(); showToast('Operador eliminado correctamente.'); }
+
+// Validación Módulo 11
+function validarRut(rut) {
+  rut = rut.replace(/\./g,'').replace(/-/g,'').trim();
+  if(!/^\d{7,8}[0-9Kk]$/.test(rut)) return false;
+  const cuerpo = rut.slice(0,-1);
+  let dv = rut.slice(-1).toUpperCase();
+  let suma = 0, mult = 2;
+  for(let i = cuerpo.length-1; i >= 0; i--) {
+    suma += parseInt(cuerpo[i]) * mult;
+    mult = mult < 7 ? mult+1 : 2;
+  }
+  const dvCalc = 11-(suma%11);
+  const dvEsp = dvCalc === 11 ? '0' : dvCalc === 10 ? 'K' : String(dvCalc);
+  return dv === dvEsp;
+}
+function validateRutField(input) {
+  const fb = document.getElementById('op-rut-feedback');
+  if(!fb) return;
+  const v = input.value.trim();
+  if(!v) { fb.classList.add('hidden'); return; }
+  if(validarRut(v)) {
+    fb.textContent = '✓ RUT válido'; fb.className = 'font-mono text-[10px] mt-1 text-rexuGreen font-bold';
+  } else {
+    fb.textContent = '✗ RUT inválido — verifica el formato y dígito verificador';
+    fb.className = 'font-mono text-[10px] mt-1 text-rexuRed font-bold';
+  }
+  fb.classList.remove('hidden');
+}
+function submitOp(e) {
+  e.preventDefault();
+  const rut   = document.getElementById('op-rut').value.trim();
+  const name  = document.getElementById('op-name').value.trim();
+  const email = document.getElementById('op-email').value.trim();
+  const rol   = document.getElementById('op-rol').value;
+  const err   = document.getElementById('op-error');
+  err.classList.add('hidden');
+  if(!rut || !name || !email || !rol) { err.textContent='Todos los campos son obligatorios.'; err.classList.remove('hidden'); return false; }
+  if(!validarRut(rut)) { err.textContent='RUT inválido. Verifica el formato y el dígito verificador.'; err.classList.remove('hidden'); return false; }
+  opData.push({rut, name, email, rol});
+  renderOps();
+  closeModal('modal-add-op');
+  document.getElementById('form-op').reset();
+  document.getElementById('op-rut-feedback').classList.add('hidden');
+  showToast(`Operador ${name} registrado correctamente.`);
+  return false;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// CONFIGURACIONES
+// ══════════════════════════════════════════════════════════════════════
+function switchCfgTab(tab) {
+  ['empresa','usuarios'].forEach(t => {
+    const btn = document.getElementById('cfg-tab-'+t);
+    const pnl = document.getElementById('cfg-'+t);
+    if(btn) btn.className = t === tab ? 'tab-active' : 'tab-inactive';
+    if(pnl) pnl.classList.toggle('hidden', t !== tab);
+  });
+  if(tab === 'usuarios') renderOps();
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function toggleEmpresaEdit() {
+  const fields   = document.querySelectorAll('.empresa-field');
+  const saveRow  = document.getElementById('empresa-save-row');
+  const btn      = document.getElementById('btn-edit-empresa');
+  const editing  = fields[0]?.readOnly;
+  fields.forEach(f => {
+    f.readOnly = !editing;
+    f.style.cursor = editing ? 'text' : 'default';
+    f.classList.toggle('bg-paper', editing);
+    f.classList.toggle('bg-hueso', !editing);
+    f.classList.toggle('border-ink', editing);
+    f.classList.toggle('border-lineLight', !editing);
+  });
+  if(saveRow) saveRow.classList.toggle('hidden', !editing);
+  if(btn) btn.innerHTML = editing
+    ? `<i data-lucide="x" class="w-3.5 h-3.5"></i> Cancelar`
+    : `<i data-lucide="pencil" class="w-3.5 h-3.5"></i> Editar contacto`;
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function cancelEmpresaEdit() {
+  document.querySelectorAll('.empresa-field').forEach(f => {
+    f.readOnly = true; f.style.cursor = 'default';
+    f.classList.replace('bg-paper','bg-hueso');
+    f.classList.replace('border-ink','border-lineLight');
+  });
+  document.getElementById('empresa-save-row').classList.add('hidden');
+  document.getElementById('btn-edit-empresa').innerHTML = `<i data-lucide="pencil" class="w-3.5 h-3.5"></i> Editar contacto`;
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function saveEmpresaEdit() { cancelEmpresaEdit(); showToast('Datos de contacto guardados correctamente.'); }
+
+// ══════════════════════════════════════════════════════════════════════
+// FAQs
+// ══════════════════════════════════════════════════════════════════════
+function renderFaqs() {
+  const c = document.getElementById('faq-container');
+  if(!c) return;
+  c.innerHTML = '';
+  faqs.forEach((faq, i) => {
+    const div = document.createElement('div');
+    div.className = 'border-b border-lineLight last:border-b-0';
+    div.innerHTML = `
+      <button onclick="toggleFaq(${i})" class="w-full flex items-center justify-between p-4 text-left hover:bg-hueso/50 transition-colors">
+        <span class="font-bold text-xs text-ink pr-4">${faq.q}</span>
+        <i id="faq-icon-${i}" data-lucide="chevron-down" class="w-4 h-4 text-rexuGrey shrink-0 transition-transform"></i>
+      </button>
+      <div id="faq-panel-${i}" class="hidden px-4 pb-4 text-xs text-rexuGrey leading-relaxed">${faq.a}</div>`;
+    c.appendChild(div);
+  });
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function toggleFaq(i) {
+  document.getElementById('faq-panel-'+i).classList.toggle('hidden');
+  document.getElementById('faq-icon-'+i).classList.toggle('rotate-180');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// NAVEGACIÓN
+// ══════════════════════════════════════════════════════════════════════
+const views = ['dashboard','carga','nomina','observaciones','configuraciones','ayuda'];
+const navIds = { dashboard:'nav-dashboard', carga:'nav-carga', nomina:'nav-nomina', observaciones:'nav-observaciones', ayuda:'nav-ayuda' };
+
+function switchView(view, cfgTab) {
+  views.forEach(v => {
+    const el = document.getElementById('view-'+v);
+    if(el) el.classList.toggle('hidden', v !== view);
+  });
+  // Nav states
+  Object.entries(navIds).forEach(([v, id]) => {
+    const btn = document.getElementById(id);
+    if(!btn) return;
+    btn.className = `nav-btn relative w-full flex items-center ${v === 'observaciones' ? 'justify-between' : ''} gap-3 px-3 py-2.5 rounded-lg transition-colors ${v === view ? 'nav-btn-active' : 'nav-btn-idle'}`;
+  });
+  if(view === 'configuraciones') {
+    switchCfgTab(cfgTab || 'empresa');
+    // Desmarcar nav items
+    Object.values(navIds).forEach(id => {
+      const btn = document.getElementById(id);
+      if(btn) btn.className = btn.className.replace('nav-btn-active','nav-btn-idle');
+    });
+  }
+  if(view === 'nomina') applyNominaFilters();
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function toggleConfigMenu() {
+  const sub  = document.getElementById('config-submenu');
+  const chev = document.getElementById('config-chevron');
+  if(sub)  sub.classList.toggle('hidden');
+  if(chev) chev.classList.toggle('rotate-180');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// UTILIDADES
+// ══════════════════════════════════════════════════════════════════════
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if(el) el.classList.add('hidden');
+}
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toast-msg');
+  if(!t || !m) return;
+  m.textContent = msg;
+  t.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.add('hidden'), 3200);
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function exportarPDF(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Generando...';
+  btn.disabled = true;
+  setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; showToast('Informe PDF generado correctamente.'); }, 1800);
+}
+function changeMandante(v) {
+  const labels = { copec:'COPEC S.A.', arauco:'CELULOSA ARAUCO', cmpc:'CMPC TISSUE' };
+  const lbl = labels[v] || v;
+  const ml = document.getElementById('mandante-label');
+  const hm = document.getElementById('hero-mandante');
+  if(ml) ml.textContent = 'Supervisado por ' + lbl;
+  if(hm) hm.textContent = lbl;
+  showToast('Mandante activo: ' + lbl);
+}
+function changePeriod(v) { showToast('Período activo: ' + document.getElementById('period-select').options[document.getElementById('period-select').selectedIndex].text); }
+function togglePwd() {
+  const inp = document.getElementById('login-password');
+  const ico = document.getElementById('pwd-eye-icon');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  ico.setAttribute('data-lucide', inp.type === 'password' ? 'eye' : 'eye-off');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pwd   = document.getElementById('login-password').value.trim();
+  const err   = document.getElementById('login-error');
+  if(!email || !pwd) { err.classList.remove('hidden'); err.classList.add('flex'); return; }
+  err.classList.add('hidden'); err.classList.remove('flex');
+  const sc = document.getElementById('login-screen');
+  sc.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => { sc.style.opacity = '0'; }, 50);
+  setTimeout(() => { sc.classList.add('hidden'); }, 460);
+  showToast('Bienvenido · Constructora e Inmobiliaria Barañao SpA — Agosto 2026.');
+}
+function showMandanteEntregado() {
+  document.getElementById('modal-mandante-entregado').classList.remove('hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+function closeMandanteEntregado() {
+  document.getElementById('modal-mandante-entregado').classList.add('hidden');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════
+function submitSoporte(e) {
+  e.preventDefault();
+  showToast('Ticket de soporte enviado. Responderemos en menos de 4 hrs.');
+  e.target.reset();
+  return false;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  checkHeroConditions();
+  renderIAFeed();
+  renderCarga();
+  renderChecklist();
+  renderNomina();
+  renderObs();
+  updateObsBadge();
+  renderOps();
+  renderFaqs();
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+});
+</script>
+</body>
+</html>
